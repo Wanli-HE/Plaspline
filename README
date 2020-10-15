@@ -1,0 +1,11 @@
+test-preprocessing:
+    python pipeline0728/bin/run_main.py preprocessing
+                    --path /mibi/Wanli/snakemake/final_pipeline/test_normailization/test_data
+                    --adapter mibi/Wanli/data_analysis_zhuofeng/adapters.fa.gz
+                    --phix /mibi/Wanli/data_analysis_zhuofeng/phix174_ill.ref.fa.gz
+                    --assembler megahit
+                    --circularized_tool metaplasmidspades
+                    --linearized_tool plasflow
+                    --skip_qc False
+                    --analysis_type linear
+                    --datatype plasmidome

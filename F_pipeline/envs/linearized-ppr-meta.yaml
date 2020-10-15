@@ -1,0 +1,12 @@
+name: ppr-meta
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - pip:
+        python==2.7.12
+        numpy==1.13.1
+        h5py==2.6.0
+        tensorflow==1.4.1
+        keras==2.0.8
