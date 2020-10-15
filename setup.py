@@ -1,2 +1,4 @@
-
-ruamel.yaml,click,snakemake
+dependacy:
+          ruamel.yaml
+          click
+          snakemake
