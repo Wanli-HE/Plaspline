@@ -31,9 +31,20 @@ all scripts are under the folder
 
         > python ~/plasmid-pipeline/bin/run_main.py downloading -h
       
-   to check, and also can change the peremters to choose the version that you need. and some tools are downloaded by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there. 
+   to check, and also can change the peremters to choose the version that you need. and some tools are downloaded by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.  
+   
+2. configurating your config.yaml and sample.josn files, using script:  
+   
+       > python ~/plasmid-pipeline/bin/run_main.py preprocessing    
 
-
+   the config.yaml and sample.josn files will generate automatically in current folder. and the default_config.yaml file is in the ~/plasmid-pipeline/conf/. before you running this script, you need to configurate your own config.yaml. this is importance. 
+   
+3. running the pipeline
+    using the script:  
+    
+       > python ~/plasmid-pipeline/bin/run_main.py working 
+       
+    and before running, REMEMBER!!!!! checking your congig.yaml file!!!!!!
 
 
 
