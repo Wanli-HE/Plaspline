@@ -5,7 +5,9 @@ this is a plasmid analysis pipeline..
 
 # Requirements
 ruamel.yaml
+
 click
+
 snakemake
 
 Install
