@@ -3,7 +3,7 @@
 # Introduction
 this is a plasmid analysis pipeline..
 
-# Requirements\t
+# Requirements
 ruamel.yaml
 click
 snakemake
