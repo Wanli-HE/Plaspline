@@ -4,17 +4,15 @@
 this is a plasmid analysis pipeline..
 
 # Requirements
-ruamel.yaml
-
-click
-
+ruamel.yaml  
+click  
 snakemake
 
 # Install
 Clone package:
 
-(git clone https://github.com/Wanli-HE/plasmid-pipeline.git)  
-(cd plasmid-pipeline)
+[]git clone https://github.com/Wanli-HE/plasmid-pipeline.git  
+[]cd plasmid-pipeline
 
 all scripts are under the folder
 
