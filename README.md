@@ -1,9 +1,9 @@
-plasmid-pipeline
+# plasmid-pipeline
 
 # Introduction
 this is a plasmid analysis pipeline..
 
-Requirements
+# Requirements\t
 ruamel.yaml
 click
 snakemake
