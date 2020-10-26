@@ -50,11 +50,9 @@ all scripts are under the folder
 # Contact
 
 author:   
-
-    Wanli HE (wanli.he@bio.ku.dk)
+   Wanli HE (wanli.he@bio.ku.dk)
 
 cooperator:  
-    
-    Franziska Klincke (franziska.klincke@bio.ku.dk)  
-    Joseph Nesme (joseph.nesme@bio.ku.dk)  
-    Søren Johannes Sørensen (sjs@bio.ku.dk)
+   Franziska Klincke (franziska.klincke@bio.ku.dk)  
+   Joseph Nesme (joseph.nesme@bio.ku.dk)  
+   Søren Johannes Sørensen (sjs@bio.ku.dk)
