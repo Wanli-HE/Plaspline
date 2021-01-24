@@ -1,4 +1,4 @@
-# plasmid-pipeline
+# Plaspline, a pipeline for plasmid analysis form metagenome
 
 # Introduction
 Nowadays, Numerous tools are developed based on different strategies for detecting plasmid from metagenome. Apparently, all of them have merits, but the demerits are also non-negligible. Thus, how to estimate them and how to combine the advantages of these tools are necessary. Besides, it is lack of a proven, systematic, and comprehensive workflow for theses multiple preprocessing and analytical steps, which are not only including detecting plasmid, but also including significant downstream analysis of plasmid.   
@@ -10,7 +10,7 @@ we are benchmarking these tools and strategies, building up *Plaspline* based on
 # Requirements
 ruamel.yaml  
 click  
-snakemake  
+snakemake=5.25.0  
 biopython
 
 # Install
@@ -66,7 +66,16 @@ all scripts are under the folder
     running dividually:  
     
        > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "assembly" -j 25
-
+       
+       (more parameter you can check by python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working -h)  
+    
+    running in cluster system:  
+    
+       > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "circular" -j 25  --profile cluster --latency-wait 60  
+       
+      for running in cluster system, we are utilized  Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.
+      Notice: "--latency-wait 60" is necessary, otherwise it will raise error "MissingInputException..." (this is a bug of snakemake)
+    
 
 # Contact
 
