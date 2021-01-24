@@ -1,0 +1,9 @@
+name: verifying-plamsid
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - python >= 2.7
+    - prodigal=2.6.3
+    - hmmer=3.3

@@ -1,0 +1,13 @@
+name: non_redundant_contig
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - prodigal=2.6.3
+    - CD-hit=4.6
+    - bwa=0.7.17
+    - samtools=1.9
+    - diamond =0.9.14
+    - hmmer=3.3
+    - blast
