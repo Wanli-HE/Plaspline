@@ -57,7 +57,13 @@ all scripts are under the folder
     
        > python ~/plasmid-pipeline/bin/run_main.py working 
        
-    **and before running, REMEMBER!!!!! checking your congig.yaml file!!!!!!
+    and before running, REMEMBER!!!!! checking your congig.yaml file!!!!!!  
+    
+    running all step:
+       > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "all" -j 25
+       
+    running dividually: 
+       > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "assembly" -j 25
 
 
 # Contact
