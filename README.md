@@ -24,7 +24,7 @@ all scripts are under the folder
 # Usage
 1. all databases and dependent tools are downloaded and installed automatically with default version by script:  
     
-         > python ~/plasmid-pipeline/bin/run_main.py downloading 
+         > python ~/Plaspline/bin/run_main.py downloading 
          
      
    before running this command, you need to install anaconda or miniconda. If you haven’t done it already you need to configure conda with the bioconda-channel and the conda-  forge channel. This are sources for packages beyond the default one:
@@ -43,7 +43,7 @@ all scripts are under the folder
    
 2. configurating your config.yaml and sample.josn files, using command:  
    
-       > python ~/plasmid-pipeline/bin/run_main.py preprocessing    
+       > python ~/Plaspline/bin/run_main.py preprocessing    
 
    the config.yaml and sample.josn files will generate automatically in current folder. *the later steps and commands will excaute only in this folder, otherwise it will raise error which "can not find config.yaml and sample.json".   
      
@@ -55,23 +55,23 @@ all scripts are under the folder
 3. running the pipeline
     using the command:  
     
-       > python ~/plasmid-pipeline/bin/run_main.py working 
+       > python ~/Plaspline/bin/run_main.py working 
        
     and before running, REMEMBER!!!!! checking your congig.yaml file!!!!!!  
     
     running all step:  
     
-       > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "all" -j 25
+       > python Plaspline/bin/run_main.py working "all" -j 25
        
     running dividually:  
     
-       > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "assembly" -j 25
+       > python  ~/Plaspline/bin/run_main.py working "assembly" -j 25
        
-       (more parameter you can check by python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working -h)  
+       (more parameter you can check by python  ~/Plaspline/bin/run_main.py working -h)  
     
     running in cluster system:  
     
-       > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "circular" -j 25  --profile cluster --latency-wait 60  
+       > python  ~/Plaspline/bin/run_main.py working "circular" -j 25  --profile cluster --latency-wait 60  
        
       for running in cluster system, we are utilized  Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
       
