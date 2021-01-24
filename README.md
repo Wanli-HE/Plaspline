@@ -7,6 +7,7 @@ this is a plasmid analysis pipeline..
 ruamel.yaml  
 click  
 snakemake
+biopython
 
 # Install
 Clone package:
@@ -17,9 +18,11 @@ Clone package:
 all scripts are under the folder
 
 # Usage
-1. all databastes and dependent tools are downloaded and installed automatically with default version by script:  
+1. all databases and dependent tools are downloaded and installed automatically with default version by script:  
     
          > python ~/plasmid-pipeline/bin/run_main.py downloading 
+         
+         (the version of databastes and tools is recorded in "dependdent-tools-database.txt" file,  and these tools are installed by two way, one is using conda yaml file, another is using "wget" command line, users can choose a suitable verison by changing conda yaml file or changing web-download-address, for changing the default web-download-address,  using command "python ~/plasmid-pipeline/bin/run_main.py downloading -h" and changing the params of web-download-address. ****)
      
    before running this command, you need to install anaconda or miniconda. If you haven’t done it already you need to configure conda with the bioconda-channel and the conda-  forge channel. This are sources for packages beyond the default one:
 
