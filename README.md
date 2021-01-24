@@ -61,7 +61,7 @@ all scripts are under the folder
     
     running all step:  
     
-       > python Plaspline/bin/run_main.py working "all" -j 25
+       > python  ~/Plaspline/bin/run_main.py working "all" -j 25
        
     running dividually:  
     
