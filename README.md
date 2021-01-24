@@ -22,8 +22,6 @@ all scripts are under the folder
     
          > python ~/plasmid-pipeline/bin/run_main.py downloading 
          
-the version of databastes and tools is recorded in "dependdent-tools-database.txt" file,  and these tools are installed by two way, one is using conda yaml file, another is using "wget" command line, users can choose a suitable verison by changing conda yaml file or changing web-download-address, for changing the default web-download-address,  using command "python ~/plasmid-pipeline/bin/run_main.py downloading -h" and changing the params of web-download-address. 
-**** if not necessary, suggesting you don`t change the version of the tools, because we don`t know what had changed in the new version of the tool and whether it will have any conflict with Plaspline.
      
    before running this command, you need to install anaconda or miniconda. If you haven’t done it already you need to configure conda with the bioconda-channel and the conda-  forge channel. This are sources for packages beyond the default one:
 
@@ -31,11 +29,19 @@ the version of databastes and tools is recorded in "dependdent-tools-database.tx
         > conda config --add channels bioconda  
         > conda config --add channels conda-forge
 
-   For version of the tools and databases, you can using
+the version of databastes and tools is recorded in "dependdent-tools-database.txt" file,  and these tools are installed by two ways, one is using conda yaml file, another is using "wget" command line (all is recored in "dependdent-tools-database.txt").
+
+**** if not necessary, suggesting you don`t change the version of the tools, because we don`t know what had changed in the new version of the tool and whether it will have any conflict with Plaspline.
+
+   the tools and databases which installed by "wget+web-downloading-address", you can using
 
         > python ~/plasmid-pipeline/bin/run_main.py downloading -h
       
-   to check, and also can change the peremters to choose the version that you need. and some tools are downloaded by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.  
+   to check, and also can change the peremters to choose the version that you need. 
+   
+   the tools and databases which installed by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.  
+   
+   
    
 2. configurating your config.yaml and sample.josn files, using script:  
    
