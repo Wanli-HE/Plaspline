@@ -1,7 +1,0 @@
-name: functional annotation
-channels:
-    - conda-forge
-    - bioconda
-    - defaults
-dependencies:
-    - eggnog-mapper>=2.0.1
