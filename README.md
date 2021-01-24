@@ -73,7 +73,8 @@ all scripts are under the folder
     
        > python /home/projects/ku_00041/apps/wanli/F_pipeline/bin/run_main.py working "circular" -j 25  --profile cluster --latency-wait 60  
        
-      for running in cluster system, we are utilized  Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.
+      for running in cluster system, we are utilized  Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
+      
       Notice: "--latency-wait 60" is necessary, otherwise it will raise error "MissingInputException..." (this is a bug of snakemake)
     
 
