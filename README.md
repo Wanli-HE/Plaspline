@@ -45,7 +45,7 @@ all scripts are under the folder
      
    once config.yaml are generated, user can configurate it manually, if any params which you can not understand, you can chenck "the default_config.yaml" file which is in the ~/plasmid-pipeline/conf folder. before you running this script, you need to configurate your own config.yaml.   
      
-   sample.json file is created also in this command, but onething is important is your reads file suffix, plaspline can only recognize "_R1","_r1","_1". because i only meet these three suffixs, so before you run this command, making sure your reads suffix can be recognize by Plaspline, if not, you can changing it by yourself or contact with us, we will upgrade it.  
+   sample.json file is created also in this command, but onething is important is your reads file suffix, plaspline can only recognize "_R1","_r1","_1". because i only meet these three suffixs -_-, so before you run this command, making sure your reads suffix can be recognize by Plaspline. if not, you can changing it by yourself or contact with us, we will upgrade it.  
   
   
    
