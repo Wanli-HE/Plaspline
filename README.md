@@ -1,9 +1,10 @@
 # plasmid-pipeline
 
 # Introduction
-Nowadays, Numerous tools are developed based on different strategies for detecting plasmid from metagenome. Apparently, all of them have merits, but the demerits are also non-negligible. Thus, how to estimate them and how to combine the advantages of these tools are necessary. Besides, it is lack of a proven, systematic, and comprehensive workflow for theses multiple preprocessing and analytical steps, which are not only including detecting plasmid, but also including significant downstream analysis of plasmid (includes quality control, assembly, circular/linear plasmids isolation, circular/linear plasmids genome verification and classification, and plasmids-relative-genes analysis). 
+Nowadays, Numerous tools are developed based on different strategies for detecting plasmid from metagenome. Apparently, all of them have merits, but the demerits are also non-negligible. Thus, how to estimate them and how to combine the advantages of these tools are necessary. Besides, it is lack of a proven, systematic, and comprehensive workflow for theses multiple preprocessing and analytical steps, which are not only including detecting plasmid, but also including significant downstream analysis of plasmid.   
+  
 
-we are benchmarking these tools and strategies, building up *Plaspline* based on the benchmarked tools, which is trying to combine the advantages of tools for a better result of detecting plasmid. Moreover, multiple downstream analysis is also added into this workflow, which aims to get a comprehensive analysis of plasmid, both in gene and plasmid community level. 
+we are benchmarking these tools and strategies, building up *Plaspline* based on the benchmarked tools, which is trying to combine the advantages of tools for a better result of detecting plasmid. Moreover, multiple downstream analysis is also added into this workflow includes quality control, assembly, circular/linear plasmids isolation, circular/linear plasmids genome verification and classification, and plasmids-relative-genes analysis, which aims to get a comprehensive analysis of plasmid, both in gene and plasmid community level. 
 
 
 # Requirements
@@ -49,8 +50,6 @@ all scripts are under the folder
    once config.yaml are generated, user can configurate it manually, if any params which you can not understand, you can chenck "the default_config.yaml" file which is in the ~/plasmid-pipeline/conf folder. before you running this script, you need to configurate your own config.yaml.   
      
    sample.json file is created also in this command, but onething is important is your reads file suffix, plaspline can only recognize "_R1","_r1","_1". because i only meet these three suffixs -_-, so before you run this command, making sure your reads suffix can be recognize by Plaspline. if not, you can changing it by yourself or contact with us, we will upgrade it.  
-  
-  
    
 3. running the pipeline
     using the script:  
