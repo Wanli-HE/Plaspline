@@ -32,13 +32,11 @@ all scripts are under the folder
    the version of databastes and tools is recorded in "dependdent-tools-database.txt" file,  and these tools are installed by two ways, one is using conda yaml file, another is using "wget" command line (all is recored in "dependdent-tools-database.txt").
 
 **** if not necessary, suggesting you do not change the version of the tools, because we do not know what had changed in the new version of the tool and whether it will have any conflict with Plaspline.
-
-   the tools and databases which installed by "wget+web-downloading-address", you can using
+    the tools and databases which installed by "wget+web-downloading-address", you can using
 
         > python ~/plasmid-pipeline/bin/run_main.py downloading -h
-      
-   to check, and also can change the peremters to choose the version that you need. 
-   
+        
+   to check, and also can change the peremters to choose the version that you need.   
    the tools and databases which installed by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.  
    
 2. configurating your config.yaml and sample.josn files, using script:  
