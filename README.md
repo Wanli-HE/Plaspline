@@ -39,10 +39,9 @@ the version of databastes and tools is recorded in "dependdent-tools-database.tx
       
    to check, and also can change the peremters to choose the version that you need. 
    
-   the tools and databases which installed by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.  
-   
-   
-   
+   the tools and databases which installed by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.
+  
+  
 2. configurating your config.yaml and sample.josn files, using script:  
    
        > python ~/plasmid-pipeline/bin/run_main.py preprocessing    
