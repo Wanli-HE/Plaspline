@@ -37,11 +37,17 @@ all scripts are under the folder
      
    the tools and databases which installed by conda YAML file, in ~/plasmid-pipeline/envs, you can also change the version from there.  
    
-2. configurating your config.yaml and sample.josn files, using script:  
+2. configurating your config.yaml and sample.josn files, using command:  
    
        > python ~/plasmid-pipeline/bin/run_main.py preprocessing    
 
-   the config.yaml and sample.josn files will generate automatically in current folder. and the default_config.yaml file is in the ~/plasmid-pipeline/conf/. before you running this script, you need to configurate your own config.yaml. this is importance. 
+   the config.yaml and sample.josn files will generate automatically in current folder. *the later steps and commands will excaute only in this folder, otherwise it will raise error which "can not find config.yaml and sample.json".   
+     
+   once config.yaml are generated, user can configurate it manually, if any params which you can not understand, you can chenck "the default_config.yaml" file which is in the ~/plasmid-pipeline/conf folder. before you running this script, you need to configurate your own config.yaml.   
+     
+   sample.json file is created also in this command, but onething is important is your reads file suffix, plaspline can only recognize "_R1","_r1","_1". because i only meet these three suffixs, so before you run this command, making sure your reads suffix can be recognize by Plaspline, if not, you can changing it by yourself or contact with us, we will upgrade it.  
+  
+  
    
 3. running the pipeline
     using the script:  
