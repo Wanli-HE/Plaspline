@@ -33,7 +33,7 @@ all scripts are under the folder
         > conda config --add channels bioconda  
         > conda config --add channels conda-forge
 
-   the version of databastes and tools is recorded in "dependdent-tools-database.txt" file,  and these tools are installed by two ways, one is using conda yaml file, another is using "wget" command line (all is recored in "dependdent-tools-database.txt").
+   these tools are installed by two ways, one is using conda yaml file, another is using "wget + download-address" command line.
 
    NOTICE: if not necessary, suggesting you do not change the version of the tools, because we do not know what had changed in the new version of the tool and whether it will have any conflict with Plaspline.  
      
