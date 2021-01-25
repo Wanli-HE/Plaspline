@@ -123,15 +123,15 @@ rule download_gene_aanotation:
         db_B = config["BacMet2_add"],
         db_p = config["pfam_add"]
     shell:
-        "wget -O ./VFDB_setA_pro.fas.gz {params.db_v} &&" \
-        " gunzip VFDB_setA_pro.fas.gz &&" \
-        " mv VFDB_setA_pro.fas {output.f1} &&" \
+        "wget -O ./VFDB_setA_pro.fas.gz {params.db_v};" \
+        " gunzip VFDB_setA_pro.fas.gz;" \
+        " mv VFDB_setA_pro.fas {output.f1};" \
 
-        "wget -O ./BacMet2_predicted_database.fasta.gz {params.db_B}&&" \
-        "gunzip BacMet2_predicted_database.fasta.gz&&" \
-        "mv BacMet2_predicted_database.fasta {output.f2}&&"
+        "wget -O ./BacMet2_predicted_database.fasta.gz {params.db_B};" \
+        "gunzip BacMet2_predicted_database.fasta.gz;" \
+        "mv BacMet2_predicted_database.fasta {output.f2};"
 
-        "wget -O ./Pfam-A.hmm.gz {params.db_p}&& gunzip Pfam-A.hmm.gz&& mv Pfam-A.hmm {output.f3}&&"
+        "wget -O ./Pfam-A.hmm.gz {params.db_p}; gunzip Pfam-A.hmm.gz;mv Pfam-A.hmm {output.f3}"
 
 
 rule makedb_gene_annotation:
@@ -183,11 +183,11 @@ rule msamtools:
     shell:
         "wget -O ./msamtools.tar.gz {params.r} && " \
         "mkdir msamtools && " \
-        "tar -zxvf msamtools.tar.gz -C msamtools &&" \
+        "tar -zxvf msamtools.tar.gz -C msamtools && rm -rf msamtools.tar.gz &&" \
         "cd msamtools/* &&" \
         "./configure;" \
         "make CFLAGS='-std=gnu89 -O2' &&" \
-        "cd - && rm -rf masamtools.tar.gz &&" \
+        "cd - &&" \
         "mv msamtools {output.f}"
 
 
