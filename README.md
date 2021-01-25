@@ -17,7 +17,7 @@ biopython=1.78
 Clone package:
 
     > git clone https://github.com/Wanli-HE/Plaspline.git 
-    > cd plasmid-pipeline
+    > cd Plaspline
 
 all scripts are under the folder
 
