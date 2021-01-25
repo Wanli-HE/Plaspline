@@ -1,7 +1,0 @@
-name: annotating ARGs gene
-channels:
-    - conda-forge
-    - bioconda
-    - defaults
-dependencies:
-    - rgi

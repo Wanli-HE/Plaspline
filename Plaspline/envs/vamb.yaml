@@ -1,7 +1,0 @@
-name: binning
-channels:
-    - conda-forge
-    - bioconda
-    - defaults
-dependencies:
-    - vamb
