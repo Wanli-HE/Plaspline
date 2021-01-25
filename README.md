@@ -9,7 +9,7 @@ we are benchmarking these tools and strategies, building up *Plaspline* based on
 
 # Requirements
 ruamel.yaml==0.16.12  
-click==7.1.2
+click==7.1.2  
 snakemake=5.25.0  
 biopython=1.78
 
