@@ -78,7 +78,7 @@ if config["assembler"] == "megahit":
             out=os.path.join("log","scapp","{sample}_scapp.out"),
             err=os.path.join("log","scapp","{sample}_scapp.err")
         shell:
-            "scapp -g {input.f1}/assembly_graph.fastg " \
+            "scapp -g {input.f1} " \
                     "-o {output.f1} " \
                     "-k {params.k} " \
                     "-r1 {input.f2} " \
