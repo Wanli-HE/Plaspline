@@ -14,7 +14,7 @@ if usetool == "megahit":
             f1 = "qc_reads/{sample}_qc_1.fastq.gz",
             f2 = "qc_reads/{sample}_qc_2.fastq.gz"
         output:
-            f = temp(directory("assmebly_res/{sample}_assmebly_res"))
+            f = directory("assembly_res/{sample}_assembly_res")
         threads: config['threads']
         conda:
             f"{CONDAENV}/assembly.yaml"
@@ -48,17 +48,17 @@ if usetool == "megahit":
                         {params.preset}  2>{log.err} >{log.out}"
 
 
-    rule cleaning_assembler:
-        input:
-            f="assmebly_res/{sample}_assmebly_res"
-        output:
-            f="assmebly_res/{sample}_contigs.fasta"
-        run:
-            file=input.f+"/final.contigs.fa"
-            handle = open(file,"rt")
-            f = SeqIO.parse(handle,"fasta")
-            lst=[i for i in f]
-            SeqIO.write(lst, output.f, "fasta")
+    # rule cleaning_assembler:
+    #     input:
+    #         f="assmebly_res/{sample}_assmebly_res"
+    #     output:
+    #         f="assmebly_res/{sample}_contigs.fasta"
+    #     run:
+    #         file=input.f+"/final.contigs.fa"
+    #         handle = open(file,"rt")
+    #         f = SeqIO.parse(handle,"fasta")
+    #         lst=[i for i in f]
+    #         SeqIO.write(lst, output.f, "fasta")
 
 
 
@@ -68,7 +68,7 @@ else:
             f1 = "qc_reads/{sample}_qc_1.fastq.gz",
             f2 = "qc_reads/{sample}_qc_2.fastq.gz"
         output:
-            f = directory("assmebly_res/{sample}_spades")
+            f = directory("assembly_res/{sample}_assembly_res")
         threads: config["threads"]
         conda:
             f"{CONDAENV}/assembly.yaml"
@@ -89,40 +89,44 @@ else:
                     "-o {output.f} " \
                     "2>{log.err} > {log.out}"
 
-    rule cleaning_assembler:
-        input:
-            f="assmebly_res/{sample}_spades"
-        output:
-            f = temp("assmebly_res/{sample}_contigs.fasta"),
-            f2= temp("assmebly_res/{sample}_contigs.fastg")
-        run:
-            f1 = input.f+"/contigs.fasta"
-            f2 = input.f+"/assembly_graph.fastg"
-
-            handle1 = open(f1, "rt")
-            f1 = SeqIO.parse(handle1, "fasta")
-            lst1 = [i for i in f1]
-            SeqIO.write(lst1, output.f, "fasta")
-
-            with open(f2,"r") as infile:
-                 with open(output.f2,"w") as outfile:
-                     for line in infile:
-                         outfile.write(line)
+    # rule cleaning_assembler:
+    #     input:
+    #         f="assmebly_res/{sample}_spades"
+    #     output:
+    #         f = temp("assmebly_res/{sample}_contigs.fasta"),
+    #         f2= temp("assmebly_res/{sample}_contigs.fastg")
+    #     run:
+    #         f1 = input.f+"/contigs.fasta"
+    #         f2 = input.f+"/assembly_graph.fastg"
+    #
+    #         handle1 = open(f1, "rt")
+    #         f1 = SeqIO.parse(handle1, "fasta")
+    #         lst1 = [i for i in f1]
+    #         SeqIO.write(lst1, output.f, "fasta")
+    #
+    #         with open(f2,"r") as infile:
+    #              with open(output.f2,"w") as outfile:
+    #                  for line in infile:
+    #                      outfile.write(line)
 
 rule qc_to_assembly:
     input:
         f1 = expand("qc_reads/{sample}_qc_1.fastq.gz",sample=config["samples"]),
         f2 = expand("qc_reads/{sample}_qc_2.fastq.gz",sample=config["samples"]),
-        f3 = expand("assmebly_res/{sample}_contigs.fasta",sample=config["samples"])
+        f3 = expand("assembly_res/{sample}_assembly_res",sample=config["samples"])
     output:
         f = "remindering_report/qc_to_assembly.txt"
     run:
         dict = {}
-        f_dir = os.path.dirname(input.f3[0])
         for file in input.f1:
             sampleid = os.path.basename(file)[:-len("_qc_1.fastq.gz")]
             reverse = file[:-len("_qc_1.fastq.gz")]+"_qc_2.fastq.gz"
-            assemblied = f_dir+"/"+sampleid+"_contigs.fasta"
+
+            if usetool == "megahit":
+                assemblied = "assembly_res/"+sampleid+"_assembly_res"+"/final.contigs.fa"
+            elif usetool == "spades":
+                assemblied = "assembly_res/"+sampleid+"_assembly_res" + "/contigs.fasta"
+
             (f_reads_bp,r_reads_bp,contig_bp) = (0,0,0)
 
             with gzip.open(file,"r") as infile1:

@@ -9,16 +9,22 @@
 # ruleorder: adding_header>filtering_lesskb>isolating_plasflow>clean_plasflow_result\
 #             >isolating_platon>clean_platon_res>predict_plasforest>clean_plasforest\
 #             >cut_predict_plasmid>liner_contig_to_plasmid
-
+usetool = config["assembler"]
 
 rule adding_header:
     input:
-        f = "assmebly_res/{sample}_contigs.fasta"
+        f = "assembly_res/{sample}_assembly_res"
     output:
-        f = temp("assmebly_res/{sample}_contigs_adding_header.fa")
+        f = temp("assembly_res/{sample}_contigs_adding_header.fa")
     run:
-        sampleid = os.path.basename(input.f)[:-len("_contigs.fasta")]
-        with open(input.f,"r") as infile:
+        sampleid = os.path.basename(input.f)[:-len("_assmebly_res")]
+
+        if usetool == "megahit":
+            assemblied = input.f + "/final.contigs.fa"
+        elif usetool == "spades":
+            assemblied = input.f + "/contigs.fasta"
+
+        with open(assemblied,"r") as infile:
             with open(output.f,"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
@@ -29,9 +35,9 @@ rule adding_header:
 
 rule filtering_lesskb:
     input:
-        f1= "assmebly_res/{sample}_contigs_adding_header.fa"
+        f1= "assembly_res/{sample}_contigs_adding_header.fa"
     output:
-        f1=temp("assmebly_res/{sample}_contigs_1kb.fasta")
+        f1=temp("assembly_res/{sample}_contigs_1kb.fasta")
     run:
         with open(input.f1,"r") as infile:
             with open(output.f1,"w") as outfile:
@@ -54,7 +60,7 @@ rule filtering_lesskb:
 
 rule isolating_plasflow:
     input:
-        f1="assmebly_res/{sample}_contigs_1kb.fasta"
+        f1="assembly_res/{sample}_contigs_1kb.fasta"
     output:
         f1="linear_plasmid_genome/{sample}_res"
     threads: config['threads']
@@ -87,7 +93,7 @@ rule isolating_plasflow:
 
 rule isolating_platon:
     input:
-        f = "assmebly_res/{sample}_contigs_1kb.fasta"
+        f = "assembly_res/{sample}_contigs_1kb.fasta"
     output:
         f = directory("linear_plasmid_genome/{sample}_probs.out")
     threads:
@@ -168,7 +174,7 @@ rule cut_predict_plasmid:
     input:
         # f4 = "linear_plasmid_genome/{sample}_contigs_1kb.csv",
         f1 = "linear_plasmid_genome/{sample}_probs.out",
-        f2 = "assmebly_res/{sample}_contigs_1kb.fasta",
+        f2 = "assembly_res/{sample}_contigs_1kb.fasta",
         f3 = "linear_plasmid_genome/{sample}_res"
     output:
         f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
@@ -214,19 +220,25 @@ rule cut_predict_plasmid:
 rule liner_contig_to_plasmid:
     input:
         f1 = expand("linear_plasmid_genome/{sample}_predict_plasmid.fa",sample=config["samples"]),
-        f2 = expand("assmebly_res/{sample}_contigs.fasta",sample=config["samples"])
+        f2 = expand("assembly_res/{sample}_assembly_res",sample=config["samples"])
     output:
         f = "remindering_report/liner_contig_to_plasmid.txt"
     run:
         dict = {}
-        f_dir = os.path.dirname(input.f2[0])
+
         for file in input.f1:
             sampleid = os.path.basename(file)[:-len("_predict_plasmid.fa")]
-            file2 = f_dir+"/"+sampleid+"_contigs.fasta"
+
+            if usetool == "megahit":
+                assemblied = "assembly_res/" + sampleid + "_assembly_res" + "/final.contigs.fa"
+            elif usetool == "spades":
+                assemblied = "assembly_res/" + sampleid + "_assembly_res" + "/contigs.fasta"
+
+
             (contig_num, contig_bp, plasmid_num, plasmid_bp) =(0,0,0,0)
 
             with open(file,"r") as infile1:
-                with open(file2,"r") as infile2:
+                with open(assembied,"r") as infile2:
                     for line in infile1:
                         if line.startswith(">"):
                             plasmid_num += 1

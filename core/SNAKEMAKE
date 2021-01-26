@@ -55,7 +55,7 @@ rule qc:
 
 rule assembly:
     input:
-        expand("assmebly_res/{sample}_contigs.fasta",sample=config["samples"]),
+        expand("assembly_res/{sample}_assembly_res",sample=config["samples"]),
         "remindering_report/qc_to_assembly.txt"
     output:
         temp(touch("assmebly_res/finished"))

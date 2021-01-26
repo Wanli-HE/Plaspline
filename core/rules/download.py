@@ -43,7 +43,8 @@ rule all:
         # f21 = os.path.join(DB_PATH,"plasforest"),
         # f22 = os.path.join(DB_PATH,"finished_plasforest_env"),
         # f23 = os.path.join(DB_PATH,"blast")
-        f24 = os.path.join(DB_PATH,"cdhit")
+        f24 = os.path.join(DB_PATH,"cdhit"),
+        f25 = os.path.join(DB_PATH,"finished_scapp_env")
     run:
         yaml = YAML(typ='safe')
         yaml.default_flow_style = False
@@ -295,6 +296,15 @@ rule env_non_redundant:
         "wget -O ./cdhit.tar.gz {params.cd} && tar -zxvf cdhit.tar.gz && rm -rf cdhit.tar.gz &&" \
         " mv cd-hit-* {output.f} && cd {output.f} && make MAX_SEQ=10000000 &&" \
         " cd cd-hit-auxtools && make MAX_SEQ=10000000"
+
+rule env_scapp:
+    output:
+        temp(touch(os.path.join(DB_PATH,"finished_scapp_env")))
+    conda:
+        f"{CONDAENV}/circularized-scapp.yaml"
+    shell:
+        "echo 'finished_scapp_env'"
+
 
 # rule env_plasforest:
 #     input:

@@ -48,9 +48,9 @@ rule metaplasmidSPAdes:
 if config["assembler"] == "megahit":
     rule make_fastg:
         input:
-            f="assmebly_res/{sample}_contigs.fasta"
+            f="assembly_res/{sample}_assembly_res"
         output:
-            f=temp("assmebly_res/{sample}_contigs.fastg")
+            f=temp("assembly_res/{sample}_contigs.fastg")
         threads: config['threads']
         conda:
             "%s/assembly.yaml" % CONDAENV
@@ -60,32 +60,56 @@ if config["assembler"] == "megahit":
             out = "log/megahit_core/{sample}_megahit.out",
             err = "log/megahit_core/{sample}_megahit.err"
         shell:
-            "megahit_core contig2fastg {params.len} {input.f} > {output.f}"
+            "megahit_core contig2fastg {params.len} {input.f}/final.contigs.fa > {output.f}"
 
+    rule scapp:
+        input:
+            f1 = "assembly_res/{sample}_contigs.fastg",
+            f2 = "qc_reads/{sample}_qc_1.fastq.gz",
+            f3 = "qc_reads/{sample}_qc_2.fastq.gz"
+        output:
+            f1= temp(directory("circular/{sample}_scapp_res"))
+        threads: config["threads"]
+        conda:
+            "%s/circularized-scapp.yaml" % CONDAENV
+        params:
+            k = config["scapp_k"]
+        log:
+            out=os.path.join("log","scapp","{sample}_scapp.out"),
+            err=os.path.join("log","scapp","{sample}_scapp.err")
+        shell:
+            "scapp -g {input.f1}/assembly_graph.fastg " \
+                    "-o {output.f1} " \
+                    "-k {params.k} " \
+                    "-r1 {input.f2} " \
+                    "-r2 {input.f3} " \
+                    "-p {threads} " \
+                    "2>{log.err} > {log.out}"
 
-rule scapp:
-    input:
-        f1 = "assmebly_res/{sample}_contigs.fastg",
-        f2 = "qc_reads/{sample}_qc_1.fastq.gz",
-        f3 = "qc_reads/{sample}_qc_2.fastq.gz"
-    output:
-        f1= temp(directory("circular/{sample}_scapp_res"))
-    threads: config["threads"]
-    conda:
-        "%s/circularized-scapp.yaml" % CONDAENV
-    params:
-        k = config["scapp_k"]
-    log:
-        out=os.path.join("log","scapp","{sample}_scapp.out"),
-        err=os.path.join("log","scapp","{sample}_scapp.err")
-    shell:
-        "scapp -g {input.f1} " \
-                "-o {output.f1} " \
-                "-k {params.k} " \
-                "-r1 {input.f2} " \
-                "-r2 {input.f3} " \
-                "-p {threads} " \
-                "2>{log.err} > {log.out}"
+elif config["assembler"] == "spades":
+    rule scapp:
+        input:
+            f1 = "assembly_res/{sample}_assembly_res",
+            f2 = "qc_reads/{sample}_qc_1.fastq.gz",
+            f3 = "qc_reads/{sample}_qc_2.fastq.gz"
+        output:
+            f1= temp(directory("circular/{sample}_scapp_res"))
+        threads: config["threads"]
+        conda:
+            "%s/circularized-scapp.yaml" % CONDAENV
+        params:
+            k = config["scapp_k"]
+        log:
+            out=os.path.join("log","scapp","{sample}_scapp.out"),
+            err=os.path.join("log","scapp","{sample}_scapp.err")
+        shell:
+            "scapp -g {input.f1}/assembly_graph.fastg " \
+                    "-o {output.f1} " \
+                    "-k {params.k} " \
+                    "-r1 {input.f2} " \
+                    "-r2 {input.f3} " \
+                    "-p {threads} " \
+                    "2>{log.err} > {log.out}"
 
 
 # rule clean_scapp_res:

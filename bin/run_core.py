@@ -64,7 +64,7 @@ def working(workflow, working_dir, jobs, dryrun,snakemake_args):
     cmd = (
         "snakemake --snakefile {snakefile} --directory {working_dir}"
         " --jobs {jobs} --rerun-incomplete "
-        "--cluster 'qsub -t {threads} -l nodes={nodes}'"
+        #"--cluster 'qsub -t {threads} -l nodes={nodes}'"
         " --nolock"
         " --use-conda --conda-prefix {conda_env}"
         " {dryrun}"
