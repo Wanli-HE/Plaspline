@@ -68,7 +68,7 @@ if config["assembler"] == "megahit":
             f2 = "qc_reads/{sample}_qc_1.fastq.gz",
             f3 = "qc_reads/{sample}_qc_2.fastq.gz"
         output:
-            f1= temp(directory("circular/{sample}_scapp_res"))
+            f1= directory("circular/{sample}_scapp_res")
         threads: config["threads"]
         conda:
             "%s/circularized-scapp.yaml" % CONDAENV
@@ -93,7 +93,7 @@ elif config["assembler"] == "spades":
             f2 = "qc_reads/{sample}_qc_1.fastq.gz",
             f3 = "qc_reads/{sample}_qc_2.fastq.gz"
         output:
-            f1= temp(directory("circular/{sample}_scapp_res"))
+            f1= directory("circular/{sample}_scapp_res")
         threads: config["threads"]
         conda:
             "%s/circularized-scapp.yaml" % CONDAENV
@@ -131,13 +131,16 @@ rule cat_metaplasmidspades_scapp:
         f2 = "circular/{sample}_scapp_res"
     output:
         f = temp("circular/{sample}_cycs.fasta")
-    run:
-        file1 = input.f1 + "/contigs.fasta"
 
-        f=os.path.basename(input.f2)[:-len("_scapp_res")]
-        file2 = input.f2+"/"+f+"_contigs.confident_cycs.fasta"
-
-        os.system("cat "+file1+" "+file2+" >"+output.f)
+    shell:
+        "cat {input.f1}/contigs.fasta {input.f2}/assembly_graph.confident_cycs.fasta > {output.f}"
+    # run:
+    #     file1 = input.f1 + "/contigs.fasta"
+    #
+    #     f = os.path.basename(input.f2)[:-len("_scapp_res")]
+    #     file2 = input.f2+"/"+f+"_contigs.confident_cycs.fasta"
+    #
+    #     os.system("cat "+file1+" "+file2+" >"+output.f)
 
 rule qc_to_circualr_metaplasmidspades:
     input:
