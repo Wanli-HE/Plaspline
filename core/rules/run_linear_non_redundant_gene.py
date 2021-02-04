@@ -11,39 +11,39 @@ rule linear_genecalling_plasmid_gene:
     input:
         f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
     output:
-        f = temp("linear_non_readundant_gene/{sample}_nucl_gene.fa")
+        f = temp("linear_non_redundant_gene/{sample}_nucl_gene.fa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     params:
         p = config['g_prodigal_p']
     log:
-        out = "log/linear_non_readundant_gene/{sample}_genecalling_genecalling.out",
-        err = "log/linear_non_readundant_gene/{sample}_genecalling_genecalling.err"
+        out = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.out",
+        err = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.err"
     script:
         "../scripts/gene_calling.py"
 
 
 rule linear_cutting_all_plasmid_gene:
     input:
-        f = expand("linear_non_readundant_gene/{sample}_nucl_gene.fa", sample=config["samples"])
+        f = expand("linear_non_redundant_gene/{sample}_nucl_gene.fa", sample=config["samples"])
     output:
-        f =temp("linear_non_readundant_gene/all_plasmid_genes.fa")
+        f =temp("linear_non_redundant_gene/all_plasmid_genes.fa")
     shell:
         "cat {input.f} >>{output.f}"
 
 
 rule linear_cdhit_nucler_plasmid_gene:
     input:
-        f1 = "linear_non_readundant_gene/all_plasmid_genes.fa"
+        f1 = "linear_non_redundant_gene/all_plasmid_genes.fa"
     output:
-        f1 = "linear_non_readundant_gene/linear_non_redundant_genes.fa"
+        f1 = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
-        out = "log/linear_non_readundant_gene/cdhit_plasmid.out",
-        err = "log/linear_non_readundant_gene/cdhit_plasmid.err"
+        out = "log/linear_non_redundant_gene/cdhit_plasmid.out",
+        err = "log/linear_non_redundant_gene/cdhit_plasmid.err"
     params:
         cd = config['cdhit-est_path'],
         c = config['g_cd-hit_c'],
@@ -60,13 +60,13 @@ rule linear_cdhit_nucler_plasmid_gene:
 
 rule linear_index_bam_plasmid_gene:
     input:
-        f = "linear_non_readundant_gene/linear_non_redundant_genes.fa"
+        f = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     output:
-        f1= temp("linear_non_readundant_gene/linear_non_redundant_genes.fa.pac"),
-        f2= temp("linear_non_readundant_gene/linear_non_redundant_genes.fa.amb"),
-        f3= temp("linear_non_readundant_gene/linear_non_redundant_genes.fa.bwt"),
-        f4= temp("linear_non_readundant_gene/linear_non_redundant_genes.fa.sa"),
-        f5= temp("linear_non_readundant_gene/linear_non_redundant_genes.fa.ann")
+        f1= temp("linear_non_redundant_gene/linear_non_redundant_genes.fa.pac"),
+        f2= temp("linear_non_redundant_gene/linear_non_redundant_genes.fa.amb"),
+        f3= temp("linear_non_redundant_gene/linear_non_redundant_genes.fa.bwt"),
+        f4= temp("linear_non_redundant_gene/linear_non_redundant_genes.fa.sa"),
+        f5= temp("linear_non_redundant_gene/linear_non_redundant_genes.fa.ann")
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
@@ -74,21 +74,21 @@ rule linear_index_bam_plasmid_gene:
         err = "log/linear_index_bam_plasmid_gene/index.err"
     shell:
         "bwa index {input.f};"
-        "rm -rf linear_non_readundant_gene/linear_non_redundant_genes.fa.clstr"
+        "rm -rf linear_non_redundant_gene/linear_non_redundant_genes.fa.clstr"
 
 
 rule linear_get_bam_file_plasmid_gene:
     input:
-        f1= "linear_non_readundant_gene/linear_non_redundant_genes.fa",
+        f1= "linear_non_redundant_gene/linear_non_redundant_genes.fa",
         f2= "qc_reads/{sample}_qc_1.fastq.gz",
         f3= "qc_reads/{sample}_qc_2.fastq.gz",
-        f4= "linear_non_readundant_gene/linear_non_redundant_genes.fa.pac",
-        f5= "linear_non_readundant_gene/linear_non_redundant_genes.fa.amb",
-        f6= "linear_non_readundant_gene/linear_non_redundant_genes.fa.bwt",
-        f7= "linear_non_readundant_gene/linear_non_redundant_genes.fa.sa",
-        f8= "linear_non_readundant_gene/linear_non_redundant_genes.fa.ann"
+        f4= "linear_non_redundant_gene/linear_non_redundant_genes.fa.pac",
+        f5= "linear_non_redundant_gene/linear_non_redundant_genes.fa.amb",
+        f6= "linear_non_redundant_gene/linear_non_redundant_genes.fa.bwt",
+        f7= "linear_non_redundant_gene/linear_non_redundant_genes.fa.sa",
+        f8= "linear_non_redundant_gene/linear_non_redundant_genes.fa.ann"
     output:
-        f=temp("linear_non_readundant_gene/{sample}_plasmid.bam")
+        f=temp("linear_non_redundant_gene/{sample}_plasmid.bam")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -102,9 +102,9 @@ rule linear_get_bam_file_plasmid_gene:
 
 rule linear_get_sort_file_plasmid_gene:
     input:
-        f="linear_non_readundant_gene/{sample}_plasmid.bam"
+        f="linear_non_redundant_gene/{sample}_plasmid.bam"
     output:
-        f=temp("linear_non_readundant_gene/{sample}_plasmid_sort.bam")
+        f=temp("linear_non_redundant_gene/{sample}_plasmid_sort.bam")
     threads: config['threads']
     params:
         q = config["bwa_q"]
@@ -115,9 +115,9 @@ rule linear_get_sort_file_plasmid_gene:
 
 rule filter_msamtools_linear:
     input:
-        f = "linear_non_readundant_gene/{sample}_plasmid_sort.bam"
+        f = "linear_non_redundant_gene/{sample}_plasmid_sort.bam"
     output:
-        f =temp("linear_non_readundant_gene/{sample}_plasmid_sort_filter.bam")
+        f =temp("linear_non_redundant_gene/{sample}_plasmid_sort_filter.bam")
     params:
         m = config["msamtools_path"],
         l = config["linear_msamtools_gene_l"],
@@ -128,9 +128,9 @@ rule filter_msamtools_linear:
 
 rule linear_geneabundance:
     input:
-        f = "linear_readundant_gene/{sample}_plasmid_sort_filter.bam"
+        f = "linear_non_redundant_gene/{sample}_plasmid_sort_filter.bam"
     output:
-        f = temp("linear_non_readundant_gene/{sample}.profile.txt")
+        f = temp("linear_non_redundant_gene/{sample}.profile.txt")
     params:
         # number = config["circular_gene_abundance_format"],
         m = config["msamtools_path"]
@@ -140,9 +140,9 @@ rule linear_geneabundance:
 
 rule cutting_all_linear_profile_file:
     input:
-        f = expand("linear_non_readundant_gene/{sample}.profile.txt",sample=config["samples"])
+        f = expand("linear_non_redundant_gene/{sample}.profile.txt",sample=config["samples"])
     output:
-        f = "linear_non_readundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt"
+        f = "linear_non_redundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt"
     run:
         if os.path.exists(output.f):
             pass
@@ -276,9 +276,9 @@ rule cutting_all_linear_profile_file:
 #gene functional annotation
 rule linear_gene_genecalling_gene:     #non-redundant-gene-set
     input:
-        f = "linear_non_readundant_gene/linear_non_redundant_genes.fa"
+        f = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     output:
-        f = temp("linear_non_readundant_gene/gene_prodigal_protein_seq.faa")
+        f = temp("linear_non_redundant_gene/gene_prodigal_protein_seq.faa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -296,9 +296,9 @@ rule linear_gene_genecalling_gene:     #non-redundant-gene-set
 
 rule linear_functional_annotation_genes:
     input:
-        f = "linear_non_readundant_gene/gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene/gene_prodigal_protein_seq.faa"
     output:
-        f = directory("linear_non_readundant_gene/functional_annotation")
+        f = directory("linear_non_redundant_gene/functional_annotation")
     threads: config['functional_threads']
     conda:
         "%s/emapper.yaml" % CONDAENV
@@ -315,9 +315,9 @@ rule linear_functional_annotation_genes:
 #other gene annotation
 rule linear_annotation_ARGs_gene:
     input:
-        f = "linear_non_readundant_gene/linear_non_redundant_genes.fa"
+        f = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     output:
-        f = directory("linear_non_readundant_gene/annotation_ARGs")
+        f = directory("linear_non_redundant_gene/annotation_ARGs")
     threads: config["threads"]
     conda:
         "%s/rgi.yaml" % CONDAENV
@@ -344,9 +344,9 @@ rule linear_annotation_ARGs_gene:
 
 rule linear_annotation_vf_gene:
     input:
-        f = "linear_non_readundant_gene/gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene/gene_prodigal_protein_seq.faa"
     output:
-        f = "linear_non_readundant_gene/annotation_vf/annotation_vf.txt"
+        f = "linear_non_redundant_gene/annotation_vf/annotation_vf.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -358,8 +358,8 @@ rule linear_annotation_vf_gene:
         cover = config["g_diamond_cover_vf"],
         md = config["g_diamond_blast_module_vf"]
     log:
-        out = "log/linear_non_readundant_gene/gene_annotation/annotation_vf.out",
-        err = "log/linear_non_readundant_gene/gene_annotation/annotation_vf.err"
+        out = "log/linear_non_redundant_gene/gene_annotation/annotation_vf.out",
+        err = "log/linear_non_redundant_gene/gene_annotation/annotation_vf.err"
     shell:
         "diamond {params.md} " \
                 "--db {params.db} " \
@@ -374,9 +374,9 @@ rule linear_annotation_vf_gene:
 
 rule liner_annotation_other_gene:
     input:
-        f = "linear_non_readundant_gene/gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene/gene_prodigal_protein_seq.faa"
     output:
-        f = "linear_non_readundant_gene/annotation_BacMet2/annotation_BacMet2.txt"
+        f = "linear_non_redundant_gene/annotation_BacMet2/annotation_BacMet2.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -388,8 +388,8 @@ rule liner_annotation_other_gene:
         cover = config["g_diamond_cover_BacMet2"],
         md = config["g_diamond_blast_module_BacMet2"]
     log:
-        out = "log/linear_non_readundant_gene/annotation_BacMet2.out",
-        err = "log/linear_non_readundant_gene/annotation_BacMet2.err"
+        out = "log/linear_non_redundant_gene/annotation_BacMet2.out",
+        err = "log/linear_non_redundant_gene/annotation_BacMet2.err"
     shell:
         "diamond {params.md} " \
                 "--db {params.db} " \

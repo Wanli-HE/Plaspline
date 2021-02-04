@@ -88,50 +88,50 @@ rule contig_circular_clasify:
 
 rule contig_circular:
     input:
-        "circular_non_readundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt",
+        "circular_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt",
         # "circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt",
-        "circular_non_readundant_contig/co-exist/annotation_ARGs",
-        "circular_non_readundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt",
-        "circular_non_readundant_contig/co-exist/annotation_vf/annotation_vf.txt",
-        "circular_non_readundant_contig/co-exist/all_plasmids_with_MEGs.txt",
-        "circular_non_readundant_contig/gene_synteny.txt"
+        "circular_non_redundant_contig/co-exist/annotation_ARGs",
+        "circular_non_redundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt",
+        "circular_non_redundant_contig/co-exist/annotation_vf/annotation_vf.txt",
+        "circular_non_redundant_contig/co-exist/all_plasmids_with_MEGs.txt",
+        "circular_non_redundant_contig/gene_synteny.txt"
 
     output:
         temp(touch("circular_non_readundant_contig/finished"))
 
 rule contig_linear:
     input:
-        "linear_non_readundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt",
+        "linear_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt",
         # "linear_non_readundant_contig/clasify_platon",
-        "linear_non_readundant_contig/co-exist/annotation_ARGs",
-        "linear_non_readundant_contig/co-exist/annotation_vf/annotation_vf.txt",
-        "linear_non_readundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt",
-        "linear_non_readundant_contig/co-exist/all_plasmids_with_MEGs.txt",
-        "linear_non_readundant_contig/gene_synteny.txt"
+        "linear_non_redundant_contig/co-exist/annotation_ARGs",
+        "linear_non_redundant_contig/co-exist/annotation_vf/annotation_vf.txt",
+        "linear_non_redundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt",
+        "linear_non_redundant_contig/co-exist/all_plasmids_with_MEGs.txt",
+        "linear_non_redundant_contig/gene_synteny.txt"
     output:
-        temp(touch("linear_non_readundant_contig/finished"))
+        temp(touch("linear_non_redundant_contig/finished"))
 
 
 rule gene_linear:
     input:
-        "linear_non_readundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt",
-        "linear_non_readundant_gene/annotation_ARGs",
-        "linear_non_readundant_gene/annotation_vf/annotation_vf.txt",
-        "linear_non_readundant_gene/annotation_BacMet2/annotation_BacMet2.txt",
-        "linear_non_readundant_gene/functional_annotation"
+        "linear_non_redundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt",
+        "linear_non_redundant_gene/annotation_ARGs",
+        "linear_non_redundant_gene/annotation_vf/annotation_vf.txt",
+        "linear_non_redundant_gene/annotation_BacMet2/annotation_BacMet2.txt",
+        "linear_non_redundant_gene/functional_annotation"
     output:
-        temp(touch("linear_non_readundant_gene/finished"))
+        temp(touch("linear_non_redundant_gene/finished"))
 
 
 rule gene_circular:
     input:
-        "circular_non_readundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt",
-        "circular_non_readundant_gene/annotation_ARGs",
-        "circular_non_readundant_gene/annotation_vf/annotation_vf.txt",
-        "circular_non_readundant_gene/annotation_BacMet2/annotation_BacMet2.txt",
-        "circular_non_readundant_gene/functional_annotation"
+        "circular_non_redundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt",
+        "circular_non_redundant_gene/annotation_ARGs",
+        "circular_non_redundant_gene/annotation_vf/annotation_vf.txt",
+        "circular_non_redundant_gene/annotation_BacMet2/annotation_BacMet2.txt",
+        "circular_non_redundant_gene/functional_annotation"
     output:
-        temp(touch("circular_non_readundant_gene/finished"))
+        temp(touch("circular_non_redundant_gene/finished"))
 
 
 

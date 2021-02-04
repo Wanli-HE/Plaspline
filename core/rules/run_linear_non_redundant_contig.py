@@ -21,15 +21,15 @@ rule cutting_linear_plasmid:
 
 rule cdhit_nucler_linear_plasmid:
     input:
-        f1 = "linear_non_readundant_contig/all_plasmid_contigs.fa"
+        f1 = "linear_non_redundant_contig/all_plasmid_contigs.fa"
     output:
-        f1 = "linear_non_readundant_contig/linear_non_redundant_contigs.fa"
+        f1 = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
-        out = "log/linear_non_readundant_contig/cdhit_plasmid.out",
-        err = "log/linear_non_readundant_contig/cdhit_plasmid.err"
+        out = "log/linear_non_redundant_contig/cdhit_plasmid.out",
+        err = "log/linear_non_redundant_contig/cdhit_plasmid.err"
     params:
         cd = config['cdhit-est_path'],
         c = config['c_cd-hit_c'],
@@ -46,9 +46,9 @@ rule cdhit_nucler_linear_plasmid:
 
 rule linear_plasmidverify:
     input:
-        f1="linear_non_readundant_contig/linear_non_redundant_contigs.fa"
+        f1="linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     output:
-        f2=directory("linear_non_readundant_contig/Non_redundant_contig_plasmidverify")
+        f2=directory("linear_non_redundant_contig/Non_redundant_contig_plasmidverify")
     threads: config['linear_plasmidverify_threads']
     conda:
         "%s/plasmidverify.yaml" % CONDAENV
@@ -67,13 +67,13 @@ rule linear_plasmidverify:
 
 rule linear_index_bam_plasmid:
     input:
-        f = "linear_non_readundant_contig/linear_non_redundant_contigs.fa"
+        f = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     output:
-        f1= temp("linear_non_readundant_contig/linear_non_redundant_contigs.fa.pac"),
-        f2= temp("linear_non_readundant_contig/linear_non_redundant_contigs.fa.amb"),
-        f3= temp("linear_non_readundant_contig/linear_non_redundant_contigs.fa.bwt"),
-        f4= temp("linear_non_readundant_contig/linear_non_redundant_contigs.fa.sa"),
-        f5= temp("linear_non_readundant_contig/linear_non_redundant_contigs.fa.ann")
+        f1= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.pac"),
+        f2= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.amb"),
+        f3= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.bwt"),
+        f4= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.sa"),
+        f5= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.ann")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -82,22 +82,22 @@ rule linear_index_bam_plasmid:
         out = "log/linear_index_bam_plasmid/index.out"
     shell:
         "bwa index {input.f} ;"
-        "rm -rf linear_non_readundant_contig/linear_non_redundant_contigs.fa.clstr"
+        "rm -rf linear_non_redundant_contig/linear_non_redundant_contigs.fa.clstr"
 
 
 
 rule linear_get_bam_file_plasmid:
     input:
-        f1= "linear_non_readundant_contig/linear_non_redundant_contigs.fa",
+        f1= "linear_non_redundant_contig/linear_non_redundant_contigs.fa",
         f2= "qc_reads/{sample}_qc_1.fastq.gz",
         f3= "qc_reads/{sample}_qc_2.fastq.gz",
-        f4= "linear_non_readundant_contig/linear_non_redundant_contigs.fa.pac",
-        f5= "linear_non_readundant_contig/linear_non_redundant_contigs.fa.amb",
-        f6= "linear_non_readundant_contig/linear_non_redundant_contigs.fa.bwt",
-        f7= "linear_non_readundant_contig/linear_non_redundant_contigs.fa.sa",
-        f8= "linear_non_readundant_contig/linear_non_redundant_contigs.fa.ann"
+        f4= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.pac",
+        f5= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.amb",
+        f6= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.bwt",
+        f7= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.sa",
+        f8= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.ann"
     output:
-        f= temp("linear_non_readundant_contig/{sample}_plasmids.bam")
+        f= temp("linear_non_redundant_contig/{sample}_plasmids.bam")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -110,9 +110,9 @@ rule linear_get_bam_file_plasmid:
 
 rule linear_get_sort_file_plasmid:
     input:
-        f="linear_non_readundant_contig/{sample}_plasmids.bam"
+        f="linear_non_redundant_contig/{sample}_plasmids.bam"
     output:
-        f=temp("linear_non_readundant_contig/{sample}_plasmids_sort.bam")
+        f=temp("linear_non_redundant_contig/{sample}_plasmids_sort.bam")
     threads: config['threads']
     params:
         q= config["bwa_q"]
@@ -125,9 +125,9 @@ rule linear_get_sort_file_plasmid:
 
 rule linear_reads_mapping:
     input:
-        f="linear_non_readundant_contig/{sample}_plasmids_sort.bam"
+        f="linear_non_redundant_contig/{sample}_plasmids_sort.bam"
     output:
-        f=temp("linear_non_readundant_contig/{sample}_bp_mapping.txt")
+        f=temp("linear_non_redundant_contig/{sample}_bp_mapping.txt")
     threads: config['threads']
     conda:
         "%s/bedtools.yaml" % CONDAENV
@@ -137,10 +137,10 @@ rule linear_reads_mapping:
 
 rule filter_dectect_linear_contig:
     input:
-        f = "linear_non_readundant_contig/{sample}_bp_mapping.txt",
-        f2 = "linear_non_readundant_contig/linear_non_redundant_contigs.fa"
+        f = "linear_non_redundant_contig/{sample}_bp_mapping.txt",
+        f2 = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     output:
-        f = temp("linear_non_readundant_contig/{sample}_coverage.txt")
+        f = temp("linear_non_redundant_contig/{sample}_coverage.txt")
     run:
         dict_len={}
         with open(input.f2,"r") as infile2:
@@ -177,9 +177,9 @@ rule filter_dectect_linear_contig:
 
 rule linear_relative_contig_abundance:
     input:
-        f = "linear_non_readundant_contig/{sample}_coverage.txt"
+        f = "linear_non_redundant_contig/{sample}_coverage.txt"
     output:
-        f = temp("linear_non_readundant_contig/{sample}_relative_abundance.txt")
+        f = temp("linear_non_redundant_contig/{sample}_relative_abundance.txt")
     threads: config['threads']
     run:
         # data = pd.read_csv(input.f,sep="\t")
@@ -204,9 +204,9 @@ rule linear_relative_contig_abundance:
 
 rule linear_paste_relative_contig_abundance:
     input:
-        f = expand("linear_non_readundant_contig/{sample}_relative_abundance.txt",sample=config["samples"])
+        f = expand("linear_non_redundant_contig/{sample}_relative_abundance.txt",sample=config["samples"])
     output:
-        f = "linear_non_readundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt"
+        f = "linear_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt"
     threads: config['threads']
     run:
         if os.path.exists(output.f):
@@ -327,10 +327,10 @@ rule linear_paste_relative_contig_abundance:
 #co-exist
 rule linear_makefaa:
     input:
-        f="linear_non_readundant_contig/linear_non_redundant_contigs.fa"
+        f="linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     output:
-        f1 = temp("linear_non_readundant_contig/all_genecalling_protein.faa"),
-        f2 = temp("linear_non_readundant_contig/all_genecalling_nucl.fa")
+        f1 = temp("linear_non_redundant_contig/all_genecalling_protein.faa"),
+        f2 = temp("linear_non_redundant_contig/all_genecalling_nucl.fa")
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -345,9 +345,9 @@ rule linear_makefaa:
 
 rule linear_plasmid_with_MGEs:
     input:
-        f = "linear_non_readundant_contig/all_genecalling_protein.faa"
+        f = "linear_non_redundant_contig/all_genecalling_protein.faa"
     output:
-        f = "linear_non_readundant_contig/co-exist/all_plasmids_with_MEGs.txt"
+        f = "linear_non_redundant_contig/co-exist/all_plasmids_with_MEGs.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -362,9 +362,9 @@ rule linear_plasmid_with_MGEs:
 
 rule linear_contig_annotation_ARGs:
     input:
-        f = "linear_non_readundant_contig/linear_non_redundant_contigs.fa"
+        f = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     output:
-        f = directory("linear_non_readundant_contig/co-exist/annotation_ARGs")
+        f = directory("linear_non_redundant_contig/co-exist/annotation_ARGs")
     threads: config["threads"]
     conda:
         "%s/rgi.yaml" % CONDAENV
@@ -392,9 +392,9 @@ rule linear_contig_annotation_ARGs:
 
 rule linear_contig_annotation_vf:
     input:
-        f = "linear_non_readundant_contig/all_genecalling_protein.faa"
+        f = "linear_non_redundant_contig/all_genecalling_protein.faa"
     output:
-        f = "linear_non_readundant_contig/co-exist/annotation_vf/annotation_vf.txt"
+        f = "linear_non_redundant_contig/co-exist/annotation_vf/annotation_vf.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -422,9 +422,9 @@ rule linear_contig_annotation_vf:
 
 rule linear_contig_annotation_other:
     input:
-        f = "linear_non_readundant_contig/all_genecalling_protein.faa"
+        f = "linear_non_redundant_contig/all_genecalling_protein.faa"
     output:
-        f = "linear_non_readundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt"
+        f = "linear_non_redundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -483,9 +483,9 @@ rule linear_contig_annotation_other:
 #gene synteny
 rule linear_gene_synteny:
     input:
-        f = "linear_non_readundant_contig/all_genecalling_nucl.fa"
+        f = "linear_non_redundant_contig/all_genecalling_nucl.fa"
     output:
-        f = "linear_non_readundant_contig/gene_synteny.txt"
+        f = "linear_non_redundant_contig/gene_synteny.txt"
     run:
         dict = defaultdict(str)
         with open(input.f,"r") as infile:

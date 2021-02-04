@@ -12,15 +12,15 @@ rule circular_genecalling_plasmid_gene:
     input:
         f = "circular/plasmid/{sample}_verify_plasmid_circular.fasta"
     output:
-        f = temp("circular_non_readundant_gene/{sample}_nucl_gene.fa")
+        f = temp("circular_non_redundant_gene/{sample}_nucl_gene.fa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     params:
         p = config['g_prodigal_p']
     log:
-        out = "log/linear_non_readundant_gene/{sample}_genecalling_genecalling.out",
-        err = "log/linear_non_readundant_gene/{sample}_genecalling_genecalling.err"
+        out = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.out",
+        err = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.err"
     script:
         "../scripts/gene_calling.py"
 
@@ -28,24 +28,24 @@ rule circular_genecalling_plasmid_gene:
 
 rule circular_cutting_all_plasmid_gene:
     input:
-        f = expand("circular_non_readundant_gene/{sample}_nucl_gene.fa", sample=config["samples"])
+        f = expand("circular_non_redundant_gene/{sample}_nucl_gene.fa", sample=config["samples"])
     output:
-        f =temp("circular_non_readundant_gene/all_plasmid_genes.fa")
+        f =temp("circular_non_redundant_gene/all_plasmid_genes.fa")
     shell:
         "cat {input.f} >>{output.f}"
 
 
 rule circular_cdhit_nucler_plasmid_gene:
     input:
-        f1 = "circular_non_readundant_gene/all_plasmid_genes.fa"
+        f1 = "circular_non_redundant_gene/all_plasmid_genes.fa"
     output:
-        f1 = "circular_non_readundant_gene/circular_non_redundant_genes.fa"
+        f1 = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
-        out = "log/circular_non_readundant_gene/cdhit_plasmid.out",
-        err = "log/circular_non_readundant_gene/cdhit_plasmid.err"
+        out = "log/circular_non_redundant_gene/cdhit_plasmid.out",
+        err = "log/circular_non_redundant_gene/cdhit_plasmid.err"
     params:
         cd = config['cdhit-est_path'],
         c = config['g_cd-hit_c'],
@@ -62,13 +62,13 @@ rule circular_cdhit_nucler_plasmid_gene:
 
 rule circular_index_bam_plasmid_gene:
     input:
-        f = "circular_non_readundant_gene/circular_non_redundant_genes.fa"
+        f = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     output:
-        f1= temp("circular_non_readundant_gene/circular_non_redundant_genes.fa.pac"),
-        f2= temp("circular_non_readundant_gene/circular_non_redundant_genes.fa.amb"),
-        f3= temp("circular_non_readundant_gene/circular_non_redundant_genes.fa.bwt"),
-        f4= temp("circular_non_readundant_gene/circular_non_redundant_genes.fa.sa"),
-        f5= temp("circular_non_readundant_gene/circular_non_redundant_genes.fa.ann")
+        f1= temp("circular_non_redundant_gene/circular_non_redundant_genes.fa.pac"),
+        f2= temp("circular_non_redundant_gene/circular_non_redundant_genes.fa.amb"),
+        f3= temp("circular_non_redundant_gene/circular_non_redundant_genes.fa.bwt"),
+        f4= temp("circular_non_redundant_gene/circular_non_redundant_genes.fa.sa"),
+        f5= temp("circular_non_redundant_gene/circular_non_redundant_genes.fa.ann")
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
@@ -76,21 +76,21 @@ rule circular_index_bam_plasmid_gene:
         err = "log/circular_index_bam_plasmid_gene/index.err"
     shell:
         "bwa index {input.f};" \
-        "rm -rf circular_non_readundant_gene/circular_non_redundant_genes.fa.clstr"
+        "rm -rf circular_non_redundant_gene/circular_non_redundant_genes.fa.clstr"
 
 
 rule circular_get_bam_file_plasmid_gene:
     input:
-        f1= "circular_non_readundant_gene/circular_non_redundant_genes.fa",
+        f1= "circular_non_redundant_gene/circular_non_redundant_genes.fa",
         f2= "qc_reads/{sample}_qc_1.fastq.gz",
         f3= "qc_reads/{sample}_qc_2.fastq.gz",
-        f4= "circular_non_readundant_gene/circular_non_redundant_genes.fa.pac",
-        f5= "circular_non_readundant_gene/circular_non_redundant_genes.fa.amb",
-        f6= "circular_non_readundant_gene/circular_non_redundant_genes.fa.bwt",
-        f7= "circular_non_readundant_gene/circular_non_redundant_genes.fa.sa",
-        f8= "circular_non_readundant_gene/circular_non_redundant_genes.fa.ann"
+        f4= "circular_non_redundant_gene/circular_non_redundant_genes.fa.pac",
+        f5= "circular_non_redundant_gene/circular_non_redundant_genes.fa.amb",
+        f6= "circular_non_redundant_gene/circular_non_redundant_genes.fa.bwt",
+        f7= "circular_non_redundant_gene/circular_non_redundant_genes.fa.sa",
+        f8= "circular_non_redundant_gene/circular_non_redundant_genes.fa.ann"
     output:
-        f=temp("circular_non_readundant_gene/{sample}_plasmid.bam")
+        f=temp("circular_non_redundant_gene/{sample}_plasmid.bam")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -104,9 +104,9 @@ rule circular_get_bam_file_plasmid_gene:
 
 rule circular_get_sort_file_plasmid_gene:
     input:
-        f="circular_non_readundant_gene/{sample}_plasmid.bam"
+        f="circular_non_redundant_gene/{sample}_plasmid.bam"
     output:
-        f= temp("circular_non_readundant_gene/{sample}_plasmid_sort.bam")
+        f= temp("circular_non_redundant_gene/{sample}_plasmid_sort.bam")
     threads: 10
     params:
         q= config["bwa_q"]
@@ -117,9 +117,9 @@ rule circular_get_sort_file_plasmid_gene:
 
 rule filter_msamtools_circular:
     input:
-        f = "circular_non_readundant_gene/{sample}_plasmid_sort.bam"
+        f = "circular_non_redundant_gene/{sample}_plasmid_sort.bam"
     output:
-        f =temp("circular_non_readundant_gene/{sample}_plasmid_sort_filter.bam")
+        f =temp("circular_non_redundant_gene/{sample}_plasmid_sort_filter.bam")
     params:
         m = config["msamtools_path"],
         l = config["circular_msamtools_gene_l"],
@@ -130,9 +130,9 @@ rule filter_msamtools_circular:
 
 rule circular_geneabundance:
     input:
-        f = "circular_non_readundant_gene/{sample}_plasmid_sort_filter.bam"
+        f = "circular_non_redundant_gene/{sample}_plasmid_sort_filter.bam"
     output:
-        f = temp("circular_non_readundant_gene/{sample}.profile.txt")
+        f = temp("circular_non_redundant_gene/{sample}.profile.txt")
     params:
         number = config["circular_gene_abundance_format"],
         m = config["msamtools_path"]
@@ -143,9 +143,9 @@ rule circular_geneabundance:
 
 rule cutting_all_circular_profile_file:
     input:
-        f = expand("circular_non_readundant_gene/{sample}.profile.txt",sample=config["samples"])
+        f = expand("circular_non_redundant_gene/{sample}.profile.txt",sample=config["samples"])
     output:
-        f = "circular_non_readundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt"
+        f = "circular_non_redundant_gene/relative_gene_abundance/all_samples_gene_relative_abundance.txt"
     run:
         if os.path.exists(output.f):
             pass
@@ -176,9 +176,9 @@ rule cutting_all_circular_profile_file:
 #gene functional annotation
 rule circular_gene_genecalling_gene:     #non-redundant-gene-set
     input:
-        f = "circular_non_readundant_gene/circular_non_redundant_genes.fa"
+        f = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     output:
-        f = temp("circular_non_readundant_gene/gene_prodigal_protein_seq.faa")
+        f = temp("circular_non_redundant_gene/gene_prodigal_protein_seq.faa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -196,9 +196,9 @@ rule circular_gene_genecalling_gene:     #non-redundant-gene-set
 
 rule circular_functional_annotation_genes:
     input:
-        f = "circular_non_readundant_gene/gene_prodigal_protein_seq.faa"
+        f = "circular_non_redundant_gene/gene_prodigal_protein_seq.faa"
     output:
-        f = directory("circular_non_readundant_gene/functional_annotation")
+        f = directory("circular_non_redundant_gene/functional_annotation")
     threads: config['functional_threads']
     conda:
         "%s/emapper.yaml" % CONDAENV
@@ -216,9 +216,9 @@ rule circular_functional_annotation_genes:
 #other gene annotation
 rule circular_annotation_ARGs_gene:
     input:
-        f = "circular_non_readundant_gene/circular_non_redundant_genes.fa"
+        f = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     output:
-        f = directory("circular_non_readundant_gene/annotation_ARGs")
+        f = directory("circular_non_redundant_gene/annotation_ARGs")
     threads: config["threads"]
     conda:
         "%s/rgi.yaml" % CONDAENV
@@ -245,9 +245,9 @@ rule circular_annotation_ARGs_gene:
 
 rule circular_annotation_vf_gene:
     input:
-        f = "circular_non_readundant_gene/gene_prodigal_protein_seq.faa"
+        f = "circular_non_redundant_gene/gene_prodigal_protein_seq.faa"
     output:
-        f = "circular_non_readundant_gene/annotation_vf/annotation_vf.txt"
+        f = "circular_non_redundant_gene/annotation_vf/annotation_vf.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -259,8 +259,8 @@ rule circular_annotation_vf_gene:
         cover = config["g_diamond_cover_vf"],
         md = config["g_diamond_blast_module_vf"]
     log:
-        out = "log/circular_non_readundant_gene/gene_annotation/annotation_vf.out",
-        err = "log/circular_non_readundant_gene/gene_annotation/annotation_vf.err"
+        out = "log/circular_non_redundant_gene/gene_annotation/annotation_vf.out",
+        err = "log/circular_non_redundant_gene/gene_annotation/annotation_vf.err"
     shell:
         "diamond {params.md} " \
                 "--db {params.db} " \
@@ -275,9 +275,9 @@ rule circular_annotation_vf_gene:
 
 rule circular_annotation_other_gene:
     input:
-        f = "circular_non_readundant_gene/gene_prodigal_protein_seq.faa"
+        f = "circular_non_redundant_gene/gene_prodigal_protein_seq.faa"
     output:
-        f = "circular_non_readundant_gene/annotation_BacMet2/annotation_BacMet2.txt"
+        f = "circular_non_redundant_gene/annotation_BacMet2/annotation_BacMet2.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -289,8 +289,8 @@ rule circular_annotation_other_gene:
         cover = config["g_diamond_cover_BacMet2"],
         md = config["g_diamond_blast_module_BacMet2"]
     log:
-        out = "log/circular_non_readundant_gene/annotation_BacMet2.out",
-        err = "log/circular_non_readundant_gene/annotation_BacMet2.err"
+        out = "log/circular_non_redundant_gene/annotation_BacMet2.out",
+        err = "log/circular_non_redundant_gene/annotation_BacMet2.err"
     shell:
         "diamond {params.md} " \
                 "--db {params.db} " \

@@ -55,8 +55,8 @@ from lib import common as c
 
 @click.option(
     "--skip_qc",
-    default=False,
-    help="whether skiping quality control step"
+    help="whether skiping quality control step",
+    default=False
 )
 # @click.option(
 #     "--read_length",

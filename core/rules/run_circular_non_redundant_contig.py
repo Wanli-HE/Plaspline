@@ -16,22 +16,22 @@ rule cutting_circular_plasmid:
     input:
         f = expand("circular/plasmid/{sample}_verify_plasmid_circular.fasta", sample=config["samples"])
     output:
-        f =temp("circular_non_readundant_contig/all_plasmid_contigs.fa")
+        f =temp("circular_non_redundant_contig/all_plasmid_contigs.fa")
     shell:
         "cat {input.f} >>{output.f}"
 
 
 rule cdhit_nucler_circular_plasmid:
     input:
-        f1 = "circular_non_readundant_contig/all_plasmid_contigs.fa"
+        f1 = "circular_non_redundant_contig/all_plasmid_contigs.fa"
     output:
-        f1 = "circular_non_readundant_contig/circular_non_redundant_contigs.fa"
+        f1 = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
-        out = "log/circular_non_readundant_contig/cdhit_plasmid.out",
-        err = "log/circular_non_readundant_contig/cdhit_plasmid.err"
+        out = "log/circular_non_redundant_contig/cdhit_plasmid.out",
+        err = "log/circular_non_redundant_contig/cdhit_plasmid.err"
     params:
         cd = config['cdhit-est_path'],
         c = config['c_cd-hit_c'],
@@ -49,13 +49,13 @@ rule cdhit_nucler_circular_plasmid:
 
 rule circular_index_bam_plasmid:
     input:
-        f = "circular_non_readundant_contig/circular_non_redundant_contigs.fa"
+        f = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     output:
-        f1= temp("circular_non_readundant_contig/circular_non_redundant_contigs.fa.pac"),
-        f2= temp("circular_non_readundant_contig/circular_non_redundant_contigs.fa.amb"),
-        f3= temp("circular_non_readundant_contig/circular_non_redundant_contigs.fa.bwt"),
-        f4= temp("circular_non_readundant_contig/circular_non_redundant_contigs.fa.sa"),
-        f5= temp("circular_non_readundant_contig/circular_non_redundant_contigs.fa.ann")
+        f1= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.pac"),
+        f2= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.amb"),
+        f3= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.bwt"),
+        f4= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.sa"),
+        f5= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.ann")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -64,21 +64,21 @@ rule circular_index_bam_plasmid:
         out = "log/circular_index_bam_plasmid/index.out"
     shell:
         "bwa index {input.f} ;"
-        "rm -rf circular_non_readundant_contig/circular_non_redundant_contigs.fa.clstr"
+        "rm -rf circular_non_redundant_contig/circular_non_redundant_contigs.fa.clstr"
 
 
 rule circular_get_bam_file_plasmid:
     input:
-        f1= "circular_non_readundant_contig/circular_non_redundant_contigs.fa",
+        f1= "circular_non_redundant_contig/circular_non_redundant_contigs.fa",
         f2= "qc_reads/{sample}_qc_1.fastq.gz",
         f3= "qc_reads/{sample}_qc_2.fastq.gz",
-        f4= "circular_non_readundant_contig/circular_non_redundant_contigs.fa.pac",
-        f5= "circular_non_readundant_contig/circular_non_redundant_contigs.fa.amb",
-        f6= "circular_non_readundant_contig/circular_non_redundant_contigs.fa.bwt",
-        f7= "circular_non_readundant_contig/circular_non_redundant_contigs.fa.sa",
-        f8= "circular_non_readundant_contig/circular_non_redundant_contigs.fa.ann"
+        f4= "circular_non_redundant_contig/circular_non_redundant_contigs.fa.pac",
+        f5= "circular_non_redundant_contig/circular_non_redundant_contigs.fa.amb",
+        f6= "circular_non_redundant_contig/circular_non_redundant_contigs.fa.bwt",
+        f7= "circular_non_redundant_contig/circular_non_redundant_contigs.fa.sa",
+        f8= "circular_non_redundant_contig/circular_non_redundant_contigs.fa.ann"
     output:
-        f= temp("circular_non_readundant_contig/{sample}_plasmids.bam")
+        f= temp("circular_non_redundant_contig/{sample}_plasmids.bam")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -93,9 +93,9 @@ rule circular_get_bam_file_plasmid:
 
 rule circular_get_sort_file_plasmid:
     input:
-        f="circular_non_readundant_contig/{sample}_plasmids.bam"
+        f="circular_non_redundant_contig/{sample}_plasmids.bam"
     output:
-        f=temp("circular_non_readundant_contig/{sample}_plasmids_sort.bam")
+        f=temp("circular_non_redundant_contig/{sample}_plasmids_sort.bam")
     threads: config['threads']
     params:
         q = config["bwa_q"]
@@ -109,9 +109,9 @@ rule circular_get_sort_file_plasmid:
 
 rule circular_reads_mapping:
     input:
-        f="circular_non_readundant_contig/{sample}_plasmids_sort.bam"
+        f="circular_non_redundant_contig/{sample}_plasmids_sort.bam"
     output:
-        f=temp("circular_non_readundant_contig/mapping/{sample}_bp_mapping.txt")
+        f=temp("circular_non_redundant_contig/mapping/{sample}_bp_mapping.txt")
     threads: config['threads']
     conda:
         "%s/bedtools.yaml" % CONDAENV
@@ -120,10 +120,10 @@ rule circular_reads_mapping:
 
 rule filter_dectect_circular_contig:
     input:
-        f = "circular_non_readundant_contig/mapping/{sample}_bp_mapping.txt",
-        f2 = "circular_non_readundant_contig/circular_non_redundant_contigs.fa"
+        f = "circular_non_redundant_contig/mapping/{sample}_bp_mapping.txt",
+        f2 = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     output:
-        f = temp("circular_non_readundant_contig/{sample}_coverage.txt")
+        f = temp("circular_non_redundant_contig/{sample}_coverage.txt")
     run:
         dict_len={}
         with open(input.f2,"r") as infile2:
@@ -159,9 +159,9 @@ rule filter_dectect_circular_contig:
 
 rule circular_relative_contig_abundance:
     input:
-        f = "circular_non_readundant_contig/{sample}_coverage.txt"
+        f = "circular_non_redundant_contig/{sample}_coverage.txt"
     output:
-        f = temp("circular_non_readundant_contig/{sample}_relative_abundance.txt")
+        f = temp("circular_non_redundant_contig/{sample}_relative_abundance.txt")
     threads: config['threads']
     run:
         a = 0
@@ -185,9 +185,9 @@ rule circular_relative_contig_abundance:
 
 rule circular_paste_relative_contig_abundance:
     input:
-        f = expand("circular_non_readundant_contig/{sample}_relative_abundance.txt",sample=config["samples"])
+        f = expand("circular_non_redundant_contig/{sample}_relative_abundance.txt",sample=config["samples"])
     output:
-        f = "circular_non_readundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt"
+        f = "circular_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt"
     threads: config['threads']
     run:
         if os.path.exists(output.f):
@@ -216,7 +216,7 @@ rule circular_paste_relative_contig_abundance:
 # classify
 rule circular_split_contigs:
     input:
-        f1="circular_non_readundant_contig/circular_non_redundant_contigs.fa"
+        f1="circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     output:
         f2=temp(directory("circular_plasmid_contig_split"))
     threads: config["threads"]
@@ -244,7 +244,7 @@ rule circular_run_mob_typer:
     input:
         f1="circular_plasmid_contig_split"
     output:
-        f2=temp(directory("circular_non_readundant_contig/all_result_mob_typer"))
+        f2=temp(directory("circular_non_redundant_contig/all_result_mob_typer"))
     threads: config["threads_mob-typer"]
     conda:
         "%s/mobtyper.yaml" % CONDAENV
@@ -258,9 +258,9 @@ rule circular_run_mob_typer:
 
 rule circular_clean_mob_typer_file:
     input:
-        f1="circular_non_readundant_contig/all_result_mob_typer"
+        f1="circular_non_redundant_contig/all_result_mob_typer"
     output:
-        f2="circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt"
+        f2="circular_non_redundant_contig/plasmid_classify/plasmid_classify.txt"
     threads: config["threads"]
     run:
         path=input.f1
@@ -284,10 +284,10 @@ rule circular_clean_mob_typer_file:
 #co-exist
 rule circular_makefaa:
     input:
-        f="circular_non_readundant_contig/circular_non_redundant_contigs.fa"
+        f="circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     output:
-        f1 = temp("circular_non_readundant_contig/all_genecalling_protein.faa"),
-        f2 = temp("circular_non_readundant_contig/all_genecalling_nucl.fa")
+        f1 = temp("circular_non_redundant_contig/all_genecalling_protein.faa"),
+        f2 = temp("circular_non_redundant_contig/all_genecalling_nucl.fa")
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -302,9 +302,9 @@ rule circular_makefaa:
 
 rule circular_plasmid_with_MGEs:
     input:
-        f = "circular_non_readundant_contig/all_genecalling_protein.faa"
+        f = "circular_non_redundant_contig/all_genecalling_protein.faa"
     output:
-        f = "circular_non_readundant_contig/co-exist/all_plasmids_with_MEGs.txt"
+        f = "circular_non_redundant_contig/co-exist/all_plasmids_with_MEGs.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -319,9 +319,9 @@ rule circular_plasmid_with_MGEs:
 
 rule circular_contig_annotation_ARGs:
     input:
-        f = "circular_non_readundant_contig/circular_non_redundant_contigs.fa"
+        f = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     output:
-        f = directory("circular_non_readundant_contig/co-exist/annotation_ARGs")
+        f = directory("circular_non_redundant_contig/co-exist/annotation_ARGs")
     threads: config["threads"]
     conda:
         "%s/rgi.yaml" % CONDAENV
@@ -348,9 +348,9 @@ rule circular_contig_annotation_ARGs:
 
 rule circular_contig_annotation_vf:
     input:
-        f = "circular_non_readundant_contig/all_genecalling_protein.faa"
+        f = "circular_non_redundant_contig/all_genecalling_protein.faa"
     output:
-        f = "circular_non_readundant_contig/co-exist/annotation_vf/annotation_vf.txt"
+        f = "circular_non_redundant_contig/co-exist/annotation_vf/annotation_vf.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -378,9 +378,9 @@ rule circular_contig_annotation_vf:
 
 rule circular_contig_annotation_BacMet2_gene_database:
     input:
-        f = "circular_non_readundant_contig/all_genecalling_protein.faa"
+        f = "circular_non_redundant_contig/all_genecalling_protein.faa"
     output:
-        f = "circular_non_readundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt"
+        f = "circular_non_redundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt"
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -409,9 +409,9 @@ rule circular_contig_annotation_BacMet2_gene_database:
 #gene synteny
 rule circular_gene_synteny:
     input:
-        f = "circular_non_readundant_contig/all_genecalling_nucl.fa"
+        f = "circular_non_redundant_contig/all_genecalling_nucl.fa"
     output:
-        f = "circular_non_readundant_contig/gene_synteny.txt"
+        f = "circular_non_redundant_contig/gene_synteny.txt"
     run:
         dict = defaultdict(str)
         with open(input.f,"r") as infile:
