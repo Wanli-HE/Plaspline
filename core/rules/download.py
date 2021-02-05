@@ -65,7 +65,7 @@ rule all:
         conf["platondb"] = os.path.join(DB_PATH,"db")
         # conf["rfplasmid_path"] = os.path.join(input.f18,"rfplasmid.py")
         # conf['plsdb_database'] = input.f19
-        conf['msamtools_path'] = os.path.join(input.f20,"msamtools")
+        conf['msamtools_path'] = os.path.join(input.f20,"msamtools-0.9","msamtools")
         # conf['plasforest_path'] = os.path.join(input.f21,"PlasForest.py")
         # conf['plasforest'] = os.path.join(input.f21)
         # conf['blast'] = os.path.join(input.f23)
