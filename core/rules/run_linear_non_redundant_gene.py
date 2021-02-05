@@ -151,7 +151,7 @@ rule cutting_all_linear_profile_file:
             header = "gene_ID"
 
             for file in input.f:
-                sample_ID = os.path.basename(file)[:-len(".profile.txt")].split("_")[1][-3:]
+                sample_ID = os.path.basename(file)[:-len(".profile.txt")]
                 head = "\t" + sample_ID
                 header += head
                 with open(file, "r") as infile:
