@@ -278,7 +278,7 @@ rule linear_gene_genecalling_gene:     #non-redundant-gene-set
     input:
         f = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     output:
-        f = temp("linear_non_redundant_gene/gene_prodigal_protein_seq.faa")
+        f = temp("linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -296,7 +296,7 @@ rule linear_gene_genecalling_gene:     #non-redundant-gene-set
 
 rule linear_functional_annotation_genes:
     input:
-        f = "linear_non_redundant_gene/gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa"
     output:
         f = directory("linear_non_redundant_gene/functional_annotation")
     threads: config['functional_threads']
@@ -311,6 +311,22 @@ rule linear_functional_annotation_genes:
     script:
         "../scripts/emapper.py"
 
+
+rule linear_plasmid-gene_with_MGEs:
+    input:
+        f = "linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa"
+    output:
+        f = "linear_non_redundant_gene/MGES-annotation/all_plasmids_with_MEGs.txt"
+    threads: config["threads"]
+    conda:
+        "%s/non_redundant.yaml" % CONDAENV
+    params:
+        mgesdb = config["MGEs_database"]
+    log:
+        out = "log/co-exist/linear_co-exist-mges.out",
+        err = "log/co-exist/linear_co-exist-mges.err"
+    shell:
+        "hmmsearch --tblout {output.f} {params.mgesdb} {input.f} 2>{log.err} >{log.out}"
 
 #other gene annotation
 rule linear_annotation_ARGs_gene:
@@ -344,7 +360,7 @@ rule linear_annotation_ARGs_gene:
 
 rule linear_annotation_vf_gene:
     input:
-        f = "linear_non_redundant_gene/gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene//linear_gene_prodigal_protein_seq.faa"
     output:
         f = "linear_non_redundant_gene/annotation_vf/annotation_vf.txt"
     threads: config["threads"]
@@ -374,7 +390,7 @@ rule linear_annotation_vf_gene:
 
 rule liner_annotation_other_gene:
     input:
-        f = "linear_non_redundant_gene/gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene//linear_gene_prodigal_protein_seq.faa"
     output:
         f = "linear_non_redundant_gene/annotation_BacMet2/annotation_BacMet2.txt"
     threads: config["threads"]

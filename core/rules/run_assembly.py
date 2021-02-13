@@ -54,11 +54,11 @@ if usetool == "megahit":
     #     output:
     #         f="assmebly_res/{sample}_contigs.fasta"
     #     run:
-    #         file=input.f+"/final.contigs.fa"
-    #         handle = open(file,"rt")
-    #         f = SeqIO.parse(handle,"fasta")
-    #         lst=[i for i in f]
-    #         SeqIO.write(lst, output.f, "fasta")
+# file=input.f+"/final.contigs.fa"
+# handle = open(file,"rt")
+# f = SeqIO.parse(handle,"fasta")
+# lst=[i for i in f]
+# SeqIO.write(lst, output.f, "fasta")
 
 
 

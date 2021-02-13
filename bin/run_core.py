@@ -25,7 +25,6 @@ from lib import common as c
     default="all",
     type=click.Choice(["qc","assembly","circular","isolation",
                        "contig_circular","contig_linear","contig_circular_classify",
-                       "functional_linear","functional_circular"
                        "gene_circular","gene_linear","all"]),
 )
 @click.option("-w",

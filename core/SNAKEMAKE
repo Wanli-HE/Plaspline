@@ -41,7 +41,8 @@ rule all:
         "circular_non_readundant_contig/finished",
         "linear_non_readundant_contig/finished",
         "linear_non_readundant_gene/finished",
-        "circular_non_readundant_gene/finished"
+        "circular_non_readundant_gene/finished",
+        "circular_non_readundant_contig/classify_finished"
 
 
 rule qc:
@@ -79,7 +80,7 @@ rule isolation:
     output:
         temp(touch("linear_plasmid_genome/finished"))
 
-rule contig_circular_clasify:
+rule contig_circular_classify:
     input:
         "circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt"
     output:
@@ -118,7 +119,8 @@ rule gene_linear:
         "linear_non_redundant_gene/annotation_ARGs",
         "linear_non_redundant_gene/annotation_vf/annotation_vf.txt",
         "linear_non_redundant_gene/annotation_BacMet2/annotation_BacMet2.txt",
-        "linear_non_redundant_gene/functional_annotation"
+        "linear_non_redundant_gene/functional_annotation",
+        "linear_non_redundant_gene/MGES-annotation/all_plasmids_with_MEGs.txt"
     output:
         temp(touch("linear_non_redundant_gene/finished"))
 
