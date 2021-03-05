@@ -296,7 +296,7 @@ rule linear_gene_genecalling_gene:     #non-redundant-gene-set
 
 rule linear_functional_annotation_genes:
     input:
-        f = "linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa"
+        f = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     output:
         f = directory("linear_non_redundant_gene/functional_annotation")
     threads: config['functional_threads']

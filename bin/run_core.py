@@ -18,7 +18,7 @@ from lib import common as c
 @click.command(
     "working",
     context_settings=dict(ignore_unknown_options=True),
-    short_help="run atlas main workflow"
+    short_help="run plaspline main workflow"
 )
 @click.argument(
     "workflow",
@@ -30,7 +30,7 @@ from lib import common as c
 @click.option("-w",
     "--working-dir",
     type=click.Path(dir_okay=True,writable=True,resolve_path=True),
-    help="location to run atlas.",
+    help="location to run plaspline, default .",
     default="."
 )
 @click.option(

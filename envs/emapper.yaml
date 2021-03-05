@@ -4,4 +4,6 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - eggnog-mapper>=2.0.1
+#    - eggnog-mapper>=2.0.1
+    - pip:
+        - eggnog-mapper

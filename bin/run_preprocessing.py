@@ -22,12 +22,14 @@ from lib import common as c
 
 @click.option(
     "--adapter",
-    help="adapter path"
+    help="adapter path,if don`t have, don`t need to input",
+    default="."
 )
 
 @click.option(
     "--phix",
-    help="phix path"
+    help="phix path,if don`t have, don`t need to input",
+    default="."
 )
 
 # @click.option(
@@ -50,7 +52,8 @@ from lib import common as c
 
 @click.option(
     "--assembler",
-    type=click.Choice(["spades", "megahit"])
+    type=click.Choice(["spades", "megahit"],
+    default="spades"
 )
 
 @click.option(

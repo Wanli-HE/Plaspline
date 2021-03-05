@@ -196,7 +196,7 @@ rule circular_gene_genecalling_gene:     #non-redundant-gene-set
 
 rule circular_functional_annotation_genes:
     input:
-        f = "circular_non_redundant_gene/gene_prodigal_protein_seq.faa"
+        f = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     output:
         f = directory("circular_non_redundant_gene/functional_annotation")
     threads: config['functional_threads']
