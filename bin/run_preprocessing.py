@@ -52,7 +52,7 @@ from lib import common as c
 
 @click.option(
     "--assembler",
-    type=click.Choice(["spades", "megahit"],
+    type=click.Choice(["spades", "megahit"]),
     default="spades"
 )
 
