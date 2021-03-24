@@ -133,12 +133,12 @@ rule filter_dectect_circular_contig:
                 else:
                     dict_len[k] += line.strip()
 
-        # dict_c = defaultdict(float)
+        dict_c = defaultdict(float)
         dict_det = defaultdict(float)
         with open(input.f,"r") as infile:
             for line in infile:
                 lst = line.strip().split()
-                # dict_c[lst[0]] += float(lst[2])
+                dict_c[lst[0]] += float(lst[2])
 
                 if float(lst[2]) != 0:
                     dict_det[lst[0]] += 1
@@ -149,7 +149,7 @@ rule filter_dectect_circular_contig:
             for k in dict_det.keys():
                 t = dict_det[k]/float(len(dict_len[k]))
                 if t > float(config["contig_detection"]):
-                    st = "{}\t{}\n".format(k,t)
+                    st = "{}\t{}\n".format(k,dict_c[k])
                     outfile.write(st)
                 else:
                     st = "{}\t{}\n".format(k,0)
