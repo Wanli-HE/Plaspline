@@ -17,19 +17,19 @@ from lib import common as c
 
 @click.option(
     "--path",
-    help = "reads path"
+    help = "reads path,raw reads or QC reads"
 )
 
 @click.option(
     "--adapter",
-    help="adapter path,if don`t have, don`t need to input",
-    default="."
+    help="adapter path,if skip Quality Control step, not necessary to input",
+    default="None"
 )
 
 @click.option(
     "--phix",
-    help="phix path,if don`t have, don`t need to input",
-    default="."
+    help="phix path,if skip Quality Control step, not necessary to input",
+    default="None"
 )
 
 # @click.option(
@@ -52,7 +52,7 @@ from lib import common as c
 
 @click.option(
     "--assembler",
-    type=click.Choice(["spades", "megahit"],
+    type=click.Choice(["spades", "megahit"]),
     default="spades"
 )
 

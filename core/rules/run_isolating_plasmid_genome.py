@@ -110,7 +110,7 @@ rule isolating_platon:
         "platon {input.f} " \
                 "--db {params.db} " \
                 "--mode {params.mode} " \
-                "-c -o {output.f} " \
+                "-o {output.f} " \
                 "-t {threads} " \
                 "-v 2>{log.err} >{log.out}"
 

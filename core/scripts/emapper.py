@@ -11,4 +11,3 @@ os.system("emapper.py -i "+snakemake.input.f+" --itype metagenome --output "+out
           snakemake.params.m+" --cpu "+str(snakemake.threads)+
           " --data_dir "+snakemake.params.d+" --dmnd_db "+snakemake.params.d+"/eggnog_proteins.dmnd"+
           " 2>"+snakemake.log.err+" >"+snakemake.log.out)
-# os.system("cp " + out + "* " + snakemake.output.f)

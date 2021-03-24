@@ -156,8 +156,8 @@ linear_msamtools_gene_z: 80      #at least 80% of the read is aligned
 #gene abundance
 g_prodigal_p: meta
 
-g_cd-hit_c: 0.95
-g_cd-hit_aS: 0.9
+g_cd-hit_c: 0.9
+g_cd-hit_aS: 0.95
 g_cd-hit_M: 20000
 
 bwa_q: 15

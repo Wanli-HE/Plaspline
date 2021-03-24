@@ -5,4 +5,4 @@ channels:
     - defaults
 dependencies:
     - bbmap=38.86
-    - sickle=0.7.0
+    - sickle-trim=1.33

@@ -56,7 +56,6 @@ rule circular_index_bam_plasmid:
         f3= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.bwt"),
         f4= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.sa"),
         f5= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.ann")
-    threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     log:
@@ -105,14 +104,14 @@ rule circular_get_sort_file_plasmid:
         # "samtools view -@ {threads} -h {input.f}|" \
         # "samtools view -Su -q{params.q} -@ {threads} -|samtools sort -@ {threads} -O BAM -o {output.f} -  "
         "samtools view -h {input.f}|" \
-        "samtools view -Su -q{params.q} -|samtools sort -O BAM -o {output.f} -"
+        "samtools view -@ {threads} -Su -q{params.q} - |samtools sort  -@ {threads} -O BAM -o {output.f} -"
 
 rule circular_reads_mapping:
     input:
         f="circular_non_redundant_contig/{sample}_plasmids_sort.bam"
     output:
         f=temp("circular_non_redundant_contig/mapping/{sample}_bp_mapping.txt")
-    threads: config['threads']
+    threads: 1
     conda:
         "%s/bedtools.yaml" % CONDAENV
     shell:
@@ -134,12 +133,12 @@ rule filter_dectect_circular_contig:
                 else:
                     dict_len[k] += line.strip()
 
-        dict_c = defaultdict(float)
+        # dict_c = defaultdict(float)
         dict_det = defaultdict(float)
         with open(input.f,"r") as infile:
             for line in infile:
                 lst = line.strip().split()
-                dict_c[lst[0]] += float(lst[2])
+                # dict_c[lst[0]] += float(lst[2])
 
                 if float(lst[2]) != 0:
                     dict_det[lst[0]] += 1
@@ -150,7 +149,7 @@ rule filter_dectect_circular_contig:
             for k in dict_det.keys():
                 t = dict_det[k]/float(len(dict_len[k]))
                 if t > float(config["contig_detection"]):
-                    st = "{}\t{}\n".format(k,dict_c[k])
+                    st = "{}\t{}\n".format(k,t)
                     outfile.write(st)
                 else:
                     st = "{}\t{}\n".format(k,0)
@@ -162,7 +161,7 @@ rule circular_relative_contig_abundance:
         f = "circular_non_redundant_contig/{sample}_coverage.txt"
     output:
         f = temp("circular_non_redundant_contig/{sample}_relative_abundance.txt")
-    threads: config['threads']
+    threads: 1
     run:
         a = 0
         with open(input.f,"r") as infile:
@@ -188,7 +187,7 @@ rule circular_paste_relative_contig_abundance:
         f = expand("circular_non_redundant_contig/{sample}_relative_abundance.txt",sample=config["samples"])
     output:
         f = "circular_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt"
-    threads: config['threads']
+    threads: 1
     run:
         if os.path.exists(output.f):
             pass

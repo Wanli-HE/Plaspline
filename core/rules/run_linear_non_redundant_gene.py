@@ -312,7 +312,7 @@ rule linear_functional_annotation_genes:
         "../scripts/emapper.py"
 
 
-rule linear_plasmid-gene_with_MGEs:
+rule linear_plasmid_gene_with_MGEs:
     input:
         f = "linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa"
     output:

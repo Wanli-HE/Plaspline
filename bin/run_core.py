@@ -27,12 +27,12 @@ from lib import common as c
                        "contig_circular","contig_linear","contig_circular_classify",
                        "gene_circular","gene_linear","all"]),
 )
-@click.option("-w",
-    "--working-dir",
-    type=click.Path(dir_okay=True,writable=True,resolve_path=True),
-    help="location to run plaspline, default .",
-    default="."
-)
+# @click.option("-w",
+#     "--working-dir",
+# #     type=click.Path(dir_okay=True,writable=True,resolve_path=True),
+# #     help="location to run plaspline, default .",
+# #     default="."
+# )
 @click.option(
     "-j",
     "--jobs",
@@ -54,14 +54,14 @@ from lib import common as c
 @click.argument("snakemake_args", nargs=-1, type=click.UNPROCESSED)
 
 
-def working(workflow, working_dir, jobs, dryrun,snakemake_args):
+def working(workflow, jobs, dryrun,snakemake_args):
     """
     """
 
     # c.verify_file()
 
     cmd = (
-        "snakemake --snakefile {snakefile} --directory {working_dir}"
+        "snakemake --snakefile {snakefile} " #--directory {working_dir}
         " --jobs {jobs} --rerun-incomplete "
         #"--cluster 'qsub -t {threads} -l nodes={nodes}'"
         " --nolock"
@@ -71,7 +71,6 @@ def working(workflow, working_dir, jobs, dryrun,snakemake_args):
         " {args} "
     ).format(
         snakefile= os.path.join(BASE_PATH,"core","SNAKEMAKE"),
-        working_dir=working_dir,
         jobs=jobs,
         # profile="" if (cluster-nodes is None) else "--cluster 'qsub -t {threads} -l nodes='".format(cluster-nodes),
         dryrun="--dryrun" if dryrun else "",
