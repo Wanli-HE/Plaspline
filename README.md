@@ -29,11 +29,12 @@ all scripts are under the 'Plaspline' folder
 
 # Usage
 1. #-------------------------------------------downloading tools and database  
-     '''
-     python <~/Plaspline/bin/run_main.py> downloading  -j 5
-     ''' 
-     "-j 5" means 5 job parallel.
-     <~/Plaspline/bin/run_main.py> is must the absoulate path of file "run_main.py"
+```
+python <~/Plaspline/bin/run_main.py> downloading  -j 5
+
+```  
+"-j 5" means 5 job parallel.  
+<~/Plaspline/bin/run_main.py> is must the absoulate path of file "run_main.py"
 
 # Contact
 
