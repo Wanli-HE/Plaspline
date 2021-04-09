@@ -23,10 +23,26 @@ rule linear_genecalling_plasmid_gene:
     script:
         "../scripts/gene_calling.py"
 
+rule rename_genecalling_file:
+    input:
+        f = "circular_non_redundant_gene/{sample}_nucl_gene.fa",
+    output:
+        f = temp("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa")
+    run:
+        with open({input.f},"r") as infile:
+            with open({output.f},"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
 
 rule linear_cutting_all_plasmid_gene:
     input:
-        f = expand("linear_non_redundant_gene/{sample}_nucl_gene.fa", sample=config["samples"])
+        f = expand("linear_non_redundant_gene/{sample}_nucl_gene_rename.fa", sample=config["samples"])
     output:
         f =temp("linear_non_redundant_gene/all_plasmid_genes.fa")
     shell:

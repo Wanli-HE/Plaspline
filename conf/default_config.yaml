@@ -156,6 +156,11 @@ linear_msamtools_gene_z: 80      #at least 80% of the read is aligned
 #gene abundance
 g_prodigal_p: meta
 
+
+circular_coting_mmseqs2_id: 0.9
+circular_coting_mmseqs2_C: 0.95
+circular_coting_mmseqs2_mode: 0
+
 g_cd-hit_c: 0.9
 g_cd-hit_aS: 0.95
 g_cd-hit_M: 20000
@@ -215,6 +220,10 @@ c_prodigal_p: meta
 c_cd-hit_c: 0.95
 c_cd-hit_aS: 0.9
 c_cd-hit_M: 20000
+
+linear_coting_mmseqs2_id: 0.9
+linear_coting_mmseqs2_c: 0.95
+linear_coting_mmseqs2_mode: 1
 
 #functional_annotation
 c_functional_annotation_m: diamond

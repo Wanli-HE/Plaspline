@@ -80,6 +80,7 @@ rule isolation:
     output:
         temp(touch("linear_plasmid_genome/finished"))
 
+
 rule contig_circular_classify:
     input:
         "circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt"
@@ -89,16 +90,16 @@ rule contig_circular_classify:
 
 rule contig_circular:
     input:
-        "circular_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt",
-        # "circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt",
+        "circular_non_redundant_contig/contig_abundance/all_samples_contig_relative_abundance.txt",
+        "circular_non_redundant_contig/contig_abundance/all_samples_contig_standardized_copy_number.txt"
         "circular_non_redundant_contig/co-exist/annotation_ARGs",
         "circular_non_redundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt",
         "circular_non_redundant_contig/co-exist/annotation_vf/annotation_vf.txt",
         "circular_non_redundant_contig/co-exist/all_plasmids_with_MEGs.txt",
         "circular_non_redundant_contig/gene_synteny.txt"
-
     output:
         temp(touch("circular_non_readundant_contig/finished"))
+
 
 rule contig_linear:
     input:

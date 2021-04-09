@@ -21,35 +21,53 @@ rule cutting_circular_plasmid:
         "cat {input.f} >>{output.f}"
 
 
-rule cdhit_nucler_circular_plasmid:
+# rule cdhit_nucler_circular_plasmid:
+#     input:
+#         f1 = "circular_non_redundant_contig/all_plasmid_contigs.fa"
+#     output:
+#         f1 = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
+#     threads: config['threads']
+#     conda:
+#         "%s/non_redundant.yaml" % CONDAENV
+#     log:
+#         out = "log/circular_non_redundant_contig/cdhit_plasmid.out",
+#         err = "log/circular_non_redundant_contig/cdhit_plasmid.err"
+    # params:
+    #     cd = config['cdhit-est_path'],
+    #     c = config['c_cd-hit_c'],
+    #     aS = config['c_cd-hit_aS'],
+    #     M = config['c_cd-hit_M']
+    # shell:
+    #     "{params.cd} -i {input.f1} " \
+    #                 "-c {params.c} " \
+    #                 "-M {params.M} " \
+    #                 "-aS {params.aS} " \
+    #                 "-o {output.f1} " \
+    #                 "-T {threads}" \
+    #                 " 2>{log.err} >{log.out}"
+
+rule non_redundant_nucler_circular_plasmid:
     input:
         f1 = "circular_non_redundant_contig/all_plasmid_contigs.fa"
     output:
-        f1 = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
+        f1 = "circular_non_redundant_contig/circular_non_redundant_contigs"
     threads: config['threads']
     conda:
-        "%s/non_redundant.yaml" % CONDAENV
+        "%s/mmseqs2.yaml" % CONDAENV
     log:
-        out = "log/circular_non_redundant_contig/cdhit_plasmid.out",
-        err = "log/circular_non_redundant_contig/cdhit_plasmid.err"
+        out = "log/circular_non_redundant_contig/non_redundant_plasmid.out",
+        err = "log/circular_non_redundant_contig/non_redundant_plasmid.err"
     params:
-        cd = config['cdhit-est_path'],
-        c = config['c_cd-hit_c'],
-        aS = config['c_cd-hit_aS'],
-        M = config['c_cd-hit_M']
+        id = config["circular_coting_mmseqs2_id"],
+        c =  config["circular_coting_mmseqs2_c"],
+        mode =  config["circular_coting_mmseqs2_mode"]
     shell:
-        "{params.cd} -i {input.f1} " \
-                    "-c {params.c} " \
-                    "-M {params.M} " \
-                    "-aS {params.aS} " \
-                    "-o {output.f1} " \
-                    "-T {threads}" \
-                    " 2>{log.err} >{log.out}"
+        "mmseqs easy-cluster {input.f1} {output.f} tmp --min-seq-id {id} -c {c} --cov-mode {mode}"
 
 
 rule circular_index_bam_plasmid:
     input:
-        f = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
+        f = "circular_non_redundant_contig/circular_non_redundant_contigs"
     output:
         f1= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.pac"),
         f2= temp("circular_non_redundant_contig/circular_non_redundant_contigs.fa.amb"),
@@ -62,13 +80,13 @@ rule circular_index_bam_plasmid:
         err = "log/circular_index_bam_plasmid/index.err",
         out = "log/circular_index_bam_plasmid/index.out"
     shell:
-        "bwa index {input.f} ;"
+        "bwa index {input.f}_rep_seq.fasta ;"
         "rm -rf circular_non_redundant_contig/circular_non_redundant_contigs.fa.clstr"
 
 
 rule circular_get_bam_file_plasmid:
     input:
-        f1= "circular_non_redundant_contig/circular_non_redundant_contigs.fa",
+        f1= "circular_non_redundant_contig/circular_non_redundant_contigs",
         f2= "qc_reads/{sample}_qc_1.fastq.gz",
         f3= "qc_reads/{sample}_qc_2.fastq.gz",
         f4= "circular_non_redundant_contig/circular_non_redundant_contigs.fa.pac",
@@ -85,7 +103,7 @@ rule circular_get_bam_file_plasmid:
         err = "log/circular_get_bam_file_plasmid/{sample}.err",
         out = "log/circular_get_bam_file_plasmid/{sample}.out"
     shell:
-        "bwa mem -M {input.f1} {input.f2} {input.f3} -t {threads} | samtools view -Sb - >{output.f}"
+        "bwa mem -M {input.f1}_rep_seq.fasta {input.f2} {input.f3} -t {threads} | samtools view -Sb - >{output.f}"
         #"bwa mem -M {input.f1} {input.f2} {input.f3} -t {threads}" \
         #"| samtools view -Sb -@ {threads} - >{output.f}"
 
@@ -122,9 +140,10 @@ rule filter_dectect_circular_contig:
         f = "circular_non_redundant_contig/mapping/{sample}_bp_mapping.txt",
         f2 = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
     output:
-        f = temp("circular_non_redundant_contig/{sample}_coverage.txt")
+        f = temp("circular_non_redundant_contig/{sample}_copy_number.txt"),
+        f2 = temp("circular_non_redundant_contig/{sample}_stand_coverage.txt")
     run:
-        dict_len={}
+        dict_len={}                         # k: contig id     v: seq
         with open(input.f2,"r") as infile2:
             for line in infile2:
                 if line.startswith(">"):
@@ -133,8 +152,8 @@ rule filter_dectect_circular_contig:
                 else:
                     dict_len[k] += line.strip()
 
-        dict_c = defaultdict(float)
-        dict_det = defaultdict(float)
+        dict_c = defaultdict(float)          # k:contig  id  v: total number of all mapped reads
+        dict_det = defaultdict(float)        # k: contig id  V: all position which are mapped by reads
         with open(input.f,"r") as infile:
             for line in infile:
                 lst = line.strip().split()
@@ -145,16 +164,27 @@ rule filter_dectect_circular_contig:
                 else:
                     dict_det[lst[0]] += 0
 
-        with open(output.f,"w") as outfile:
-            for k in dict_det.keys():
-                t = dict_det[k]/float(len(dict_len[k]))
-                if t > float(config["contig_detection"]):
-                    st = "{}\t{}\n".format(k,dict_c[k])
-                    outfile.write(st)
-                else:
-                    st = "{}\t{}\n".format(k,0)
-                    outfile.write(st)
+        sample_total_reads_mapped = sum([float(i) for i in dict_c.values()])
 
+        with open(output.f,"w") as outfile:
+            with open(output.f2,"w") as outfile1:
+                for k in dict_det.keys():
+
+                    t = float(dict_det[k])/float(len(dict_len[k]))           # detection value
+
+                    if t > float(config["contig_detection"]):
+                        cp = float(dict_c[k])/float(len(dict_len[k]))        # copy number
+                        scp = cp*float(dict_c[k])/sample_total_reads_mapped  #standardized copy number
+                        st = "{}\t{}\n".format(k,scp)
+                        outfile.write(st)
+
+                        rb = cp*float(dict_c[k])                             # copy number * all mapped reads
+                        st1 = "{}\t{}\n".format(k,rb)
+                        outfile1.write(st1)
+                    else:
+                        st = "{}\t{}\n".format(k,0)
+                        outfile.write(st)
+                        outfile1.write(st)
 
 rule circular_relative_contig_abundance:
     input:
@@ -181,12 +211,41 @@ rule circular_relative_contig_abundance:
                         st = lst[0] +"\t" +"0\n"
                         outfile.write(st)
 
+rule circular_paste_stardradized_contig_copy_number:
+    input:
+        f = expand("circular_non_redundant_contig/{sample}_copy_number.txt",sample=config["samples"])
+    output:
+        f = "circular_non_redundant_contig/contig_abundance/all_samples_contig_standardized_copy_number.txt"
+    threads: 1
+    run:
+        if os.path.exists(output.f):
+            pass
+        else:
+            dict = defaultdict(str)
+            header = "contig_ID"
+
+            for file in input.f:
+                sample_ID = os.path.basename(file)[:-len("_copy_number.txt")]
+                head = "\t" + sample_ID
+                header += head
+                with open(file, "r") as infile:
+                    for line in infile:
+                        lst = line.strip().split()
+                        lt = "\t" + lst[1]
+                        dict[lst[0]] += lt
+
+            with open(output.f, "w") as outfile:
+                header += "\n"
+                outfile.write(header)
+                for k in dict.keys():
+                    st = "{}{}\n".format(k, dict[k])
+                    outfile.write(st)
 
 rule circular_paste_relative_contig_abundance:
     input:
         f = expand("circular_non_redundant_contig/{sample}_relative_abundance.txt",sample=config["samples"])
     output:
-        f = "circular_non_redundant_contig/relative_contig_abundance/all_samples_contig_relative_abundance.txt"
+        f = "circular_non_redundant_contig/contig_abundance/all_samples_contig_relative_abundance.txt"
     threads: 1
     run:
         if os.path.exists(output.f):
@@ -212,17 +271,18 @@ rule circular_paste_relative_contig_abundance:
                     st = "{}{}\n".format(k, dict[k])
                     outfile.write(st)
 
+
 # classify
 rule circular_split_contigs:
     input:
-        f1="circular_non_redundant_contig/circular_non_redundant_contigs.fa"
+        f1="circular_non_redundant_contig/circular_non_redundant_contigs"
     output:
         f2=temp(directory("circular_plasmid_contig_split"))
     threads: config["threads"]
     run:
         if not os.path.exists(output.f2):
             os.mkdir(output.f2)
-        with open(input.f1,mode='r') as infile:
+        with open(input.f1+"_rep_seq.fasta",mode='r') as infile:
             dir = defaultdict(str)
             for line in infile:
                 if line.startswith(">"):
@@ -283,10 +343,10 @@ rule circular_clean_mob_typer_file:
 #co-exist
 rule circular_makefaa:
     input:
-        f="circular_non_redundant_contig/circular_non_redundant_contigs.fa"
+        f="circular_non_redundant_contig/circular_non_redundant_contigs"
     output:
-        f1 = temp("circular_non_redundant_contig/all_genecalling_protein.faa"),
-        f2 = temp("circular_non_redundant_contig/all_genecalling_nucl.fa")
+        f1 = temp("circular_non_redundant_contig/all_genecalling_protein__.faa"),
+        f2 = temp("circular_non_redundant_contig/all_genecalling_nucl__.fa")
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -296,7 +356,37 @@ rule circular_makefaa:
     params:
         p = config["c_prodigal_p"]
     shell:
-        "prodigal -p {params.p} -i {input.f} -a {output.f1} -d {output.f2} 2>{log.err} >{log.out}"
+        "prodigal -p {params.p} -i {input.f}_rep_seq.fasta -a {output.f1} -d {output.f2} 2>{log.err} >{log.out}"
+
+rule rename_genecalling_file:
+    input:
+        f = "circular_non_redundant_contig/all_genecalling_protein__.faa",
+        f = "circular_non_redundant_contig/all_genecalling_nucl__.fa"
+    output:
+        f = temp("circular_non_redundant_contig/all_genecalling_protein.faa")
+        f2 = temp("circular_non_redundant_contig/all_genecalling_nucl.fa")
+    run:
+        with open({input.f},"r") as infile:
+            with open({output.f},"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
+
+        with open({input.f2},"r") as infile:
+            with open({output.f2},"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
 
 
 rule circular_plasmid_with_MGEs:
@@ -318,7 +408,7 @@ rule circular_plasmid_with_MGEs:
 
 rule circular_contig_annotation_ARGs:
     input:
-        f = "circular_non_redundant_contig/circular_non_redundant_contigs.fa"
+        f = "circular_non_redundant_contig/circular_non_redundant_contigs"
     output:
         f = directory("circular_non_redundant_contig/co-exist/annotation_ARGs")
     threads: config["threads"]
@@ -334,7 +424,7 @@ rule circular_contig_annotation_ARGs:
         mode = config["c_rgi_mode"]
     shell:
         "mkdir {output.f};" \
-        "rgi main -i {input.f} " \
+        "rgi main -i {input.f}_rep_seq.fasta " \
                 "--output_file {output.f} " \
                 "-d {params.d} " \
                 "--input_type {params.it} " \

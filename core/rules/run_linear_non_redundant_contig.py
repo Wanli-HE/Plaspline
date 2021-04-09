@@ -9,7 +9,6 @@
 
 
 # contig abundance
-
 rule cutting_linear_plasmid:
     input:
         f = expand("linear_plasmid_genome/{sample}_predict_plasmid.fa", sample=config["samples"])
@@ -18,51 +17,76 @@ rule cutting_linear_plasmid:
     shell:
         "cat {input.f} >>{output.f}"
 
+# rule romving_phage:
+#     input:
+#         f =
+#     output:
+#         f =
+#     shell:
+#         f =
+# rule cdhit_nucler_linear_plasmid:
+#     input:
+#         f1 = "linear_non_redundant_contig/all_plasmid_contigs.fa"
+#     output:
+#         f1 = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
+#     threads: config['threads']
+#     conda:
+#         "%s/non_redundant.yaml" % CONDAENV
+#     log:
+#         out = "log/linear_non_redundant_contig/cdhit_plasmid.out",
+#         err = "log/linear_non_redundant_contig/cdhit_plasmid.err"
+#     params:
+#         cd = config['cdhit-est_path'],
+#         c = config['c_cd-hit_c'],
+#         aS = config['c_cd-hit_aS'],
+#         M = config['c_cd-hit_M']
+#     shell:
+#         "{params.cd} -i {input.f1} " \
+#                     "-c {params.c} " \
+#                     "-M {params.M} " \
+#                     "-aS {params.aS} " \
+#                     "-o {output.f1} " \
+#                     "-T {threads}" \
+#                     " 2>{log.err} >{log.out}"
 
-rule cdhit_nucler_linear_plasmid:
+rule non_redundant_nucler_circular_plasmid:
     input:
         f1 = "linear_non_redundant_contig/all_plasmid_contigs.fa"
     output:
-        f1 = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
+        f1 = "linear_non_redundant_contig/linear_non_redundant_contigs"
     threads: config['threads']
     conda:
-        "%s/non_redundant.yaml" % CONDAENV
+        "%s/mmseqs2.yaml" % CONDAENV
     log:
-        out = "log/linear_non_redundant_contig/cdhit_plasmid.out",
-        err = "log/linear_non_redundant_contig/cdhit_plasmid.err"
+        out = "log/linear_non_redundant_contig/non_redundant_plasmid.out",
+        err = "log/linear_non_redundant_contig/non_redundant_plasmid.err"
     params:
-        cd = config['cdhit-est_path'],
-        c = config['c_cd-hit_c'],
-        aS = config['c_cd-hit_aS'],
-        M = config['c_cd-hit_M']
+        id = config["linear_coting_mmseqs2_id"],
+        c =  config["linear_coting_mmseqs2_c"],
+        mode =  config["linear_coting_mmseqs2_mode"]
     shell:
-        "{params.cd} -i {input.f1} " \
-                    "-c {params.c} " \
-                    "-M {params.M} " \
-                    "-aS {params.aS} " \
-                    "-o {output.f1} " \
-                    "-T {threads}" \
-                    " 2>{log.err} >{log.out}"
+        "mmseqs easy-cluster {input.f1} {output.f} tmp --min-seq-id {id} -c {c} --cov-mode {mode}"
 
-rule linear_plasmidverify:
-    input:
-        f1="linear_non_redundant_contig/linear_non_redundant_contigs.fa"
-    output:
-        f2=directory("linear_non_redundant_contig/Non_redundant_contig_plasmidverify")
-    threads: config['linear_plasmidverify_threads']
-    conda:
-        "%s/plasmidverify.yaml" % CONDAENV
-    params:
-        hmm=config['Pfam_database']
-    log:
-        out = "log/linear_plasmidverify/plasmidverify_liner.out",
-        err = "log/linear_plasmidverify/plasmidverify_liner.err"
-    shell:
-        "{config[plasmidverify_path]} -f {input.f1} " \
-                             "--hmm {params.hmm} " \
-                             "-t {threads} " \
-                             "-o {output.f2}" \
-                             " 2>{log.err} >{log.out}"
+
+# rule linear_plasmidverify:
+#     input:
+#         f1="linear_non_redundant_contig/linear_non_redundant_contigs"
+#     output:
+#         f2=directory("linear_non_redundant_contig/Non_redundant_contig_plasmidverify")
+#     threads: config['linear_plasmidverify_threads']
+#     conda:
+#         "%s/plasmidverify.yaml" % CONDAENV
+#     params:
+#         hmm=config['Pfam_database']
+#     log:
+#         out = "log/linear_plasmidverify/plasmidverify_liner.out",
+#         err = "log/linear_plasmidverify/plasmidverify_liner.err"
+#     shell:
+#         "{config[plasmidverify_path]} -f {input.f1}_rep_seq.fasta " \
+#                              "--hmm {params.hmm} " \
+#                              "-t {threads} " \
+#                              "-o {output.f2}" \
+#                              " 2>{log.err} >{log.out}"
 
 
 rule linear_index_bam_plasmid:
@@ -329,8 +353,8 @@ rule linear_makefaa:
     input:
         f="linear_non_redundant_contig/linear_non_redundant_contigs.fa"
     output:
-        f1 = temp("linear_non_redundant_contig/all_genecalling_protein.faa"),
-        f2 = temp("linear_non_redundant_contig/all_genecalling_nucl.fa")
+        f1 = temp("linear_non_redundant_contig/all_genecalling_protein__.faa"),
+        f2 = temp("linear_non_redundant_contig/all_genecalling_nucl__.fa")
     threads: config["threads"]
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -342,6 +366,35 @@ rule linear_makefaa:
     shell:
         "prodigal -p {params.p} -i {input.f} -a {output.f1} -d {output.f2} 2>{log.err} >{log.out}"
 
+rule rename_genecalling_file:
+    input:
+        f = "linear_non_redundant_contig/all_genecalling_protein__.faa",
+        f = "linear_non_redundant_contig/all_genecalling_nucl__.fa"
+    output:
+        f = temp("linear_non_redundant_contig/all_genecalling_protein.faa")
+        f2 = temp("linear_non_redundant_contig/all_genecalling_nucl.fa")
+    run:
+        with open({input.f},"r") as infile:
+            with open({output.f},"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
+
+        with open({input.f2},"r") as infile:
+            with open({output.f2},"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
 
 rule linear_plasmid_with_MGEs:
     input:

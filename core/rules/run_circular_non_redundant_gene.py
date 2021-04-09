@@ -6,8 +6,6 @@
 # wanli he
 ###########################################################################################################
 
-
-
 rule circular_genecalling_plasmid_gene:
     input:
         f = "circular/plasmid/{sample}_verify_plasmid_circular.fasta"
@@ -24,11 +22,26 @@ rule circular_genecalling_plasmid_gene:
     script:
         "../scripts/gene_calling.py"
 
-
+rule rename_genecalling_file:
+    input:
+        f = "circular_non_redundant_gene/{sample}_nucl_gene.fa",
+    output:
+        f = temp("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa")
+    run:
+        with open({input.f},"r") as infile:
+            with open({output.f},"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
 
 rule circular_cutting_all_plasmid_gene:
     input:
-        f = expand("circular_non_redundant_gene/{sample}_nucl_gene.fa", sample=config["samples"])
+        f = expand("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa", sample=config["samples"])
     output:
         f =temp("circular_non_redundant_gene/all_plasmid_genes.fa")
     shell:
