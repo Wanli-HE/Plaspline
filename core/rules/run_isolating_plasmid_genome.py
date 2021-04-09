@@ -238,7 +238,7 @@ rule liner_contig_to_plasmid:
             (contig_num, contig_bp, plasmid_num, plasmid_bp) =(0,0,0,0)
 
             with open(file,"r") as infile1:
-                with open(assembied,"r") as infile2:
+                with open(assemblied,"r") as infile2:
                     for line in infile1:
                         if line.startswith(">"):
                             plasmid_num += 1

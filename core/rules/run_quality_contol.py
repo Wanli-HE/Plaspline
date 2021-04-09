@@ -132,6 +132,7 @@ if config["skip_qc"] in [False,"False"]:
             (f_qc_reads,f_qc_bp)=count(input.f3)
             (r_qc_reads,r_qc_bp)=count(input.f4)
 
+
             with open(output.f,"w") as outfile:
                 st=f"{sampleID}\t{f_raw_reads}\t{f_raw_bp}" \
                     f"\t{r_raw_reads}\t{r_raw_bp}" \

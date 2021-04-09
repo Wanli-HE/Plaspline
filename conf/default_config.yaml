@@ -118,22 +118,23 @@ scapp_gh: False
 #plasflow
 plasflow_threshold: 0.7
 
-#plasclass
-plasclass_threshold: 0.7
+##plasclass
+#plasclass_threshold: 0.7
 
 #plton
 platon_mode: accuracy
            # sensitivity   RDS>0.95,
            # accuracy      RDS & characterization heuristics, highest accuracy -----default
            # specificity   RDS>0.999
-classify_platon_mode: accuracy   #samelike platon_mode
-classify_platon_threads: 40
 
-#RFPlamsid
-rfplamsid_species: Bacteria
+#classify_platon_mode: accuracy   #samelike platon_mode
+#classify_platon_threads: 40
 
-#ppr-meta
-ppr-meta_threshold: 0.7
+##RFPlamsid
+#rfplamsid_species: Bacteria
+#
+##ppr-meta
+#ppr-meta_threshold: 0.7
 ########################################################################################################################
 
 
@@ -157,9 +158,7 @@ linear_msamtools_gene_z: 80      #at least 80% of the read is aligned
 g_prodigal_p: meta
 
 
-circular_coting_mmseqs2_id: 0.9
-circular_coting_mmseqs2_C: 0.95
-circular_coting_mmseqs2_mode: 0
+
 
 g_cd-hit_c: 0.9
 g_cd-hit_aS: 0.95
@@ -217,19 +216,23 @@ g_diamond_blast_module_BacMet2: blastp
 #gene abundance
 c_prodigal_p: meta
 
-c_cd-hit_c: 0.95
-c_cd-hit_aS: 0.9
-c_cd-hit_M: 20000
+#c_cd-hit_c: 0.95
+#c_cd-hit_aS: 0.9
+#c_cd-hit_M: 20000
 
-linear_coting_mmseqs2_id: 0.9
-linear_coting_mmseqs2_c: 0.95
-linear_coting_mmseqs2_mode: 1
+circular_contig_mmseqs2_id: 0.9
+circular_contig_mmseqs2_c: 0.95
+circular_contig_mmseqs2_mode: 0
+
+linear_contig_mmseqs2_id: 0.9
+linear_contig_mmseqs2_c: 0.95
+linear_contig_mmseqs2_mode: 1
 
 #functional_annotation
 c_functional_annotation_m: diamond
 
-#linear plasmidverify
-linear_plasmidverify_threads: 40
+##linear plasmidverify
+#linear_plasmidverify_threads: 40
 
 #classify
 threads_mob-typer: 24
@@ -260,10 +263,10 @@ c_diamond_id_BacMet2: 70
 c_diamond_cover_BacMet2: 0.7
 c_diamond_blast_module_BacMet2: blastp
 
-#PLSDB annotation
-c_diamond_outfmt_plsdb: 6
-c_diamond_evalue_plsdb: 1e-5
-c_diamond_id_plsdb: 70
-c_diamond_cover_plsdb: 0.7
-c_diamond_blast_module_plsdb: blastx
+##PLSDB annotation
+#c_diamond_outfmt_plsdb: 6
+#c_diamond_evalue_plsdb: 1e-5
+#c_diamond_id_plsdb: 70
+#c_diamond_cover_plsdb: 0.7
+#c_diamond_blast_module_plsdb: blastx
 ########################################################################################################################

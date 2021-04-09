@@ -38,11 +38,11 @@ rule all:
         "assmebly_res/finished",
         "circular/finished",
         "linear_plasmid_genome/finished",
-        "circular_non_readundant_contig/finished",
-        "linear_non_readundant_contig/finished",
-        "linear_non_readundant_gene/finished",
-        "circular_non_readundant_gene/finished",
-        "circular_non_readundant_contig/classify_finished"
+        "circular_non_redundant_contig/finished",
+        "linear_non_redundant_contig/finished",
+        "linear_non_redundant_gene/finished",
+        "circular_non_redundant_gene/finished",
+        "circular_non_redundant_contig/classify_finished"
 
 
 rule qc:
@@ -59,7 +59,7 @@ rule assembly:
         expand("assembly_res/{sample}_assembly_res",sample=config["samples"]),
         "remindering_report/qc_to_assembly.txt"
     output:
-        temp(touch("assmebly_res/finished"))
+        temp(touch("assembly_res/finished"))
 
 
 rule circular:
@@ -85,20 +85,20 @@ rule contig_circular_classify:
     input:
         "circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt"
     output:
-        temp(touch("circular_non_readundant_contig/classify_finished"))
+        temp(touch("circular_non_redundant_contig/classify_finished"))
 
 
 rule contig_circular:
     input:
         "circular_non_redundant_contig/contig_abundance/all_samples_contig_relative_abundance.txt",
-        "circular_non_redundant_contig/contig_abundance/all_samples_contig_standardized_copy_number.txt"
+        "circular_non_redundant_contig/contig_abundance/all_samples_contig_standardized_copy_number.txt",
         "circular_non_redundant_contig/co-exist/annotation_ARGs",
         "circular_non_redundant_contig/co-exist/annotation_BacMet2/annotation_BacMet2.txt",
         "circular_non_redundant_contig/co-exist/annotation_vf/annotation_vf.txt",
         "circular_non_redundant_contig/co-exist/all_plasmids_with_MEGs.txt",
         "circular_non_redundant_contig/gene_synteny.txt"
     output:
-        temp(touch("circular_non_readundant_contig/finished"))
+        temp(touch("circular_non_redundant_contig/finished"))
 
 
 rule contig_linear:

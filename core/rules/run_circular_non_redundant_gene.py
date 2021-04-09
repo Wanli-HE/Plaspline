@@ -22,14 +22,14 @@ rule circular_genecalling_plasmid_gene:
     script:
         "../scripts/gene_calling.py"
 
-rule rename_genecalling_file:
+rule rename_genecalling_file_cc:
     input:
         f = "circular_non_redundant_gene/{sample}_nucl_gene.fa",
     output:
         f = temp("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa")
     run:
-        with open({input.f},"r") as infile:
-            with open({output.f},"w") as outfile:
+        with open(input.f,"r") as infile:
+            with open(output.f,"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
                         lst = line.strip().split("\t",1)
@@ -191,7 +191,7 @@ rule circular_gene_genecalling_gene:     #non-redundant-gene-set
     input:
         f = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     output:
-        f = temp("circular_non_redundant_gene/gene_prodigal_protein_seq.faa")
+        f = temp("circular_non_redundant_gene/gene_prodigal_protein_seq__.faa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -205,6 +205,23 @@ rule circular_gene_genecalling_gene:     #non-redundant-gene-set
                 "-i {input.f} " \
                 "-a {output.f} " \
                 "2>{log.err} >{log.out}"
+
+rule rename_genecalling_file_cc_aa:
+    input:
+        f = "circular_non_redundant_gene/gene_prodigal_protein_seq__.faa",
+    output:
+        f = temp("circular_non_redundant_gene/gene_prodigal_protein_seq.faa")
+    run:
+        with open(input.f,"r") as infile:
+            with open(output.f,"w") as outfile:
+                for line in infile:
+                    if line.startswith(">"):
+                        lst = line.strip().split("\t",1)
+                        la = lst[0].rsplit("_",1)[0]
+                        st = la+"\n"
+                        outfile.write(st)
+                    else:
+                        outfile.write(line)
 
 
 rule circular_functional_annotation_genes:

@@ -13,17 +13,11 @@ rule cutting_linear_plasmid:
     input:
         f = expand("linear_plasmid_genome/{sample}_predict_plasmid.fa", sample=config["samples"])
     output:
-        f =temp("linear_non_readundant_contig/all_plasmid_contigs.fa")
+        f =temp("linear_non_redundant_contig/all_plasmid_contigs.fa")
     shell:
         "cat {input.f} >>{output.f}"
 
-# rule romving_phage:
-#     input:
-#         f =
-#     output:
-#         f =
-#     shell:
-#         f =
+
 # rule cdhit_nucler_linear_plasmid:
 #     input:
 #         f1 = "linear_non_redundant_contig/all_plasmid_contigs.fa"
@@ -51,9 +45,9 @@ rule cutting_linear_plasmid:
 
 rule non_redundant_nucler_circular_plasmid:
     input:
-        f1 = "linear_non_redundant_contig/all_plasmid_contigs.fa"
+        f = "linear_non_redundant_contig/all_plasmid_contigs.fa"
     output:
-        f1 = "linear_non_redundant_contig/linear_non_redundant_contigs"
+        f = "linear_non_redundant_contig/linear_non_redundant_contigs"
     threads: config['threads']
     conda:
         "%s/mmseqs2.yaml" % CONDAENV
@@ -65,7 +59,9 @@ rule non_redundant_nucler_circular_plasmid:
         c =  config["linear_coting_mmseqs2_c"],
         mode =  config["linear_coting_mmseqs2_mode"]
     shell:
-        "mmseqs easy-cluster {input.f1} {output.f} tmp --min-seq-id {id} -c {c} --cov-mode {mode}"
+        "mmseqs easy-cluster {input.f} {output.f} tmp --min-seq-id {params.id} -c {params.c} " \
+        "--cov-mode {params.mode} 2>{log.err} >{log.out};" \
+        "touch {output.f}"
 
 
 # rule linear_plasmidverify:
@@ -91,13 +87,13 @@ rule non_redundant_nucler_circular_plasmid:
 
 rule linear_index_bam_plasmid:
     input:
-        f = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
+        f = "linear_non_redundant_contig/linear_non_redundant_contigs"
     output:
-        f1= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.pac"),
-        f2= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.amb"),
-        f3= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.bwt"),
-        f4= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.sa"),
-        f5= temp("linear_non_redundant_contig/linear_non_redundant_contigs.fa.ann")
+        f1= temp("linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.pac"),
+        f2= temp("linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.amb"),
+        f3= temp("linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.bwt"),
+        f4= temp("linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.sa"),
+        f5= temp("linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.ann")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
@@ -105,21 +101,21 @@ rule linear_index_bam_plasmid:
         err = "log/linear_index_bam_plasmid/index.err",
         out = "log/linear_index_bam_plasmid/index.out"
     shell:
-        "bwa index {input.f} ;"
-        "rm -rf linear_non_redundant_contig/linear_non_redundant_contigs.fa.clstr"
+        "bwa index {input.f}_rep_seq.fasta ;"
+        "rm -rf linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.clstr"
 
 
 
 rule linear_get_bam_file_plasmid:
     input:
-        f1= "linear_non_redundant_contig/linear_non_redundant_contigs.fa",
+        f1= "linear_non_redundant_contig/linear_non_redundant_contigs",
         f2= "qc_reads/{sample}_qc_1.fastq.gz",
         f3= "qc_reads/{sample}_qc_2.fastq.gz",
-        f4= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.pac",
-        f5= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.amb",
-        f6= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.bwt",
-        f7= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.sa",
-        f8= "linear_non_redundant_contig/linear_non_redundant_contigs.fa.ann"
+        f4= "linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.pac",
+        f5= "linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.amb",
+        f6= "linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.bwt",
+        f7= "linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.sa",
+        f8= "linear_non_redundant_contig/linear_non_redundant_contigs_rep_seq.fasta.ann"
     output:
         f= temp("linear_non_redundant_contig/{sample}_plasmids.bam")
     threads: config['threads']
@@ -129,7 +125,7 @@ rule linear_get_bam_file_plasmid:
         err = "log/linear_get_bam_file_plasmid/{sample}.err",
         out = "log/linear_get_bam_file_plasmid/{sample}.out"
     shell:
-        "bwa mem -M {input.f1} {input.f2} {input.f3} -t {threads} | samtools view -Sb - >{output.f}"
+        "bwa mem -M {input.f1}_rep_seq.fasta {input.f2} {input.f3} -t {threads} | samtools view -Sb - >{output.f}"
 
 
 rule linear_get_sort_file_plasmid:
@@ -162,12 +158,12 @@ rule linear_reads_mapping:
 rule filter_dectect_linear_contig:
     input:
         f = "linear_non_redundant_contig/{sample}_bp_mapping.txt",
-        f2 = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
+        f2 = "linear_non_redundant_contig/linear_non_redundant_contigs"
     output:
         f = temp("linear_non_redundant_contig/{sample}_coverage.txt")
     run:
         dict_len={}
-        with open(input.f2,"r") as infile2:
+        with open(input.f2+'_rep_seq.fasta',"r") as infile2:
             for line in infile2:
                 if line.startswith(">"):
                     k = line.strip().split()[0][1:]
@@ -351,7 +347,7 @@ rule linear_paste_relative_contig_abundance:
 #co-exist
 rule linear_makefaa:
     input:
-        f="linear_non_redundant_contig/linear_non_redundant_contigs.fa"
+        f="linear_non_redundant_contig/linear_non_redundant_contigs"
     output:
         f1 = temp("linear_non_redundant_contig/all_genecalling_protein__.faa"),
         f2 = temp("linear_non_redundant_contig/all_genecalling_nucl__.fa")
@@ -364,18 +360,18 @@ rule linear_makefaa:
     params:
         p = config["c_prodigal_p"]
     shell:
-        "prodigal -p {params.p} -i {input.f} -a {output.f1} -d {output.f2} 2>{log.err} >{log.out}"
+        "prodigal -p {params.p} -i {input.f}_rep_seq.fasta -a {output.f1} -d {output.f2} 2>{log.err} >{log.out}"
 
-rule rename_genecalling_file:
+rule rename_genecalling_file_vvv:
     input:
         f = "linear_non_redundant_contig/all_genecalling_protein__.faa",
-        f = "linear_non_redundant_contig/all_genecalling_nucl__.fa"
+        f2 = "linear_non_redundant_contig/all_genecalling_nucl__.fa"
     output:
-        f = temp("linear_non_redundant_contig/all_genecalling_protein.faa")
+        f = temp("linear_non_redundant_contig/all_genecalling_protein.faa"),
         f2 = temp("linear_non_redundant_contig/all_genecalling_nucl.fa")
     run:
-        with open({input.f},"r") as infile:
-            with open({output.f},"w") as outfile:
+        with open(input.f,"r") as infile:
+            with open(output.f,"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
                         lst = line.strip().split("\t",1)
@@ -385,7 +381,7 @@ rule rename_genecalling_file:
                     else:
                         outfile.write(line)
 
-        with open({input.f2},"r") as infile:
+        with open(input.f2,"r") as infile:
             with open({output.f2},"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
@@ -415,7 +411,7 @@ rule linear_plasmid_with_MGEs:
 
 rule linear_contig_annotation_ARGs:
     input:
-        f = "linear_non_redundant_contig/linear_non_redundant_contigs.fa"
+        f = "linear_non_redundant_contig/linear_non_redundant_contigs"
     output:
         f = directory("linear_non_redundant_contig/co-exist/annotation_ARGs")
     threads: config["threads"]
@@ -431,7 +427,7 @@ rule linear_contig_annotation_ARGs:
         mode = config["c_rgi_mode"]
     shell:
         "mkdir -p {output.f};" \
-        "rgi main -i {input.f} " \
+        "rgi main -i {input.f}_rep_seq.fasta" \
                 "--output_file {output.f} " \
                 "-d {params.d} " \
                 "--input_type {params.it} " \
