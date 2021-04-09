@@ -83,7 +83,7 @@ rule isolation:
 
 rule contig_circular_classify:
     input:
-        "circular_non_readundant_contig/plasmid_classify/plasmid_classify.txt"
+        "circular_non_redundant_contig/plasmid_classify/plasmid_classify.txt"
     output:
         temp(touch("circular_non_redundant_contig/classify_finished"))
 

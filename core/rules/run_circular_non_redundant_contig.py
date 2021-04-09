@@ -71,7 +71,7 @@ rule circular_index_bam_plasmid:
         f = "circular_non_redundant_contig/circular_non_redundant_contigs"
     output:
         f1= temp("circular_non_redundant_contig/circular_non_redundant_contigs_rep_seq.fasta.pac"),
-        f2= temp("circular_non_redundant_contig/circular_non_redundant_contigs_rep_seq.fastaamb"),
+        f2= temp("circular_non_redundant_contig/circular_non_redundant_contigs_rep_seq.fasta.amb"),
         f3= temp("circular_non_redundant_contig/circular_non_redundant_contigs_rep_seq.fasta.bwt"),
         f4= temp("circular_non_redundant_contig/circular_non_redundant_contigs_rep_seq.fasta.sa"),
         f5= temp("circular_non_redundant_contig/circular_non_redundant_contigs_rep_seq.fasta.ann")
