@@ -23,10 +23,9 @@ create a conda environment and insatll dependencies:
 Clone package:  
 ```
 > git clone https://github.com/Wanli-HE/Plaspline.git 
-> Plaspline
-```
+```  
+all scripts are under the 'Plaspline' folder
 
-all scripts are under the folder
 
 # Usage
 1. all databases and dependent tools are downloaded and installed automatically with default version by script:  
