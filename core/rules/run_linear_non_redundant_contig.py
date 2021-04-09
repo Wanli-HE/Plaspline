@@ -55,9 +55,9 @@ rule non_redundant_nucler_circular_plasmid:
         out = "log/linear_non_redundant_contig/non_redundant_plasmid.out",
         err = "log/linear_non_redundant_contig/non_redundant_plasmid.err"
     params:
-        id = config["linear_coting_mmseqs2_id"],
-        c =  config["linear_coting_mmseqs2_c"],
-        mode =  config["linear_coting_mmseqs2_mode"]
+        id = config["linear_contig_mmseqs2_id"],
+        c =  config["linear_contig_mmseqs2_c"],
+        mode =  config["linear_contig_mmseqs2_mode"]
     shell:
         "mmseqs easy-cluster {input.f} {output.f} tmp --min-seq-id {params.id} -c {params.c} " \
         "--cov-mode {params.mode} 2>{log.err} >{log.out};" \
