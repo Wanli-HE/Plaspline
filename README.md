@@ -30,7 +30,7 @@ all scripts are under the 'Plaspline' folder
 # Usage
 1. all databases and dependent tools are downloaded and installed automatically with default version by script:  
     
-         > python <ab path>/Plaspline/bin/run_main.py downloading 
+         > python ~/Plaspline/bin/run_main.py downloading   
          
      
    before running this command, you need to install anaconda or miniconda. If you haven’t done it already you need to configure conda with the bioconda-channel and the conda-  forge channel. This are sources for packages beyond the default one:
