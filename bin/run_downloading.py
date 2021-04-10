@@ -124,10 +124,17 @@ sys.path.append(BASE_PATH)
     default="https://github.com/weizhongli/cdhit/releases/download/V4.6.8/cd-hit-v4.6.8-2017-1208-source.tar.gz"
 )
 
+@click.option(
+    "--bindash",
+    help="bindash",
+    default="https://github.com/zhaoxiaofei/bindash.git"
+)
+
+
 @click.argument("snakemake_args", nargs=-1, type=click.UNPROCESSED)
 
 def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,
-                scapp,platondb,checkmdb,plsdb,msamtools,cdhit,
+                scapp,platondb,checkmdb,plsdb,msamtools,cdhit,bindash,
                 snakemake_args):
     """
     """
@@ -155,6 +162,7 @@ def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,
     # conf['plasforest_add'] = plasforest
     # conf['blast_add'] = blast
     conf['cdhit_add'] = cdhit
+    conf['bindash_add'] = bindash
     with open(conf_file, "w") as f1:
         yaml.dump(conf, f1)
 

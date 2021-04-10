@@ -44,7 +44,8 @@ rule all:
         # f22 = os.path.join(DB_PATH,"finished_plasforest_env"),
         # f23 = os.path.join(DB_PATH,"blast")
         f24 = os.path.join(DB_PATH,"cdhit"),
-        f25 = os.path.join(DB_PATH,"finished_scapp_env")
+        f25 = os.path.join(DB_PATH,"finished_scapp_env"),
+        f26 = os.path.join(DB_PATH,"bindash")
     run:
         yaml = YAML(typ='safe')
         yaml.default_flow_style = False
@@ -70,6 +71,7 @@ rule all:
         # conf['plasforest'] = os.path.join(input.f21)
         # conf['blast'] = os.path.join(input.f23)
         conf['cdhit-est_path'] = os.path.join(input.f24,"cd-hit-est")
+        conf['bindash_path'] = os.path.join(input.f26,"bindash")
         with open(conf_file,"w") as f1:
             yaml.dump(conf,f1)
 
@@ -236,6 +238,20 @@ rule platon_db:
         "wget -O ./db.tar.gz {params.pla};" \
         "tar -xzf db.tar.gz;rm -rf db.tar.gz;" \
         "mv db {output.f}"
+
+
+rule bindash_db:
+    output:
+        f = directory(os.path.join(DB_PATH,"bindash"))
+    params:
+        bin = config["bindash_add"]
+    shell:
+        "git clone {params.bin};" \
+        "cd bindash;" \
+        "cmake -DCMAKE_BUILD_TYPE=./bindash .;" \
+        "make;" \
+        "cd ../;" \
+        "mv bindash {output.f}"
 
 # rule plsdb:
 #     input:
