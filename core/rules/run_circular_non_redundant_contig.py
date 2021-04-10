@@ -367,8 +367,8 @@ rule rename_genecalling_file__:
         f = temp("circular_non_redundant_contig/all_genecalling_protein.faa"),
         f2 = temp("circular_non_redundant_contig/all_genecalling_nucl.fa")
     run:
-        with open({input.f},"r") as infile:
-            with open({output.f},"w") as outfile:
+        with open(input.f,"r") as infile:
+            with open(output.f,"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
                         lst = line.strip().split("\t",1)
@@ -378,8 +378,8 @@ rule rename_genecalling_file__:
                     else:
                         outfile.write(line)
 
-        with open({input.f2},"r") as infile:
-            with open({output.f2},"w") as outfile:
+        with open(input.f2,"r") as infile:
+            with open(output.f2,"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
                         lst = line.strip().split("\t",1)
