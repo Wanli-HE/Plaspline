@@ -382,7 +382,7 @@ rule rename_genecalling_file_vvv:
                         outfile.write(line)
 
         with open(input.f2,"r") as infile:
-            with open({output.f2},"w") as outfile:
+            with open(output.f2,"w") as outfile:
                 for line in infile:
                     if line.startswith(">"):
                         lst = line.strip().split("\t",1)
@@ -427,7 +427,7 @@ rule linear_contig_annotation_ARGs:
         mode = config["c_rgi_mode"]
     shell:
         "mkdir -p {output.f};" \
-        "rgi main -i {input.f}_rep_seq.fasta" \
+        "rgi main -i {input.f}_rep_seq.fasta " \
                 "--output_file {output.f} " \
                 "-d {params.d} " \
                 "--input_type {params.it} " \

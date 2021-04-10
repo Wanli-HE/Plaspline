@@ -6,27 +6,46 @@
 # wanli he
 ###########################################################################################################
 
+# rule circular_genecalling_plasmid_gene:
+#     input:
+#         f = "circular/plasmid/{sample}_verify_plasmid_circular.fasta"
+#     output:
+#         f = temp("circular_non_redundant_gene/{sample}_nucl_gene.fa")
+#     threads: config['threads']
+#     conda:
+#         "%s/non_redundant.yaml" % CONDAENV
+#     params:
+#         p = config['g_prodigal_p']
+#     log:
+#         out = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.out",
+#         err = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.err"
+#     script:
+#         "../scripts/gene_calling.py"
+
 rule circular_genecalling_plasmid_gene:
     input:
-        f = "circular/plasmid/{sample}_verify_plasmid_circular.fasta"
+        f = "circular_non_redundant_contig/circular_non_redundant_contigs"
     output:
-        f = temp("circular_non_redundant_gene/{sample}_nucl_gene.fa")
+        f = temp("circular_non_redundant_gene/circular_non_redundant_contigs_nucl_gene.fa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     params:
         p = config['g_prodigal_p']
     log:
-        out = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.out",
-        err = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.err"
-    script:
-        "../scripts/gene_calling.py"
+        out = "log/linear_non_redundant_gene/circular_non_redundant_contigs_genecalling_genecalling.out",
+        err = "log/linear_non_redundant_gene/circular_non_redundant_contigs_genecalling_genecalling.err"
+    shell:
+        "prodigal -p {params.p} " \
+                "-i {input.f}_rep_seq.fasta " \
+                "-d {output.f} " \
+                "2>{log.err} >{log.out}"
 
 rule rename_genecalling_file_cc:
     input:
-        f = "circular_non_redundant_gene/{sample}_nucl_gene.fa",
+        f = "circular_non_redundant_gene/circular_non_redundant_contigs_nucl_gene.fa",
     output:
-        f = temp("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa")
+        f = temp("circular_non_redundant_gene/circular_non_redundant_contigs_nucl_gene_rename.fa")
     run:
         with open(input.f,"r") as infile:
             with open(output.f,"w") as outfile:
@@ -39,18 +58,18 @@ rule rename_genecalling_file_cc:
                     else:
                         outfile.write(line)
 
-rule circular_cutting_all_plasmid_gene:
-    input:
-        f = expand("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa", sample=config["samples"])
-    output:
-        f =temp("circular_non_redundant_gene/all_plasmid_genes.fa")
-    shell:
-        "cat {input.f} >>{output.f}"
+# rule circular_cutting_all_plasmid_gene:
+#     input:
+#         f = expand("circular_non_redundant_gene/{sample}_nucl_gene_rename.fa", sample=config["samples"])
+#     output:
+#         f =temp("circular_non_redundant_gene/all_plasmid_genes.fa")
+#     shell:
+#         "cat {input.f} >>{output.f}"
 
 
 rule circular_cdhit_nucler_plasmid_gene:
     input:
-        f1 = "circular_non_redundant_gene/all_plasmid_genes.fa"
+        f1 = "circular_non_redundant_gene/circular_non_redundant_contigs_nucl_gene_rename.fa"
     output:
         f1 = "circular_non_redundant_gene/circular_non_redundant_genes.fa"
     threads: config['threads']

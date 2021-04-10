@@ -7,27 +7,47 @@
 ###########################################################################################################
 
 
+# rule linear_genecalling_plasmid_gene:
+#     input:
+#         f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
+#     output:
+#         f = temp("linear_non_redundant_gene/{sample}_nucl_gene.fa")
+#     threads: config['threads']
+#     conda:
+#         "%s/non_redundant.yaml" % CONDAENV
+#     params:
+#         p = config['g_prodigal_p']
+#     log:
+#         out = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.out",
+#         err = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.err"
+#     script:
+#         "../scripts/gene_calling.py"
+
 rule linear_genecalling_plasmid_gene:
     input:
-        f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
+        f = "linear_non_redundant_contig/linear_non_redundant_contigs"
     output:
-        f = temp("linear_non_redundant_gene/{sample}_nucl_gene.fa")
+        f = temp("linear_non_redundant_gene/linear_non_redundant_contigs_nucl_gene.fa")
     threads: config['threads']
     conda:
         "%s/non_redundant.yaml" % CONDAENV
     params:
         p = config['g_prodigal_p']
     log:
-        out = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.out",
-        err = "log/linear_non_redundant_gene/{sample}_genecalling_genecalling.err"
-    script:
-        "../scripts/gene_calling.py"
+        out = "log/linear_non_redundant_gene/linear_non_redundant_contigs_genecalling_genecalling.out",
+        err = "log/linear_non_redundant_gene/linear_non_redundant_contigs_genecalling_genecalling.err"
+    shell:
+        "prodigal -p {params.p} " \
+                "-i {input.f}_rep_seq.fasta " \
+                "-d {output.f} " \
+                "2>{log.err} >{log.out}"
+
 
 rule rename_genecalling_file_ff:
     input:
-        f = "linear_non_redundant_gene/{sample}_nucl_gene.fa",
+        f = "linear_non_redundant_gene/linear_non_redundant_contigs_nucl_gene.fa",
     output:
-        f = temp("linear_non_redundant_gene/{sample}_nucl_gene_rename.fa")
+        f = temp("linear_non_redundant_gene/linear_non_redundant_contigs_nucl_gene_rename.fa")
     run:
         with open(input.f,"r") as infile:
             with open(output.f,"w") as outfile:
@@ -40,18 +60,18 @@ rule rename_genecalling_file_ff:
                     else:
                         outfile.write(line)
 
-rule linear_cutting_all_plasmid_gene:
-    input:
-        f = expand("linear_non_redundant_gene/{sample}_nucl_gene_rename.fa", sample=config["samples"])
-    output:
-        f =temp("linear_non_redundant_gene/all_plasmid_genes.fa")
-    shell:
-        "cat {input.f} >>{output.f}"
+# rule linear_cutting_all_plasmid_gene:
+#     input:
+#         f = expand("linear_non_redundant_gene/{sample}_nucl_gene_rename.fa", sample=config["samples"])
+#     output:
+#         f =temp("linear_non_redundant_gene/all_plasmid_genes.fa")
+#     shell:
+#         "cat {input.f} >>{output.f}"
 
 
 rule linear_cdhit_nucler_plasmid_gene:
     input:
-        f1 = "linear_non_redundant_gene/all_plasmid_genes.fa"
+        f1 = "linear_non_redundant_gene/linear_non_redundant_contigs_nucl_gene_rename.fa"
     output:
         f1 = "linear_non_redundant_gene/linear_non_redundant_genes.fa"
     threads: config['threads']
