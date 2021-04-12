@@ -35,7 +35,7 @@ wildcard_constraints:
 rule all:
     input:
         "qc_reads/finished",
-        "assmebly_res/finished",
+        "assembly_res/finished",
         "circular/finished",
         "linear_plasmid_genome/finished",
         "circular_non_redundant_contig/finished",
