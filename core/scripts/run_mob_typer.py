@@ -14,6 +14,6 @@ else:
             os.system("mob_typer -i " +file+" -n 1" +" -o " +out+ " 2>"+snakemake.log[0]+" >"+snakemake.log[1])
 
     tf = ThreadPoolExecutor(snakemake.threads)
-    files = glob.glob(snakemake.input.f1 + "/*_split.fa")
+    files = glob.glob(snakemake.input.f1 + "/*")
     for file in files:
         tf.submit(run,file)
