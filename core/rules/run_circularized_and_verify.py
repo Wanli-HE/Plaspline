@@ -133,7 +133,7 @@ rule cat_metaplasmidspades_scapp:
         f = temp("circular/{sample}_cycs.fasta")
 
     shell:
-        "cat {input.f1}/contigs.fasta {input.f2}/assembly_graph.confident_cycs.fasta > {output.f}"
+        "cat {input.f1}/contigs.fasta {input.f2}/{wildcards.sample}_contigs.confident_cycs.fasta > {output.f}"
     # run:
     #     file1 = input.f1 + "/contigs.fasta"
     #
