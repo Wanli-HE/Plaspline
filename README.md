@@ -46,7 +46,7 @@ all scripts are under the 'Plaspline' folder
 ## Prepare config.yaml and sample.json file.
 
 ```
-> python  <~/Plaspline/bin/run_main.py> preprocessing --path <your reads folder> --adapter <your adapter file> --phix  <your phix file> --assembler <defult:'spades'> --skip_qc <defult:"False">
+> python  ~/Plaspline/bin/run_main.py preprocessing --path <your reads folder> --adapter <your adapter file> --phix  <your phix file> --assembler <defult:'spades'> --skip_qc <defult:"False">
 ```
 Notice: 
 1. In your reads folder: plaspline can only recognize the raw reads (forward and resvers) file which suffix is "_R1" or "_r1" (only show forward in example).  
@@ -56,14 +56,14 @@ Notice:
 
 3. the assembler defult is spades, you can also choose megahit as assembler, by input the params "--assembler megahit".
 
-for more information, "python Plaspline/bin/run_main.py preprocessing -h" 
+for more information, "python ~Plaspline/bin/run_main.py preprocessing -h" 
   
 ## Working
 ### Dry running 
 Before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
 ```
-  > python <~/Plaspline/bin/run_main.py> working  <"step"> -j 5  -n 
+  > python ~/Plaspline/bin/run_main.py working  <"step"> -j 5  -n 
 ```
 Notice:
   1. before running, make sure the "cofig.yaml" and "samples.json" are under the floder which you are running the command.
@@ -72,22 +72,30 @@ Notice:
 
 ### True running:
 ```
-> python <~/Plaspline/bin/run_main.py> working  "step" -j 5 
+> python ~/Plaspline/bin/run_main.py working  "step" -j 5 
 ```
    if you are working on cluster system. there are two to run the command:
    ```
-    > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
+    > python ~/Plaspline/bin/run_main.py working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
    ```
    ```
-    > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --profile cluster --latency-wait 60
+    > python ~/Plaspline/bin/run_main.py working "step"  -j 5  --profile cluster --latency-wait 60
    ```    
 the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
 
 ### Runing plaspline in each steps:
 1.quality control step
   ```
-  > python <~/Plaspline/bin/run_main.py> working "qc"  -j 5
+  > python ~/Plaspline/bin/run_main.py working "qc"  -j 5
   ```
+2. assembly step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "assembly"  -j 5
+  ```
+  
+  
+  
+  
 # Contact
 
 ## author:   
