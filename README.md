@@ -83,7 +83,11 @@ Notice:
    ```    
 the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
 
-
+### Runing plaspline in each steps:
+1.quality control step
+     ```
+       > python <~/Plaspline/bin/run_main.py> working "qc"  -j 5
+     ```
 # Contact
 
 ## author:   
