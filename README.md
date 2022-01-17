@@ -31,7 +31,7 @@ all scripts are under the 'Plaspline' folder
 *** make sure that you have enough space in your folder for it (50G maybe!!!!)
 
 ```
-> python <~/Plaspline/bin/run_main.py> downloading       
+> python ~/Plaspline/bin/run_main.py downloading       
 ```
  
 
