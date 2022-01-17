@@ -26,7 +26,10 @@ Clone package:
 all scripts are under the 'Plaspline' folder
 
 
-# Downlanding dependent database :
+# Downlanding dependent databases and tools:
+
+*** need 50G !!!!
+
 ```
 > python <~/Plaspline/bin/run_main.py> downloading  -j 5          
 ```
