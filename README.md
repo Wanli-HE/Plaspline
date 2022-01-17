@@ -28,12 +28,12 @@ all scripts are under the 'Plaspline' folder
 
 # Downlanding dependent databases and tools:
 
-*** need 50G !!!!
+*** make sure that you have enough space in your folder for it (50G maybe!!!!)
 
 ```
-> python <~/Plaspline/bin/run_main.py> downloading  -j 5          
+> python <~/Plaspline/bin/run_main.py> downloading       
 ```
-    "-j 5" means 5 job parallel.
+ 
 
 # Downloading example samples:
 
