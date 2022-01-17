@@ -43,8 +43,21 @@ all scripts are under the 'Plaspline' folder
 
 
 # Usage
+## prepare config.yaml and sample.json file.
 
+```
+> python  <~/Plaspline/bin/run_main.py> preprocessing --path <your reads folder> --adapter <your adapter file> --phix  <your phix file> --assembler <defult:'spades'> --skip_qc <defult:"False">
+```
+Notice: 
+1. In <your reads folder>: plaspline can only recognize the raw reads (forward and resvers) file which suffix is "_R1","_r1"  or "1" (only show forward in example).  
+      *****must be gzip file. otherwise in "quality control step" it will raise error.
 
+2. If you want to do the quality control step,  <your adapter file> and <your phix file> must be input;    if your input is qc reads, not necessary do the  quality control step,  you don`t need input <your adapter file> and <your phix file>, but the  "--skip_qc" must be "True".
+
+3. the assembler defult is spades, you can also choose megahit as assembler, by input the params "--assembler megahit".
+
+for more information, "python Plaspline/bin/run_main.py preprocessing -h" 
+  
 
 
 # Contact
