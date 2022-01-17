@@ -59,7 +59,7 @@ Notice:
 for more information, "python Plaspline/bin/run_main.py preprocessing -h" 
   
 ## Working
-Before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
+###Before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
 ```
   > python <~/Plaspline/bin/run_main.py> working  <"step"> -j 5  -n 
@@ -69,7 +69,7 @@ Notice:
   
   2. the total threads that you are using is 5 (-j), in the "config.yaml" file also records the max threads of each step ("threads: 8" in config.yaml). so the total threads = (threads)*(job) = 5*8 =40. so make sure that you have enough threads in your system.
 
-True runing:
+###True runing:
 ```
 > python <~/Plaspline/bin/run_main.py> working  "step" -j 5 
 ```
@@ -80,7 +80,7 @@ True runing:
    ```
     > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --profile cluster --latency-wait 60
    ```    
-    the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
+the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
 
 
 # Contact
