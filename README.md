@@ -43,7 +43,7 @@ all scripts are under the 'Plaspline' folder
 
 
 # Usage
-## prepare config.yaml and sample.json file.
+## Prepare config.yaml and sample.json file.
 
 ```
 > python  <~/Plaspline/bin/run_main.py> preprocessing --path <your reads folder> --adapter <your adapter file> --phix  <your phix file> --assembler <defult:'spades'> --skip_qc <defult:"False">
@@ -58,7 +58,7 @@ Notice:
 
 for more information, "python Plaspline/bin/run_main.py preprocessing -h" 
   
-#Working
+## Working
 1. before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
 ```
