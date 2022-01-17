@@ -70,9 +70,11 @@ Notice:
   2. the total threads that you are using is 5 (-j), in the "config.yaml" file also records the max threads of each step ("threads: 8" in config.yaml). so the total threads = (threads)*(job) = 5*8 =40. so make sure that you have enough threads in your system.
 
 True runing:
-        python <~/Plaspline/bin/run_main.py> working  "step" -j 5 
-
-   f you are working on cluster system. there are two to run the command:
+```
+> python <~/Plaspline/bin/run_main.py> working  "step" -j 5 
+```
+  
+   if you are working on cluster system. there are two to run the command:
  
     ```
      > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
