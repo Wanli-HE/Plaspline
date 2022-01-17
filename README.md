@@ -28,7 +28,10 @@ all scripts are under the 'Plaspline' folder
 
 
 # Usage
-see "run_plaspline.txt" file
+downlanding database:
+'''
+>python <~/Plaspline/bin/run_main.py> downloading  -j 5         
+'''
 
 # Contact
 
