@@ -27,11 +27,10 @@ Clone package:
 all scripts are under the 'Plaspline' folder
 
 
-# Usage
-downlanding database:
-
-python <~/Plaspline/bin/run_main.py> downloading  -j 5         
-
+# Downlanding dependent database :
+```
+> python <~/Plaspline/bin/run_main.py> downloading  -j 5         
+```
 # Contact
 
 ## author:   
