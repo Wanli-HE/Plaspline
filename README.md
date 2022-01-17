@@ -58,7 +58,17 @@ Notice:
 
 for more information, "python Plaspline/bin/run_main.py preprocessing -h" 
   
+# ------------------------------------------ working
+1. before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
+```
+  > python <~/Plaspline/bin/run_main.py> working  <"step"> -j 5  -n 
+```
+Notice:
+  1. before running, make sure the cofig.yaml and samples.json are under the floder which you are running the command.
+  
+  2. the total threads that you are using is 5 (-j), in the "config.yaml" file also records the max threads of each step ("threads: 8" in config.yaml). so the total threads = (threads)*(job) = 5*8 =40. so make sure that you have enough threads in your system.
+  
 
 # Contact
 
