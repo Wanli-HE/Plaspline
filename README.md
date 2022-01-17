@@ -68,7 +68,16 @@ Notice:
   1. before running, make sure the "cofig.yaml" and "samples.json" are under the floder which you are running the command.
   
   2. the total threads that you are using is 5 (-j), in the "config.yaml" file also records the max threads of each step ("threads: 8" in config.yaml). so the total threads = (threads)*(job) = 5*8 =40. so make sure that you have enough threads in your system.
-  
+
+2. True runing:
+        python <~/Plaspline/bin/run_main.py> working  "step" -j 5 
+
+3. if you are working on cluster system. there are two to run the command:
+        a:   python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
+        b:   python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --profile cluster --latency-wait 60
+        
+        the method b is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
+
 
 # Contact
 
