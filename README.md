@@ -58,7 +58,7 @@ Notice:
 
 for more information, "python Plaspline/bin/run_main.py preprocessing -h" 
   
-# ------------------------------------------ working
+#Working
 1. before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
 ```
