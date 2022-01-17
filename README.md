@@ -75,13 +75,12 @@ True runing:
 ```
   
    if you are working on cluster system. there are two to run the command:
- 
     ```
-     > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
-     ```
-     ```
-     > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --profile cluster --latency-wait 60
-     ```    
+    > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
+    ```
+    ```
+    > python <~/Plaspline/bin/run_main.py> working "step"  -j 5  --profile cluster --latency-wait 60
+    ```    
     the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
 
 
