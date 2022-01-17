@@ -92,9 +92,34 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
   ```
   > python ~/Plaspline/bin/run_main.py working "assembly"  -j 5
   ```
-  
-  
-  
+3. circular step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "circilar"  -j 5
+  ```
+4. isolation linear plasmid contigs from all assembled contigs
+  ```
+  > python ~/Plaspline/bin/run_main.py working "isolation"  -j 5
+  ```
+5. non-redundant circular plasmid contig set step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "contig_circular"  -j 5
+  ```
+6. contig circular classify step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "contig_circular_classify"  -j 5
+  ```
+7. non-redundantlinear plasmid contig set step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "contig_linear"  -j 5
+  ```
+8. circular plasmid gene analysis step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "gene_circular"  -j 5
+  ```
+9. linear plasmid gene analysis step
+  ```
+  > python ~/Plaspline/bin/run_main.py working "gene_linear"  -j 5
+  ```
   
 # Contact
 
