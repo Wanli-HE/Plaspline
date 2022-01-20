@@ -82,7 +82,7 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
 
 ### Runing plaspline in each steps:
 
-1.quality control step
+ 1.quality control step
   ```
   > python Plaspline/bin/run_main.py working "qc"  -j 5
   ```
