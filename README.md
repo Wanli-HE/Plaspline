@@ -31,19 +31,19 @@ all scripts are under the 'Plaspline' folder
 *** checking the tools version whether is latest (if you need)!
 
 ```
-> python ~/Plaspline/bin/run_main.py downloading -h
+> python Plaspline/bin/run_main.py downloading -h
 ```
 
 Then, downloading the databases and tools
 ```
-> python ~/Plaspline/bin/run_main.py downloading       
+> python Plaspline/bin/run_main.py downloading       
 ``` 
 
 # Usage
 ## Prepare config.yaml and sample.json file.
 
 ```
-> python  ~/Plaspline/bin/run_main.py preprocessing --path ~/Plaspline/example/reads --adapter ~/Plaspline/example/adapters.fa.gz --phix ~/Plaspline/example/phix174_ill.ref.fa.gz
+> python  Plaspline/bin/run_main.py preprocessing --path Plaspline/example/reads --adapter Plaspline/example/adapters.fa.gz --phix Plaspline/example/phix174_ill.ref.fa.gz
 ```
 Notice: 
 1. In your reads folder: plaspline can only recognize the raw reads (forward and resvers) file which suffix is "_R1" or "_r1" or "_1" (only show forward in example).  
@@ -60,7 +60,7 @@ for more information, "python ~Plaspline/bin/run_main.py preprocessing -h"
 Before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
 ```
-  > python ~/Plaspline/bin/run_main.py working  <"step"> -j 5  -n 
+  > python Plaspline/bin/run_main.py working  <"step"> -j 5  -n 
 ```
 Notice:
   1. before running, make sure the "cofig.yaml" and "samples.json" are under the floder which you are running the command.
@@ -69,53 +69,53 @@ Notice:
 
 ### True running:
 ```
-> python ~/Plaspline/bin/run_main.py working  "step" -j 5 
+> python Plaspline/bin/run_main.py working  "step" -j 5 
 ```
    if you are working on cluster system. there are two to run the command:
    ```
-    > python ~/Plaspline/bin/run_main.py working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
+    > python Plaspline/bin/run_main.py working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
    ```
    ```
-    > python ~/Plaspline/bin/run_main.py working "step"  -j 5  --profile cluster --latency-wait 60
+    > python Plaspline/bin/run_main.py working "step"  -j 5  --profile cluster --latency-wait 60
    ```    
 the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
 
 ### Runing plaspline in each steps:
 1.quality control step
   ```
-  > python ~/Plaspline/bin/run_main.py working "qc"  -j 5
+  > python Plaspline/bin/run_main.py working "qc"  -j 5
   ```
 2. assembly step
   ```
-  > python ~/Plaspline/bin/run_main.py working "assembly"  -j 5
+  > python Plaspline/bin/run_main.py working "assembly"  -j 5
   ```
 3. circular step
   ```
-  > python ~/Plaspline/bin/run_main.py working "circilar"  -j 5
+  > python Plaspline/bin/run_main.py working "circilar"  -j 5
   ```
 4. isolation linear plasmid contigs from all assembled contigs
   ```
-  > python ~/Plaspline/bin/run_main.py working "isolation"  -j 5
+  > python Plaspline/bin/run_main.py working "isolation"  -j 5
   ```
 5. non-redundant circular plasmid contig set step
   ```
-  > python ~/Plaspline/bin/run_main.py working "contig_circular"  -j 5
+  > python Plaspline/bin/run_main.py working "contig_circular"  -j 5
   ```
 6. contig circular classify step
   ```
-  > python ~/Plaspline/bin/run_main.py working "contig_circular_classify"  -j 5
+  > python Plaspline/bin/run_main.py working "contig_circular_classify"  -j 5
   ```
 7. non-redundantlinear plasmid contig set step
   ```
-  > python ~/Plaspline/bin/run_main.py working "contig_linear"  -j 5
+  > python Plaspline/bin/run_main.py working "contig_linear"  -j 5
   ```
 8. circular plasmid gene analysis step
   ```
-  > python ~/Plaspline/bin/run_main.py working "gene_circular"  -j 5
+  > python Plaspline/bin/run_main.py working "gene_circular"  -j 5
   ```
 9. linear plasmid gene analysis step
   ```
-  > python ~/Plaspline/bin/run_main.py working "gene_linear"  -j 5
+  > python Plaspline/bin/run_main.py working "gene_linear"  -j 5
   ```
   
 # Contact
