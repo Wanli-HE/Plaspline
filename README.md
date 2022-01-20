@@ -82,7 +82,7 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
 
 ### Runing plaspline in each steps:
 
- 1.quality control step
+1.quality control step
   ```
   > python Plaspline/bin/run_main.py working "qc"  -j 5
   ```
@@ -118,7 +118,12 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
   ```
   > python Plaspline/bin/run_main.py working "gene_linear"  -j 5
   ```
-  
+
+*** for executing all steps, using one command:
+   ```
+  > python Plaspline/bin/run_main.py working "all"  -j 5
+  ```   
+     
 # Contact
 
 ## author:   
