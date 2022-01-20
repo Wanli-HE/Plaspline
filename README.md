@@ -91,7 +91,8 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
   > python Plaspline/bin/run_main.py working "assembly"  -j 5
   ```
 3. circular step
-     before running this step, check the max k-mer you are using in assembly step, and modifying scapp_k to "max k-mer (assembly)" in config.yaml file.
+     
+  before running this step, check the max k-mer you are using in assembly step, and modifying scapp_k to "max k-mer (assembly)" in config.yaml file.
   ```
   > python Plaspline/bin/run_main.py working "circilar"  -j 5
   ```
