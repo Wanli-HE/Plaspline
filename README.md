@@ -29,7 +29,13 @@ all scripts are under the 'Plaspline' folder
 # Downlanding dependent databases and tools:
 
 *** make sure that you have enough space in your folder for it (30G maybe!!!!)
+*** checking the tools version whether is latest! if you need by
 
+```
+> python ~/Plaspline/bin/run_main.py downloading -h
+```
+
+Then, downloading the databases and tools
 ```
 > python ~/Plaspline/bin/run_main.py downloading       
 ```
