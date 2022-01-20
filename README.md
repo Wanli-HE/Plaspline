@@ -123,10 +123,11 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
 
 
      
- *** for executing all steps, using one command:
+ !!! for executing all steps, using one command:
    ```
   > python Plaspline/bin/run_main.py working "all"  -j 5
-  ```   
+  ```
+ ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step)
      
 # Contact
 
