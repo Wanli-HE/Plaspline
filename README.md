@@ -39,24 +39,16 @@ all scripts are under the 'Plaspline' folder
 Then, downloading the databases and tools
 ```
 > python ~/Plaspline/bin/run_main.py downloading       
-```
- 
-
-# Downloading example samples:
-
-```
-> wget 
-```
-
+``` 
 
 # Usage
 ## Prepare config.yaml and sample.json file.
 
 ```
-> python  ~/Plaspline/bin/run_main.py preprocessing --path <your reads folder> --adapter <your adapter file> --phix  <your phix file> --assembler <defult:'spades'> --skip_qc <defult:"False">
+> python  ~/Plaspline/bin/run_main.py preprocessing --path ~/Plaspline/example/reads --adapter ~/Plaspline/example/adapters.fa.gz --phix ~/Plaspline/example/phix174_ill.ref.fa.gz
 ```
 Notice: 
-1. In your reads folder: plaspline can only recognize the raw reads (forward and resvers) file which suffix is "_R1" or "_r1" (only show forward in example).  
+1. In your reads folder: plaspline can only recognize the raw reads (forward and resvers) file which suffix is "_R1" or "_r1" or "_1" (only show forward in example).  
       ***must be gzip file. otherwise in "quality control step" it will raise error.
 
 2. If you want to do the quality control step,  your adapter file and your phix file must be input with real path of the two file; if your input is qc reads, you do not need input real path of <your adapter file> and <your phix file>, but have to, just give it a fake path, for example ./ (current folder path). and don`t forget change "--skip_qc " to "True", which means jump quality control step.  
