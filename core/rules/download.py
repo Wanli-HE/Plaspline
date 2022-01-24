@@ -183,7 +183,6 @@ rule d_plasmidverify:
 
 rule msamtools:
     output:
-
         f = temp(touch(os.path.join(DB_PATH,"finished_msamtools_env")))
     conda:
         f"{CONDAENV}/msamtools.yaml"
