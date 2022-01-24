@@ -16,7 +16,7 @@ sys.path.append(BASE_PATH)
 @click.command(
     "downloading",
     context_settings=dict(ignore_unknown_options=True),
-    short_help="download reference files (need ~50GB)",
+    short_help="download reference files (need ~30GB)",
 )
 
 @click.option(
@@ -148,7 +148,7 @@ sys.path.append(BASE_PATH)
 @click.argument("snakemake_args", nargs=-1, type=click.UNPROCESSED)
 
 def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,
-                scapp,platondb,checkmdb,plsdb,msamtools,cdhit,bindash,
+                scapp,platondb,checkmdb,plsdb,msamtools,bindash,
                 snakemake_args):
     """
     """
