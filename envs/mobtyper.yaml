@@ -1,0 +1,8 @@
+name: mobtyper
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - mob_suite=3.0.3
+

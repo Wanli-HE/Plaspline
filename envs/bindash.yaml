@@ -1,0 +1,7 @@
+name: bindash
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - zlib
