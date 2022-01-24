@@ -30,42 +30,28 @@ sys.path.append(BASE_PATH)
 
 @click.option(
     "--vfdb",
-<<<<<<< HEAD
     help="Virulence Factors Database downloading address:http://www.mgc.ac.cn/VFs/Down/VFDB_setA_pro.fas.gz (default) ",
-=======
-    help="Virulence Factors Database downloading address",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
     default="http://www.mgc.ac.cn/VFs/Down/VFDB_setA_pro.fas.gz"
 )
 
 @click.option(
     "--bacmet2",
-<<<<<<< HEAD
+
     help="BacMet Database downloading address: defualt is predicted_database:http:"
          "//bacmet.biomedicine.gu.se/download/BacMet2_predicted_database.fasta.gz (default)",
-=======
-    help="BacMet Database downloading address: defualt is predicted_database",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
     default="http://bacmet.biomedicine.gu.se/download/BacMet2_predicted_database.fasta.gz"
 )
 
 @click.option(
     "--pfam",
-<<<<<<< HEAD
     help="plasmidverify database downloading address:ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam33.0/Pfam-A.hmm.gz (default)",
-=======
-    help="plasmidverify database downloading address",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
     default="ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam33.0/Pfam-A.hmm.gz"
 )
 
 @click.option(
     "--carddb",
-<<<<<<< HEAD
     help="ARGs database address:https://card.mcmaster.ca/latest/data (default)",
-=======
-    help="ARGs database address",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
+
     default="https://card.mcmaster.ca/latest/data"
 )
 
@@ -77,11 +63,7 @@ sys.path.append(BASE_PATH)
 
 @click.option(
     "--plasmidverify",
-<<<<<<< HEAD
     help="plasmidverify  web address:https://codeload.github.com/ablab/plasmidVerify/zip/master (default)",
-=======
-    help="plasmidverify  web address",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
     default="https://codeload.github.com/ablab/plasmidVerify/zip/master"
 )
 
@@ -93,21 +75,16 @@ sys.path.append(BASE_PATH)
 
 @click.option(
     "--scapp",
-<<<<<<< HEAD
     help="scapp web address:https://codeload.github.com/Shamir-Lab/SCAPP/tar.gz/0.1.1 (default)",
-=======
-    help="scapp web address (v=0.1.1)",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
+
     default="https://codeload.github.com/Shamir-Lab/SCAPP/tar.gz/0.1.1"
 )
 
 @click.option(
     "--platondb",
-<<<<<<< HEAD
+
     help="platondb web address:https://zenodo.org/record/3924529/files/db.tar.gz (default)",
-=======
-    help="platondb web address",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
+
     default="https://zenodo.org/record/3924529/files/db.tar.gz"
 )
 
@@ -125,31 +102,24 @@ sys.path.append(BASE_PATH)
 
 @click.option(
     "--checkmdb",
-<<<<<<< HEAD
+
     help="checkm database:https://data.ace.uq.edu.au/public/CheckM_databases/checkm_data_2015_01_16.tar.gz (default)",
-=======
-    help="checkm database",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
+
     default="https://data.ace.uq.edu.au/public/CheckM_databases/checkm_data_2015_01_16.tar.gz"
 )
 
 @click.option(
     "--msamtools",
-<<<<<<< HEAD
+
     help="msamtools:https://github.com/arumugamlab/msamtools/releases/download/0.9/msamtools-0.9.tar.gz (default)",
-=======
-    help="msamtools",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
+
     default="https://github.com/arumugamlab/msamtools/releases/download/0.9/msamtools-0.9.tar.gz"
 )
 
 @click.option(
     "--plsdb",
-<<<<<<< HEAD
+
     help="plasmid database:https://ccb-microbe.cs.uni-saarland.de/plsdb/plasmids/download/?zip (default)",
-=======
-    help="plasmidome database",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
     default="https://ccb-microbe.cs.uni-saarland.de/plsdb/plasmids/download/?zip"
 )
 
@@ -159,23 +129,18 @@ sys.path.append(BASE_PATH)
 #     default="https://github.com/leaemiliepradier/PlasForest"
 # )
 #
-@click.option(
-    "--cdhit",
-<<<<<<< HEAD
-    help="cdhit:https://github.com/weizhongli/cdhit/releases/download/V4.6.8/cd-hit-v4.6.8-2017-1208-source.tar.gz (default)",
-=======
-    help="cdhit",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
-    default="https://github.com/weizhongli/cdhit/releases/download/V4.6.8/cd-hit-v4.6.8-2017-1208-source.tar.gz"
-)
+# @click.option(
+#     "--cdhit",
+#
+#     help="cdhit:https://github.com/weizhongli/cdhit/releases/download/V4.6.8/cd-hit-v4.6.8-2017-1208-source.tar.gz (default)",
+#
+#     default="https://github.com/weizhongli/cdhit/releases/download/V4.6.8/cd-hit-v4.6.8-2017-1208-source.tar.gz"
+# )
 
 @click.option(
     "--bindash",
-<<<<<<< HEAD
+
     help="bindash:https://github.com/zhaoxiaofei/bindash.git (default)",
-=======
-    help="bindash",
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
     default="https://github.com/zhaoxiaofei/bindash.git"
 )
 
@@ -210,7 +175,7 @@ def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,
     conf['msamtools_add'] = msamtools
     # conf['plasforest_add'] = plasforest
     # conf['blast_add'] = blast
-    conf['cdhit_add'] = cdhit
+    # conf['cdhit_add'] = cdhit
     conf['bindash_add'] = bindash
     with open(conf_file, "w") as f1:
         yaml.dump(conf, f1)
