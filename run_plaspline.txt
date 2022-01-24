@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-
-Runing plaspline in each steps:
-1.quality control step
-    python <~/Plaspline/bin/run_main.py> working "qc"  -j 5
-	
-    Notice:
-=======
 #--------------------------- create a conda environment and insatll dependencies:
      conda create -n plaspline -c conda-forge -c bioconda python=3.9 biopython=1.78 snakemake=5.25.0 click=7.1.2 ruamel.yaml=0.16.12
 
@@ -52,7 +44,6 @@ Runing plaspline in each steps:
         python <~/Plaspline/bin/run_main.py> working "qc"  -j 5
 	
    Notice:
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
         the raw reads file need be "gzip" file, otherwise is will raise error in here and give a hint "check you raw and qc reads fastq file, whether is gzip file!"
         and also it is very import that confirm and modify the params in config.yaml file. 
 	#------ rule adapter_moving params
@@ -73,11 +64,7 @@ Runing plaspline in each steps:
 	     filter_m: pe
 
 2. assembly step
-<<<<<<< HEAD
-    python <~/Plaspline/bin/run_main.py> working "assembly"  -j 5
-=======
        python <~/Plaspline/bin/run_main.py> working "assembly"  -j 5
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 
        Notice:
         it is import that the max k-mer when doing assembly. because in the next step "circular" part which need the max k-mer information.
@@ -87,15 +74,9 @@ Runing plaspline in each steps:
 	spades_m: 5000
 	spades_preset: meta
 
-<<<<<<< HEAD
-    **** if the spades_k is auto you need to check the max k-mer in the assembly folder of each sample in which records the max k-mer
-
-    if the assembler is "megahit". you need to confirm the params in config.yaml file.
-=======
               **** if the spades_k is auto you need to check the max k-mer in the assembly folder of each sample in which records the max k-mer
 
         if the assembler is "megahit". you need to confirm the params in config.yaml file. 
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	megahit_core_len: 121
 	megahit_k_max: 121
 	megahit_k_min: 21
@@ -108,28 +89,6 @@ Runing plaspline in each steps:
 	megahit_prune_level: 2
 
 3. circular step
-<<<<<<< HEAD
-
-    python <~/Plaspline/bin/run_main.py> working "circular"  -j 5
-
-    before runing this step, confim and modify config.yaml of tools params:
-     #metaplasmidspades
-     c_spades_k: auto
-     c_spades_m: 5000
-     c_sapdes_preset1: meta
-     c_sapdes_preset2: plasmid
-
-     #scapp:
-     scapp_k: 55           #******* here is the max assembly k-mer, must be confirm and modify
-     scapp_gh: False
-
-
-
-4.isolation linear plasmid contigs from all assembled contigs
-    python <~/Plaspline/bin/run_main.py> working "isolation"  -j 5
-       
-    Notice:     confim and modify config.yaml of tools params
-=======
        before runing this step, confim and modify config.yaml of tools params:
                    #metaplasmidspades
 	     c_spades_k: auto
@@ -148,7 +107,6 @@ Runing plaspline in each steps:
        python <~/Plaspline/bin/run_main.py> working "isolation"  -j 5
        
        Notice:     confim and modify config.yaml of tools params
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	#plasflow
 	plasflow_threshold: 0.7
 
@@ -159,30 +117,14 @@ Runing plaspline in each steps:
           		 # specificity   RDS>0.999
 
 5. non-redundant circular plasmid contig set step
-<<<<<<< HEAD
-    python <~/Plaspline/bin/run_main.py> working "contig_circular"  -j 5
-
-    Notice:     confim and modify config.yaml of tools params
-    # cluster all plasmid contigs
-=======
       python <~/Plaspline/bin/run_main.py> working "contig_circular"  -j 5
 
       Notice:     confim and modify config.yaml of tools params
             # cluster all plasmid contigs	
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	circular_contig_mmseqs2_id: 0.9
 	circular_contig_mmseqs2_c: 0.95
 	circular_contig_mmseqs2_mode: 0
 
-<<<<<<< HEAD
-    #functional_annotation
-	c_functional_annotation_m: diamond
-
-    #mges gene annotation
-	MGEs_database: Plaspline/db/hgtidb_pfams.hmm
-
-    #ARGs gene annotation
-=======
            #functional_annotation
 	c_functional_annotation_m: diamond
 
@@ -190,29 +132,20 @@ Runing plaspline in each steps:
 	MGEs_database: /mibi/Wanli/MEGs.database/hgtidb_pfams.hmm
 
            #ARGs gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	c_rgi_d: plasmid   #[wgs, plasmid, chromosome, NA]
 	c_rgi_input_type: contig   #[contig, protein]
 	c_rgi_a: DIAMOND
 	c_rgi_mode:  "" #[None, --include_loose, --exclude_nudge, --include_loose --exclude_nudge ]
                		 #https://github.com/arpcard/rgi   ---- for more details
 
-<<<<<<< HEAD
-    #c_vfdb_gene_database: #path
-=======
             #c_vfdb_gene_database: #path
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	c_diamond_outfmt_vf: 6
 	c_diamond_evalue_vf: 1e-5
 	c_diamond_id_vf: 70
 	c_diamond_cover_vf: 0.7
 	c_diamond_blast_module_vf: blastp
 
-<<<<<<< HEAD
-    #BacMet2 gene annotation
-=======
              #BacMet2 gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	c_diamond_outfmt_BacMet2: 6
 	c_diamond_evalue_BacMet2: 1e-5
 	c_diamond_id_BacMet2: 70
@@ -221,21 +154,6 @@ Runing plaspline in each steps:
 
 
 6. contig circular classify step
-<<<<<<< HEAD
-    python <~/Plaspline/bin/run_main.py> working "contig_circular_classify"  -j 5
-     
-    Notice:     confim and modify config.yaml of tools params
-
-    #classify
-	threads_mob-typer: 24
-
-7. non-redundantlinear plasmid contig set step
-    python <~/Plaspline/bin/run_main.py> working "contig_linear"  -j 5
-	
-    Notice:     confim and modify config.yaml of tools params
-
-    # cluster
-=======
       python <~/Plaspline/bin/run_main.py> working "contig_circular_classify"  -j 5
      
       Notice:     confim and modify config.yaml of tools params
@@ -247,21 +165,10 @@ Runing plaspline in each steps:
 	
       Notice:     confim and modify config.yaml of tools params
                # cluster
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	linear_contig_mmseqs2_id: 0.9
 	linear_contig_mmseqs2_c: 0.95
 	linear_contig_mmseqs2_mode: 1
                
-<<<<<<< HEAD
-    other params in here are same with  " non-redundant circular plasmid contig set step " (below)
-    #functional_annotation
-	c_functional_annotation_m: diamond
-
-    #mges gene annotation
-	MGEs_database: Plaspline/db/hgtidb_pfams.hmm
-
-    #ARGs gene annotation
-=======
             other params in here are same with  " non-redundant circular plasmid contig set step " (below)
            #functional_annotation
 	c_functional_annotation_m: diamond
@@ -270,29 +177,20 @@ Runing plaspline in each steps:
 	MGEs_database: /mibi/Wanli/MEGs.database/hgtidb_pfams.hmm
 
            #ARGs gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	c_rgi_d: plasmid   #[wgs, plasmid, chromosome, NA]
 	c_rgi_input_type: contig   #[contig, protein]
 	c_rgi_a: DIAMOND
 	c_rgi_mode:  "" #[None, --include_loose, --exclude_nudge, --include_loose --exclude_nudge ]
                		 #https://github.com/arpcard/rgi   ---- for more details
 
-<<<<<<< HEAD
-    #c_vfdb_gene_database: #path
-=======
             #c_vfdb_gene_database: #path
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	c_diamond_outfmt_vf: 6
 	c_diamond_evalue_vf: 1e-5
 	c_diamond_id_vf: 70
 	c_diamond_cover_vf: 0.7
 	c_diamond_blast_module_vf: blastp
 
-<<<<<<< HEAD
-    #BacMet2 gene annotation
-=======
              #BacMet2 gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	c_diamond_outfmt_BacMet2: 6
 	c_diamond_evalue_BacMet2: 1e-5
 	c_diamond_id_BacMet2: 70
@@ -300,26 +198,15 @@ Runing plaspline in each steps:
 	c_diamond_blast_module_BacMet2: blastp
          
 8. circular plasmid gene analysis step
-<<<<<<< HEAD
-    python <~/Plaspline/bin/run_main.py> working "gene_circular"  -j 5
-
-    Notice:     confim and modify config.yaml of tools params
-    #reads filter
-=======
       python <~/Plaspline/bin/run_main.py> working "gene_circular"  -j 5
 
      Notice:     confim and modify config.yaml of tools params
             #reads filter
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	circular_msamtools_gene_p: 90      #the percent identity of alignment is >=90%
 	circular_msamtools_gene_l: 80      #the read is at least 80bp long
 	circular_msamtools_gene_z: 80      #at least 80% of the read is aligned
 
-<<<<<<< HEAD
-    #gene abundance
-=======
             #gene abundance
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_prodigal_p: meta
 
 	g_cd-hit_c: 0.9
@@ -328,16 +215,6 @@ Runing plaspline in each steps:
 
 	bwa_q: 15
 
-<<<<<<< HEAD
-    #gene abundance or relative abundance
-	circular_gene_abundance_format: ab     #rel is relative abundance; ab is abundance
-
-    #functional_annotation
-	g_functional_annotation_m: diamond	
-    functional_threads: 24
-
-    #ARGs gene annotation
-=======
             #gene abundance or relative abundance
 	circular_gene_abundance_format: ab     #rel is relative abundance; ab is abundance
 
@@ -345,18 +222,13 @@ Runing plaspline in each steps:
 	g_functional_annotation_m: diamond	
                   functional_threads: 24
            #ARGs gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_rgi_d: plasmid   #[wgs, plasmid, chromosome, NA]
 	g_rgi_input_type: contig   #[contig, protein]
 	g_rgi_a: DIAMOND
 	g_rgi_mode: "" #[None, --include_loose, --exclude_nudge, --include_loose --exclude_nudge ]
                 		#https://github.com/arpcard/rgi   ---- for more details
 
-<<<<<<< HEAD
-    #c_vfdb_gene_database: #path
-=======
           #c_vfdb_gene_database: #path
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_diamond_outfmt_vf: 6
 	g_diamond_evalue_vf: 1e-5
 	g_diamond_id_vf: 70
@@ -364,26 +236,11 @@ Runing plaspline in each steps:
 	g_diamond_blast_module_vf: blastp
 
 
-<<<<<<< HEAD
-    #BacMet2 gene annotation
-=======
          #BacMet2 gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_diamond_outfmt_BacMet2: 6
 	g_diamond_evalue_BacMet2: 1e-5
 	g_diamond_id_BacMet2: 70
 	g_diamond_cover_BacMet2: 0.7
-<<<<<<< HEAD
-    g_diamond_blast_module_BacMet2: blastp
-
-	
-9.  linear plasmid gene analysis step
-    python <~/Plaspline/bin/run_main.py> working "gene_linear"  -j 5
-
-    Notice:     confim and modify config.yaml of tools params
-
-    #reads filter
-=======
                    g_diamond_blast_module_BacMet2: blastp
 
 	
@@ -393,16 +250,11 @@ Runing plaspline in each steps:
       Notice:     confim and modify config.yaml of tools params
 
             #reads filter
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	linear_msamtools_gene_p: 90      #the percent identity of alignment is >=90%
 	linear_msamtools_gene_l: 80      #the read is at least 80bp long
 	linear_msamtools_gene_z: 80      #at least 80% of the read is aligned
 
-<<<<<<< HEAD
-    #gene abundance
-=======
             #gene abundance
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_prodigal_p: meta
 
 	g_cd-hit_c: 0.9
@@ -411,16 +263,6 @@ Runing plaspline in each steps:
 
 	bwa_q: 15
 
-<<<<<<< HEAD
-    #gene abundance or relative abundance
-	circular_gene_abundance_format: ab     #rel is relative abundance; ab is abundance
-
-    #functional_annotation
-	g_functional_annotation_m: diamond	
-    functional_threads: 24
-
-    #ARGs gene annotation
-=======
             #gene abundance or relative abundance
 	circular_gene_abundance_format: ab     #rel is relative abundance; ab is abundance
 
@@ -428,18 +270,13 @@ Runing plaspline in each steps:
 	g_functional_annotation_m: diamond	
                   functional_threads: 24
            #ARGs gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_rgi_d: plasmid   #[wgs, plasmid, chromosome, NA]
 	g_rgi_input_type: contig   #[contig, protein]
 	g_rgi_a: DIAMOND
 	g_rgi_mode: "" #[None, --include_loose, --exclude_nudge, --include_loose --exclude_nudge ]
                 		#https://github.com/arpcard/rgi   ---- for more details
 
-<<<<<<< HEAD
-    #c_vfdb_gene_database: #path
-=======
           #c_vfdb_gene_database: #path
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_diamond_outfmt_vf: 6
 	g_diamond_evalue_vf: 1e-5
 	g_diamond_id_vf: 70
@@ -447,20 +284,12 @@ Runing plaspline in each steps:
 	g_diamond_blast_module_vf: blastp
 
 
-<<<<<<< HEAD
-    #BacMet2 gene annotation
-=======
          #BacMet2 gene annotation
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 	g_diamond_outfmt_BacMet2: 6
 	g_diamond_evalue_BacMet2: 1e-5
 	g_diamond_id_BacMet2: 70
 	g_diamond_cover_BacMet2: 0.7
-<<<<<<< HEAD
-    g_diamond_blast_module_BacMet2: blastp
-=======
                    g_diamond_blast_module_BacMet2: blastp
->>>>>>> 76c42201ef2a51b07c231386be73c559bf586e44
 
 
 
