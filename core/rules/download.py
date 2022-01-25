@@ -315,7 +315,7 @@ rule env_mobtyper:
 
 rule env_non_redundant:
     output:
-        f = directory(os.path.join(DB_PATH,"non_redundant"))
+        f = temp(touch(os.path.join(DB_PATH,"non_redundant")))
     conda:
         f"{CONDAENV}/non_redundant.yaml"
     shell:
