@@ -71,18 +71,9 @@ Notice:
 ### Runing plaspline all:
 
 ```
-> python Plaspline/bin/run_main.py working  "gene_linear" -j 5
+> python Plaspline/bin/run_main.py working  "all" -j 5
      
-```
-this will get all results of linear plasmid contigs relative outputs
-     
-  
-     
-```
-> python Plaspline/bin/run_main.py working  "gene_circular" -j 5
-     
-```
-this will get all results of circular plasmid relative outputs. ( ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step))
+ ( ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step))
 
 
      
