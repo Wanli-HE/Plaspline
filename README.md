@@ -86,7 +86,7 @@ this will get all results of circular plasmid relative outputs. ( ***before runn
 
 
      
-### Runing plaspline in each steps:
+### Runing plaspline in each steps: (suggestion!!!)
 
 1.quality control step
   ```
