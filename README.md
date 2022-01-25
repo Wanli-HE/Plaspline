@@ -26,15 +26,9 @@ all scripts are under the 'Plaspline' folder
 
 # Downlanding dependent databases and tools:
 
-*** make sure that you have enough space in your folder for it (30G maybe!!!!)
+*** make sure that you have enough space in your folder for it (80G maybe!!!!)
 
-*** checking the tools version whether is latest (if you need)!
-
-```
-> python Plaspline/bin/run_main.py downloading -h
-```
-
-Then, downloading the databases and tools
+downloading the databases and tools
 ```
 > python Plaspline/bin/run_main.py downloading       
 ``` 
@@ -52,6 +46,8 @@ Notice:
 2. If you want to do the quality control step,  your adapter file and your phix file must be input with real path of the two file; if your input is qc reads, you do not need input real path of <your adapter file> and <your phix file>, but have to, just give it a fake path, for example ./ (current folder path). and don`t forget change "--skip_qc " to "True", which means jump quality control step.  
 
 3. the assembler defult is spades, you can also choose megahit as assembler, by input the params "--assembler megahit".
+     
+4. in command line "Plaspline/bin/run_main.py" is relative path, if you are not running the command with same folder of Plaspline, you need to input absolute path (abs.path/Plaspline/bin/run_main.py)
 
 for more information, "python ~Plaspline/bin/run_main.py preprocessing -h" 
   
@@ -71,15 +67,25 @@ Notice:
 ```
 > python Plaspline/bin/run_main.py working  "step" -j 5 
 ```
-   if you are working on cluster system. there are two to run the command:
-   ```
-    > python Plaspline/bin/run_main.py working "step"  -j 5  --cluster 'qsub -t 40 -l nodes=1'  
-   ```
-   ```
-    > python Plaspline/bin/run_main.py working "step"  -j 5  --profile cluster --latency-wait 60
-   ```    
-the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/usage/getting_started.html#usage), so user can excaute Plaspline in cluster system according to "Execue Atlas / Cluster execution" module.  
+     
+### Runing plaspline all:
 
+```
+> python Plaspline/bin/run_main.py working  "gene_linear" -j 5
+     
+```
+this will get all results of linear plasmid contigs relative outputs
+     
+  
+     
+```
+> python Plaspline/bin/run_main.py working  "gene_circular" -j 5
+     
+```
+this will get all results of circular plasmid relative outputs. ( ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step))
+
+
+     
 ### Runing plaspline in each steps:
 
 1.quality control step
@@ -123,11 +129,7 @@ the second is utilized Altas (https://metagenome-atlas.readthedocs.io/en/latest/
 
 
      
- !!! for executing all steps, using one command:
-   ```
-  > python Plaspline/bin/run_main.py working "all"  -j 5
-  ```
- ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step)
+
      
 # Contact
 
