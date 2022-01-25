@@ -194,21 +194,21 @@ rule linear_functional_annotation_genes:
         "../scripts/emapper.py"
 
 
-rule linear_plasmid_gene_with_MGEs:
-    input:
-        f = "linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa"
-    output:
-        f = "linear_non_redundant_gene/MGES-annotation/all_plasmids_with_MEGs.txt"
-    threads: config["threads"]
-    conda:
-        "%s/non_redundant.yaml" % CONDAENV
-    params:
-        mgesdb = config["MGEs_database"]
-    log:
-        out = "log/co-exist/linear_co-exist-mges.out",
-        err = "log/co-exist/linear_co-exist-mges.err"
-    shell:
-        "hmmsearch --tblout {output.f} {params.mgesdb} {input.f} 2>{log.err} >{log.out}"
+# rule linear_plasmid_gene_with_MGEs:
+#     input:
+#         f = "linear_non_redundant_gene/linear_gene_prodigal_protein_seq.faa"
+#     output:
+#         f = "linear_non_redundant_gene/MGES-annotation/all_plasmids_with_MEGs.txt"
+#     threads: config["threads"]
+#     conda:
+#         "%s/non_redundant.yaml" % CONDAENV
+#     params:
+#         mgesdb = config["MGEs_database"]
+#     log:
+#         out = "log/co-exist/linear_co-exist-mges.out",
+#         err = "log/co-exist/linear_co-exist-mges.err"
+#     shell:
+#         "hmmsearch --tblout {output.f} {params.mgesdb} {input.f} 2>{log.err} >{log.out}"
 
 #other gene annotation
 rule linear_annotation_ARGs_gene:

@@ -43,7 +43,7 @@ rule all:
         "linear_non_redundant_contig/finished",
         "linear_non_redundant_gene/finished",
         "circular_non_redundant_gene/finished",
-        "circular_non_redundant_contig/classify_finished"
+#        "circular_non_redundant_contig/classify_finished"
 
 
 rule qc:

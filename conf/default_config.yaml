@@ -245,7 +245,7 @@ c_functional_annotation_m: diamond
 #linear_plasmidverify_threads: 40
 
 #classify
-#threads_mob-typer: 24
+threads_mob-typer: 32
 
 #mges gene annotation
 
