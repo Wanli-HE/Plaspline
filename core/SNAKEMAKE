@@ -43,7 +43,7 @@ rule all:
         "linear_non_redundant_contig/finished",
         "linear_non_redundant_gene/finished",
         "circular_non_redundant_gene/finished",
-#        "circular_non_redundant_contig/classify_finished"
+
 
 
 rule qc:
@@ -104,7 +104,6 @@ rule contig_linear:
 
 rule gene_linear:
     input:
-
         "linear_non_redundant_gene/abundance/all_linear_gene_abundance_based_contig_abundance.txt",
         "linear_non_redundant_gene/annotation_ARGs",
         "linear_non_redundant_gene/annotation_vf/annotation_vf.txt",
