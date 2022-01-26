@@ -56,15 +56,17 @@ for more information, "python ~Plaspline/bin/run_main.py preprocessing -h"
 Before true runing plaspline, it is better to check whether there is any command line errors, by dry run (" -n ").
 
 ```
-  > python Plaspline/bin/run_main.py working  <"step"> -j 5  -n 
+  > python Plaspline/bin/run_main.py working  <"step"> -j 3  -n 
 ```
 Notice:
-  before running, make sure the "cofig.yaml" and "samples.json" are under the floder which you are running the command.
-  
-
+  1. before running, make sure the "cofig.yaml" and "samples.json" are under the floder which you are running the command.
+  2. choosing threads:
+     - in config.yaml file, it records {threads} which is each rules threads, so in "-j (pnum)", this pnum <= sample_number * {threads}      
+     - running in cluster, -j {pnum};  this pnum <= sample number
+          
 ### True running:
 ```
-> python Plaspline/bin/run_main.py working  "step" -j 5 
+> python Plaspline/bin/run_main.py working  "step" -j 3 
 ```
      
 ### Runing plaspline all:
@@ -73,7 +75,7 @@ Notice:
 
      
 ```
-> python Plaspline/bin/run_main.py working  "all" -j 5
+> python Plaspline/bin/run_main.py working  "all" -j 3
 ```
      
 
@@ -84,41 +86,41 @@ Notice:
 
 1.quality control step
   ```
-  > python Plaspline/bin/run_main.py working "qc"  -j 5
+  > python Plaspline/bin/run_main.py working "qc"  -j 3
   ```
 2. assembly step
   ```
-  > python Plaspline/bin/run_main.py working "assembly"  -j 5
+  > python Plaspline/bin/run_main.py working "assembly"  -j 3
   ```
 3. circular step
      
   before running this step, check the max k-mer you are using in assembly step, and modifying scapp_k to "max k-mer (assembly)" in config.yaml file.
   ```
-  > python Plaspline/bin/run_main.py working "circilar"  -j 5
+  > python Plaspline/bin/run_main.py working "circilar"  -j 3
   ```
 4. isolation linear plasmid contigs from all assembled contigs
   ```
-  > python Plaspline/bin/run_main.py working "isolation"  -j 5
+  > python Plaspline/bin/run_main.py working "isolation"  -j 3
   ```
 5. non-redundant circular plasmid contig set step
   ```
-  > python Plaspline/bin/run_main.py working "contig_circular"  -j 5
+  > python Plaspline/bin/run_main.py working "contig_circular"  -j 3
   ```
 6. contig circular classify step
   ```
-  > python Plaspline/bin/run_main.py working "contig_circular_classify"  -j 5
+  > python Plaspline/bin/run_main.py working "contig_circular_classify"  -j 3
   ```
 7. non-redundantlinear plasmid contig set step
   ```
-  > python Plaspline/bin/run_main.py working "contig_linear"  -j 5
+  > python Plaspline/bin/run_main.py working "contig_linear"  -j 3
   ```
 8. circular plasmid gene analysis step
   ```
-  > python Plaspline/bin/run_main.py working "gene_circular"  -j 5
+  > python Plaspline/bin/run_main.py working "gene_circular"  -j 3
   ```
 9. linear plasmid gene analysis step
   ```
-  > python Plaspline/bin/run_main.py working "gene_linear"  -j 5
+  > python Plaspline/bin/run_main.py working "gene_linear"  -j 3
   ```
 
 ### *** Runing problem in cluster:  
