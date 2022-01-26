@@ -123,9 +123,7 @@ Notice:
   > python Plaspline/bin/run_main.py working "gene_linear"  -j 3
   ```
 
-### *** Runing problem in cluster:  
-     
-     sometimes when you are running the command in cluster, if it is rising an error, what you need to do is just egnore it and re-running your command. if still have the same problem, contact with us!!
+
      
      
 # Contact
