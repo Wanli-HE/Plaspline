@@ -124,7 +124,7 @@ Notice:
 
 ### *** Runing problem in cluster:  
      
-     sometimes when running in cluster, it will rise error, but just egnore it, and re-running your command. 
+     sometimes when you are running the command in cluster, if it is rising an error, what you need to do is just egnore it and re-running your command. if still have the same problem, contact with us!!
      
      
 # Contact
