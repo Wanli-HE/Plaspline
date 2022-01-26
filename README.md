@@ -69,12 +69,13 @@ Notice:
 ```
      
 ### Runing plaspline all:
+      ( ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step) in config.yaml file)
 
 ```
 > python Plaspline/bin/run_main.py working  "all" -j 5
 ```
      
- ( ***before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step))
+
 
 
      
