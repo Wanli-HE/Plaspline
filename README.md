@@ -43,7 +43,7 @@ Notice:
 1. In your reads folder: plaspline can only recognize the raw reads (forward and resvers) file which suffix is "_R1" or "_r1" or "_1" (only show forward in example).  
       ***must be gzip file. otherwise in "quality control step" it will raise error.
 
-2. If you want to do the quality control step,  your adapter file and your phix file must be input with real path of the two file; if your input is qc reads, you do not need input real path of <your adapter file> and <your phix file>, but have to, just give it a fake path, for example ./ (current folder path). and don`t forget change "--skip_qc " to "True", which means jump quality control step.  
+2. If you want not to do the quality control step, but still have to give the "--adapter" and "--phix" input, (a fake path is ok,  for example ./ ). don`t forget change "--skip_qc " to "True", which means jump quality control step.  
 
 3. the assembler defult is spades, you can also choose megahit as assembler, by input the params "--assembler megahit".
      
