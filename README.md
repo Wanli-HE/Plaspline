@@ -60,7 +60,7 @@ Before true runing plaspline, it is better to check whether there is any command
 ```
 Notice:
   1. before running, make sure the "cofig.yaml" and "samples.json" are under the floder which you are running the command.
-  2. choosing threads:
+  2. choosing jobs (-j):
      - in config.yaml file, it records {threads} which is each rules threads, so in "-j (pnum)", this pnum <= sample_number * {threads}      
      - running in cluster, -j {pnum};  this pnum <= sample number
           
