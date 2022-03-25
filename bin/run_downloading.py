@@ -16,7 +16,7 @@ sys.path.append(BASE_PATH)
 @click.command(
     "downloading",
     context_settings=dict(ignore_unknown_options=True),
-    short_help="download reference files (need ~30GB)",
+    short_help="download reference files (need ~80GB)",
 )
 
 @click.option(
@@ -45,7 +45,7 @@ sys.path.append(BASE_PATH)
 @click.option(
     "--pfam",
     help="plasmidverify database downloading address:ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam33.0/Pfam-A.hmm.gz (default)",
-    default="ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam33.0/Pfam-A.hmm.gz"
+    default="http://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam35.0/Pfam-A.hmm.gz"
 )
 
 @click.option(
@@ -118,13 +118,12 @@ sys.path.append(BASE_PATH)
 
 @click.option(
     "--plsdb",
-
     help="plasmid database:https://ccb-microbe.cs.uni-saarland.de/plsdb/plasmids/download/?zip (default)",
     default="https://ccb-microbe.cs.uni-saarland.de/plsdb/plasmids/download/?zip"
 )
 
 @click.option(
-    "--DeepVirFinder",
+    "--deepvirfinder",
     help="DeepVirFinder",
     default="https://github.com/jessieren/DeepVirFinder.git"
 )
@@ -147,7 +146,7 @@ sys.path.append(BASE_PATH)
 
 @click.argument("snakemake_args", nargs=-1, type=click.UNPROCESSED)
 
-def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,DeepVirFinder,
+def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,deepvirfinder,
                 scapp,platondb,checkmdb,plsdb,msamtools,bindash,
                 snakemake_args):
     """
@@ -177,7 +176,7 @@ def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,DeepVirFinder,
     # conf['blast_add'] = blast
     # conf['cdhit_add'] = cdhit
     conf['bindash_add'] = bindash
-    conf['DeepVirFinder_add'] = DeepVirFinder
+    conf['DeepVirFinder_add'] = deepvirfinder
     with open(conf_file, "w") as f1:
         yaml.dump(conf, f1)
 

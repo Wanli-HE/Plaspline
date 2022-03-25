@@ -51,7 +51,11 @@ rule all:
         f26 = os.path.join(DB_PATH,"bindash"),
         f27 = os.path.join(DB_PATH,"finished_mmseqs_env"),
         f28 = os.path.join(DB_PATH,"finished_bedtools_env"),
-        f29 = os.path.join(DB_PATH,"DeepVirFinder")
+        f29 = os.path.join(DB_PATH,"DeepVirFinder"),
+        f30 = os.path.join(DB_PATH,"finished_DeepVirFinder_env"),
+        f31 = os.path.join(DB_PATH,"finished_plasmidverify_env"),
+        f32 = os.path.join(DB_PATH,"finished_platon_env"),
+        # f33 = os.path.join(DB_PATH,""),
 
     run:
         yaml = YAML(typ='safe')
@@ -89,6 +93,7 @@ rule download_eggNOG_files:
     output:
         f"{EGGNOG}/eggnog.db",
         f"{EGGNOG}/eggnog_proteins.dmnd"
+    threads: 1
     conda:
         f"{CONDAENV}/emapper.yaml"
     shell:
@@ -98,6 +103,7 @@ rule download_eggNOG_files:
 rule download_rgi_database:
     output:
         f = os.path.join(DB_PATH,"data")
+    threads: 1
     params:
         d= config["rgi_DB_add"]
     shell:
@@ -107,6 +113,7 @@ rule download_rgi_database:
 rule tar_rgi_db:
     input:
         f = os.path.join(DB_PATH,"data")
+    threads: 1
     output:
         f = os.path.join(DB_PATH,"card.json")
     shell:
@@ -116,6 +123,7 @@ rule tar_rgi_db:
 rule system_card:
     input:
         f = os.path.join(DB_PATH,"card.json")
+    threads: 1
     output:
         f = temp(touch(os.path.join(DB_PATH,"finished_rgi")))
     conda:
@@ -129,6 +137,7 @@ rule download_gene_aanotation:
         f1 = os.path.join(DB_PATH,"VFDB_setA_pro.fas"),
         f2 = os.path.join(DB_PATH,"BacMet2_predicted_database.fasta"),
         f3 = os.path.join(DB_PATH,"Pfam-A.hmm")
+    threads: 1
     params:
         db_v = config["vfdb_add"],
         db_B = config["BacMet2_add"],
@@ -150,6 +159,7 @@ rule makedb_gene_annotation:
         f1 = os.path.join(DB_PATH,"VFDB_setA_pro.fas"),
         f2 = os.path.join(DB_PATH,"BacMet2_predicted_database.fasta"),
         f3 = os.path.join(DB_PATH,"Pfam-A.hmm")
+    threads: 1
     output:
         f1 =os.path.join(DB_PATH,"VFDB_setA_pro.fas.dmnd"),
         f2 =os.path.join(DB_PATH,"BacMet2_predicted_database.fasta.dmnd")
@@ -175,8 +185,9 @@ rule makedb_gene_annotation:
 rule d_viralverify:
     output:
         f = directory(os.path.join(DB_PATH,"plasmidverify"))
-    conda:
-        f"{CONDAENV}/plasmidverify.yaml"
+    # conda:
+    #     f"{CONDAENV}/plasmidverify.yaml"
+    threads: 1
     params:
         p=config["plasmidverify_add"]
     shell:
@@ -187,13 +198,22 @@ rule d_viralverify:
 rule deepviral:
     output:
         f = directory(os.path.join(DB_PATH,"DeepVirFinder"))
-    conda:
-        f"{CONDAENV}/DeepVirFinder.yaml"
+    # conda:
+    #     f"{CONDAENV}/DeepVirFinder.yaml"
+    threads: 1
     params:
         p=config["DeepVirFinder_add"]
     shell:
-        "git clone https://github.com/jessieren/DeepVirFinder.git;" \
+        "git clone {params.p};" \
         "mv DeepVirFinder {output.f}"
+
+# rule envDeepVirFinder:
+#     output:
+#         f = temp(touch(os.path.join(DB_PATH,"finished_DeepVirFinders_env")))
+#     conda:
+#         f"{CONDAENV}/DeepVirFinder.yaml"
+#     shell:
+#         "echo 'finished_DeepVirFinder_env'"
 
 # rule d_recycler:
 #     output:
@@ -207,13 +227,7 @@ rule deepviral:
 #         "mv Recycler-0.7 {output.f};"\
 #         #"export PYTHONPATH=$PYTHONPAYH:{output.f}"
 
-rule msamtools:
-    output:
-        f = temp(touch(os.path.join(DB_PATH,"finished_msamtools_env")))
-    conda:
-        f"{CONDAENV}/msamtools.yaml"
-    shell:
-        "echo 'finished_msamtools_env'"
+
 
 # rule d_plasclass:
 #     output:
@@ -251,8 +265,9 @@ rule msamtools:
 rule platon_db:
     output:
         f = directory(os.path.join(DB_PATH,"db"))
-    conda:
-        f"{CONDAENV}/linearized-platon.yaml"
+    # conda:
+    #     f"{CONDAENV}/linearized-platon.yaml"
+    threads: 1
     params:
         pla = config["platondb_add"]
     shell:
@@ -264,6 +279,7 @@ rule platon_db:
 rule bindash_db:
     output:
         f = directory(os.path.join(DB_PATH,"bindash"))
+    threads: 1
     params:
         bin = config["bindash_add"]
     shell:
@@ -290,28 +306,39 @@ rule bindash_db:
 #         "diamond makedb --in plsdb_.fasta -d {output.f};" \
 #         "rm -rf ./plsdb.* plsdb_changes.tsv README.md plsdb_.fasta"
 
+rule env_msamtools:
+    output:
+        f = temp(touch(os.path.join(DB_PATH,"finished_msamtools_env")))
+    threads: 1
+    conda:
+        f"{CONDAENV}/msamtools.yaml"
+    shell:
+        "echo 'finished_msamtools_env'"
 
-rule envmmseqs:
+rule env_mmseqs:
     output:
         temp(touch(os.path.join(DB_PATH,"finished_mmseqs_env")))
     conda:
         f"{CONDAENV}/mmseqs2.yaml"
+    threads: 1
     shell:
         "echo 'finished_mmseqs2_env'"
 
-rule envbedtools:
+rule env_bedtools:
     output:
         temp(touch(os.path.join(DB_PATH,"finished_bedtools_env")))
     conda:
         f"{CONDAENV}/bedtools.yaml"
+    threads: 1
     shell:
         "echo 'finished_bedtools_env'"
 
-rule envqc:
+rule env_qc:
     output:
         temp(touch(os.path.join(DB_PATH,"finished_qc_env")))
     conda:
         f"{CONDAENV}/quality_control.yaml"
+    threads: 1
     shell:
         "echo 'finished_qc_env'"
 
@@ -320,6 +347,7 @@ rule env_assembly:
         temp(touch(os.path.join(DB_PATH,"finished_assembly_env")))
     conda:
         f"{CONDAENV}/assembly.yaml"
+    threads: 1
     shell:
         "echo 'finished_assembly_env'"
 
@@ -328,6 +356,7 @@ rule env_plasflow:
         temp(touch(os.path.join(DB_PATH,"finished_linerized_plasflow_env")))
     conda:
         f"{CONDAENV}/linearized-plasflow.yaml"
+    threads: 1
     shell:
         "echo 'finished_linerized_plasflow_env'"
 
@@ -336,6 +365,7 @@ rule env_mobtyper:
         temp(touch(os.path.join(DB_PATH,"finished_mobtyper_env")))
     conda:
         f"{CONDAENV}/mobtyper.yaml"
+    threads: 1
     shell:
         "echo 'finished_mobtyper_env'"
 
@@ -344,22 +374,46 @@ rule env_non_redundant:
         f = temp(touch(os.path.join(DB_PATH,"non_redundant")))
     conda:
         f"{CONDAENV}/non_redundant.yaml"
+    threads: 1
     shell:
         "echo 'finished_non_redundant_env'"
-    # params:
-    #     cd= config['cdhit_add']
-    # shell:
-    #     "wget -O ./cdhit.tar.gz {params.cd} && tar -zxvf cdhit.tar.gz && rm -rf cdhit.tar.gz &&" \
-    #     " mv cd-hit-* {output.f} && cd {output.f} && make MAX_SEQ=10000000 &&" \
-    #     " cd cd-hit-auxtools && make MAX_SEQ=10000000"
 
 rule env_scapp:
     output:
         temp(touch(os.path.join(DB_PATH,"finished_scapp_env")))
     conda:
         f"{CONDAENV}/circularized-scapp.yaml"
+    threads: 1
     shell:
         "echo 'finished_scapp_env'"
+
+rule env_plasmidverify:
+    output:
+        f = temp(touch(os.path.join(DB_PATH,"finished_plasmidverify_env")))
+    threads: 1
+    conda:
+        f"{CONDAENV}/plasmidverify.yaml"
+    shell:
+        "echo 'finished_plasmidverify_env'"
+
+rule env_platon:
+    output:
+        f = temp(touch(os.path.join(DB_PATH,"finished_platon_env")))
+    threads: 1
+    conda:
+        f"{CONDAENV}/linearized-platon.yaml"
+    shell:
+        "echo 'finished_platon_env'"
+
+
+rule env_DeepVirFinder:
+    output:
+        f = temp(touch(os.path.join(DB_PATH,"finished_DeepVirFinder_env")))
+    threads: 1
+    conda:
+        f"{CONDAENV}/deepvirfinder.yaml"
+    shell:
+        "echo 'finished_DeepVirFinder_env'"
 
 
 # rule env_plasforest:

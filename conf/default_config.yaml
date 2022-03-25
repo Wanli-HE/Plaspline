@@ -107,7 +107,9 @@ megahit_core_len: 55
 #scapp:
 scapp_k: 55
 scapp_gh: False
-#verify
+
+# viralVerify threshold
+verify_threshold: 7
 ########################################################################################################################
 
 

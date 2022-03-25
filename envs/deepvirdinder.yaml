@@ -11,4 +11,4 @@ dependencies:
     - keras=2.2.4
     - scikit-learn
     - Biopython
-    - h5pymegahit=1.2.9
+    - h5py

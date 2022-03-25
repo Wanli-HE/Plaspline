@@ -204,14 +204,15 @@ rule plasmidverify:
     conda:
         "%s/plasmidverify.yaml" % CONDAENV
     params:
-        hmm=config['Pfam_database']
+        hmm=config['Pfam_database'],
+        threshold = config['verify_threshold']
     log:
         out = "log/circular_plasmidverify/{sample}_plasmidverify_liner.out",
         err = "log/circular_plasmidverify/{sample}_plasmidverify_liner.err"
     shell:
         "{config[plasmidverify_path]} -f {input.f1} " \
                              "--hmm {params.hmm} " \
-                             "-t {threads} " \
+                             "-t {threads} -thr {params.threshold}" \
                              "-o {output.f2}" \
                              " 2>{log.err} >{log.out}"
 
