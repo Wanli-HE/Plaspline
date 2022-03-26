@@ -212,7 +212,7 @@ rule plasmidverify:
     shell:
         "{config[plasmidverify_path]} -f {input.f1} " \
                              "--hmm {params.hmm} " \
-                             "-t {threads} -thr {params.threshold}" \
+                             "-t {threads} --thr {params.threshold}" \
                              "-o {output.f2}" \
                              " 2>{log.err} >{log.out}"
 

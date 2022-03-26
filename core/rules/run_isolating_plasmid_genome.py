@@ -227,7 +227,7 @@ rule removevir:
         "python {config[DeepVirFinder_path]}/dvf.py " \
                 "-i {input.f} " \
                 "-l 1000 " \
-                "-m {config[DeepVirFinder_path]}/models" \
+                "-m {config[DeepVirFinder_path]}/models " \
                 "-c {threads} " \
                 "-o {output.f}" \
                 " 2>{log.err} >{log.out}"
@@ -235,11 +235,27 @@ rule removevir:
 
 rule clean_removevir:
     input:
-        f = "linear_plasmid_genome/{sample}_remov_viral_genome"
+        f = "linear_plasmid_genome/{sample}_remov_viral_genome",
+        f2 = "linear_plasmid_genome/{sample}_predict_plasmid_temp.fa"
     output:
         f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
-    shell:
-        ""
+    params:
+        s = config["deepvirfinder_score"],
+        p = config['deepvirfinder_p']
+    run:
+        file = glob.glob(input.f+"/*")[0]
+        lt = []
+        with open(file,'r') as infile:
+            infile.readline()
+            for line in infile:
+                lst = line.strip().split()
+                if float(lst[2]) >= float(params.s) and float(lst[3]) <= float(params.p):
+                    lt.append(lst[0])
+
+        handle = open(input.f2, "rt")
+        ff= SeqIO.parse(handle, "fasta")
+        lsta = [i for i in ff if i.id not in lt]
+        SeqIO.write(lsta, output.f, "fasta")
 
 # rule linear_genecalling_plasmid_gene_distance:
 #     input:

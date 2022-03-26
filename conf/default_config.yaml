@@ -110,6 +110,8 @@ scapp_gh: False
 
 # viralVerify threshold
 verify_threshold: 7
+deepvirfinder_score: 0.8
+deepvirfinder_pvalue: 0.05
 ########################################################################################################################
 
 
