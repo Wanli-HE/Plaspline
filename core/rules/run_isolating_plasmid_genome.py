@@ -225,7 +225,7 @@ rule removevir:
         "python {config[deepvirfinder_path]}/dvf.py " \
                 "-i {input.f} " \
                 "-l 1000 " \
-                "-m {config[DeepVirFinder_path]}/models " \
+                "-m {config[deepvirfinder_path]}/models " \
                 "-c {threads} " \
                 "-o {output.f}" \
                 " 2>{log.err} >{log.out}"
