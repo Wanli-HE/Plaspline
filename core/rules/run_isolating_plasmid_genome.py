@@ -215,16 +215,14 @@ rule removevir:
         f = "linear_plasmid_genome/{sample}_predict_plasmid_temp.fa"
     output:
         f = directory("linear_plasmid_genome/{sample}_remov_viral_genome")
-    params:
-        p = config["DeepVirFinder"]
     threads: config['threads']
     conda:
-        "%s/DeepVirFinder.yaml" % CONDAENV
+        "%s/deepvirfinder.yaml" % CONDAENV
     log:
         out = "log/linear_non_redundant_contig/{sample}_removing_linear_vir.out",
         err = "log/linear_non_redundant_contig/{sample}_removing_linear_vir.err"
     shell:
-        "python {config[DeepVirFinder_path]}/dvf.py " \
+        "python {config[deepvirfinder_path]}/dvf.py " \
                 "-i {input.f} " \
                 "-l 1000 " \
                 "-m {config[DeepVirFinder_path]}/models " \
