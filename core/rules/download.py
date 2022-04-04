@@ -83,7 +83,7 @@ rule all:
         # conf['blast'] = os.path.join(input.f23)
         # conf['cdhit-est_path'] = os.path.join(input.f24,"cd-hit-est")
         conf['bindash_path'] = os.path.join(input.f26,"bindash")
-        conf['DeepVirFinder_path'] = input.f29
+        conf['deepvirfinder_path'] = input.f29
 
         with open(conf_file,"w") as f1:
             yaml.dump(conf,f1)
