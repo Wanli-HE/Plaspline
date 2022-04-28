@@ -1,0 +1,13 @@
+name: plasforest
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - python >= 3.6
+    - biopython
+    - numpy
+    - pandas
+    - joblib
+    - scikit-learn==0.22.2.post1
+

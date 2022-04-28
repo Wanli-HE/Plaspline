@@ -1,0 +1,8 @@
+name: quality control step
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - bbmap=38.86
+    - sickle-trim=1.33

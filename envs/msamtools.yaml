@@ -1,0 +1,7 @@
+name: msamtools
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - msamtools == 1.0.3
