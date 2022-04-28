@@ -132,8 +132,7 @@ Notice:
    Wanli HE (wanli.he@bio.ku.dk)
 
 ## cooperator: 
-   Jakob Russel (russel2620@gmail.com)  
-   
+   Jakob Russel (russel2620@gmail.com)     
    Franziska Klincke (franziska.klincke@bio.ku.dk)  
    Joseph Nesme (joseph.nesme@bio.ku.dk)  
    Søren Johannes Sørensen (sjs@bio.ku.dk)
