@@ -32,6 +32,8 @@ downloading the databases and tools
 ```
 > python Plaspline/bin/run_main.py downloading       
 ``` 
+*** Notice: when downloading plasforest database, it need input a e-mail address in your terminal, to get full database!!!!
+
 
 # Usage
 ## Prepare config.yaml and sample.json file.
