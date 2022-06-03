@@ -5,6 +5,7 @@ import sys
 import logging
 from ruamel.yaml import YAML
 
+
 BASE_PATH = os.path.dirname(os.path.dirname(sys.path[0]))
 sys.path.append(BASE_PATH)
 
@@ -15,8 +16,6 @@ configfile: os.path.join(BASE_PATH,"temp","config.yaml")
 DB_PATH = os.path.join(BASE_PATH,"db") if config["db_dir"] in [None,"none"] else config["db_dir"]
 
 EGGNOG = os.path.join(DB_PATH,'EggNOGV2')
-
-
 ############################################################################################
 rule all:
     input:
@@ -41,18 +40,17 @@ rule all:
         # f19 = os.path.join(DB_PATH,"plsdb_.fasta.dmnd"),
 
         f20 = os.path.join(DB_PATH,"finished_msamtools_env"),
-
-        # f21 = os.path.join(DB_PATH,"plasforest"),
+        f21 = os.path.join(DB_PATH,"plasforest"),
         # f22 = os.path.join(DB_PATH,"finished_plasforest_env"),
         # f23 = os.path.join(DB_PATH,"blast")
         f24 = os.path.join(DB_PATH,"non_redundant"),
         f25 = os.path.join(DB_PATH,"finished_scapp_env"),
 
-        f26 = os.path.join(DB_PATH,"bindash"),
+        #f26 = os.path.join(DB_PATH,"bindash"),
         f27 = os.path.join(DB_PATH,"finished_mmseqs_env"),
         f28 = os.path.join(DB_PATH,"finished_bedtools_env"),
-        f29 = os.path.join(DB_PATH,"DeepVirFinder"),
-        f30 = os.path.join(DB_PATH,"finished_DeepVirFinder_env"),
+        #f29 = os.path.join(DB_PATH,"DeepVirFinder"),
+        #f30 = os.path.join(DB_PATH,"finished_DeepVirFinder_env"),
         f31 = os.path.join(DB_PATH,"finished_plasmidverify_env"),
         f32 = os.path.join(DB_PATH,"finished_platon_env"),
         # f33 = os.path.join(DB_PATH,""),
@@ -78,12 +76,13 @@ rule all:
         # conf["rfplasmid_path"] = os.path.join(input.f18,"rfplasmid.py")
         # conf['plsdb_database'] = input.f19
         conf['msamtools_path'] = os.path.join(input.f20,"msamtools-0.9","msamtools")
-        # conf['plasforest_path'] = os.path.join(input.f21,"PlasForest.py")
+        conf['plasforest_path'] = input.f21
         # conf['plasforest'] = os.path.join(input.f21)
         # conf['blast'] = os.path.join(input.f23)
         # conf['cdhit-est_path'] = os.path.join(input.f24,"cd-hit-est")
-        conf['bindash_path'] = os.path.join(input.f26,"bindash")
-        conf['deepvirfinder_path'] = input.f29
+        #conf['bindash_path'] = os.path.join(input.f26,"bindash")
+        #conf['deepvirfinder_path'] = input.f29
+
 
         with open(conf_file,"w") as f1:
             yaml.dump(conf,f1)
@@ -195,17 +194,17 @@ rule d_viralverify:
         "mv viralVerify-master {output.f}"
 
 
-rule deepviral:
-    output:
-        f = directory(os.path.join(DB_PATH,"DeepVirFinder"))
-    # conda:
-    #     f"{CONDAENV}/DeepVirFinder.yaml"
-    threads: 1
-    params:
-        p=config["DeepVirFinder_add"]
-    shell:
-        "git clone {params.p};" \
-        "mv DeepVirFinder {output.f}"
+# rule deepviral:
+#     output:
+#         f = directory(os.path.join(DB_PATH,"DeepVirFinder"))
+#     # conda:
+#     #     f"{CONDAENV}/DeepVirFinder.yaml"
+#     threads: 1
+#     params:
+#         p=config["DeepVirFinder_add"]
+#     shell:
+#         "git clone {params.p};" \
+#         "mv DeepVirFinder {output.f}"
 
 # rule envDeepVirFinder:
 #     output:
@@ -290,21 +289,21 @@ rule bindash_db:
         "cd ../;" \
         "mv bindash {output.f}"
 
-# rule plsdb:
-#     input:
-#         f = os.path.join(DB_PATH,"db")
-#     output:
-#         f = os.path.join(DB_PATH,"plsdb_.fasta.dmnd")
-#     conda:
-#         f"{CONDAENV}/non_redundant.yaml"
-#     params:
-#         plsdb=config["plsdb_add"]
-#     shell:
-#         "wget -O ./plsdb.zip {params.plsdb};" \
-#         "unzip plsdb.zip;" \
-#         "blastdbcmd -entry all -db plsdb.fna -out plsdb_.fasta;" \
-#         "diamond makedb --in plsdb_.fasta -d {output.f};" \
-#         "rm -rf ./plsdb.* plsdb_changes.tsv README.md plsdb_.fasta"
+
+rule d_plasforest:
+    output:
+        f = directory(os.path.join(DB_PATH,"plasforest"))
+    conda:
+        f"{CONDAENV}/linearized-plasforest.yaml"
+    params:
+        pc = config["plasforest_add"]
+    shell:
+        "git clone {params.pc};" \
+        "mv PlasForest {output.f}; " \
+        "cd {output.f}; " \
+        "tar -zxvf plasforest.sav.tar.gz; " \
+        "bash database_downloader.sh"
+
 
 rule env_msamtools:
     output:
@@ -406,40 +405,17 @@ rule env_platon:
         "echo 'finished_platon_env'"
 
 
-rule env_DeepVirFinder:
-    output:
-        f = temp(touch(os.path.join(DB_PATH,"finished_DeepVirFinder_env")))
-    threads: 1
-    conda:
-        f"{CONDAENV}/deepvirfinder.yaml"
-    shell:
-        "echo 'finished_DeepVirFinder_env'"
-
-
-# rule env_plasforest:
-#     input:
-#         f =os.path.join(DB_PATH,"blast"),
-#         f2 = os.path.join(DB_PATH,"plasforest")
+# rule env_DeepVirFinder:
 #     output:
-#         temp(touch(os.path.join(DB_PATH,"finished_plasforest_env")))
+#         f = temp(touch(os.path.join(DB_PATH,"finished_DeepVirFinder_env")))
+#     threads: 1
 #     conda:
-#         f"{CONDAENV}/linearized-plasforest.yaml"
+#         f"{CONDAENV}/deepvirfinder.yaml"
 #     shell:
-#         "export PATH=$PATH:${input.f}/bin && cd {input.f2} &&" \
-#         "tar -zxvf plasforest.sav.tar.gz;bash database_downloader.sh;cd -"
-#
-# rule download_plasforest:
-#     output:
-#         f = directory(os.path.join(DB_PATH,"plasforest")),
-#         f2 = directory(os.path.join(DB_PATH,"blast"))
-#     params:
-#         d= config["plasforest_add"],
-#         f = config['blast_add']
-#     run:
-#         a = params.f.rsplit("/",1)[1]
-#         b = a.split("+")[0]+"+"
-#         os.system("git clone "+params.d+"; mv PlasForest "+output.f+";wget "+params.f+";tar -zxvf "+a+
-#                   ";rm -rf "+a+";mv "+b+" "+output.f2)
+#         "echo 'finished_DeepVirFinder_env'"
+
+
+
 
 
 

@@ -38,7 +38,7 @@ rule filtering_lesskb:
     input:
         f1= "assembly_res/{sample}_contigs_adding_header.fa"
     output:
-        f1=temp("assembly_res/{sample}_contigs_1kb.fasta")
+        f1=temp(os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta"))
     run:
         with open(input.f1,"r") as infile:
             with open(output.f1,"w") as outfile:
@@ -59,24 +59,24 @@ rule filtering_lesskb:
                         outfile.write(k)
                         outfile.write(dict[k])
 
-rule isolating_plasflow:
-    input:
-        f1="assembly_res/{sample}_contigs_1kb.fasta"
-    output:
-        f1="linear_plasmid_genome/{sample}_res"
-    threads: config['threads']
-    conda:
-        "%s/linearized-plasflow.yaml" % CONDAENV
-    log:
-        out = "log/isolating-linear-contig/{sample}_linear.out",
-        err = "log/isolating-linear-contig/{sample}_linear.err"
-    params:
-        t = config['plasflow_threshold']
-    shell:
-        "PlasFlow.py  --input {input.f1} " \
-                    "--output {output.f1} " \
-                    "--threshold {params.t} " \
-                    "2>{log.err} >{log.out}"
+# rule isolating_plasflow:
+#     input:
+#         f1="assembly_res/{sample}_contigs_1kb.fasta"
+#     output:
+#         f1="linear_plasmid_genome/{sample}_res"
+#     threads: config['threads']
+#     conda:
+#         "%s/linearized-plasflow.yaml" % CONDAENV
+#     log:
+#         out = "log/isolating-linear-contig/{sample}_linear.out",
+#         err = "log/isolating-linear-contig/{sample}_linear.err"
+#     params:
+#         t = config['plasflow_threshold']
+#     shell:
+#         "PlasFlow.py  --input {input.f1} " \
+#                     "--output {output.f1} " \
+#                     "--threshold {params.t} " \
+#                     "2>{log.err} >{log.out}"
 
 # rule clean_plasflow_result:
 #     input:
@@ -94,7 +94,7 @@ rule isolating_plasflow:
 
 rule isolating_platon:
     input:
-        f = "assembly_res/{sample}_contigs_1kb.fasta"
+        f = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
     output:
         f = directory("linear_plasmid_genome/{sample}_probs.out")
     threads:
@@ -132,58 +132,55 @@ rule isolating_platon:
 
 
 
-# rule predict_plasforest:
-#     input:
-#         f = "assmebly_res/{sample}_contigs_1kb.fasta"
-#     output:
-#         f = "linear_plasmid_genome/{sample}_contigs_1kb.fa.csv"
-#     threads: config["threads"]
-#     params:
-#         p = config["plasforest_path"],
-#         s = config['plasforest'],
-#         b = config['blast']
-#     conda:
-#         "%s/linearized-plasforest.yaml" % CONDAENV
-#     shell:
-#         "export PATH=$PATH:{params.b}/bin && cp {params.s}/plasmid_refseq.* . && " \
-#         "cp {params.s}/plasforest.sav . &&" \
-#         "python3 {params.p} -i {input.f} -r -b -f --threads {threads} -o {output.f} 2>{log.err} >{log.out}"
+rule predict_plasforest:
+    input:
+        f = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
+    output:
+        f = temp("linear_plasmid_genome/{sample}_contigs_1kb.csv")
+    threads: config["threads"]
+    params:
+        p = config["plasforest_path"]
+    conda:
+        "%s/linearized-plasforest.yaml" % CONDAENV
+    # log:
+    #     out = "log/isolating-linear-plasforest/{sample}_linear.out",
+    #     err = "log/isolating-linear-plasforest/{sample}_linear.err"
+    script:
+        "../scripts/plasforest.py"
 
 
-# rule clean_plasforest:
-#     input:
-#         f = "linear_plasmid_genome/{sample}_contigs_1kb.fa.csv",
-#         f2 = "assmebly_res/{sample}_contigs_1kb.fasta"
-#     output:
-#         f = "linear_plasmid_genome/{sample}_predict_plasmid_plasforest.fa"
-#     run:
-#         lt = []
-#         with open(input.f,"r") as infile:
-#             infile.readline()
-#             for line in infile:
-#                 lst=line.strip().split()
-#                 if lst[-1] == "Plasmid":
-#                     lt.append(lst[0])
-#
-#         handle = open(input.f2,"rt")
-#         f = SeqIO.parse(handle,"fasta")
-#         lst=[i for i in f if i.id in lt]
-#         SeqIO.write(lst, output.f, "fasta")
+
+rule clean_plasforest:
+    input:
+        f = "linear_plasmid_genome/{sample}_contigs_1kb.csv",
+        f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
+    output:
+        f = "linear_plasmid_genome/{sample}_predict_plasmid_plasforest.fa"
+    run:
+        lt = []
+        with open(input.f,"r") as infile:
+            infile.readline()
+            for line in infile:
+                lst=line.strip().split()
+                if lst[-1] == "Plasmid":
+                    lt.append(lst[0])
+
+        handle = open(input.f2,"rt")
+        f = SeqIO.parse(handle,"fasta")
+        lst=[i for i in f if i.id in lt]
+        SeqIO.write(lst, output.f, "fasta")
 
 
 rule cut_predict_plasmid:
     input:
-        # f4 = "linear_plasmid_genome/{sample}_contigs_1kb.csv",
         f1 = "linear_plasmid_genome/{sample}_probs.out",
-        f2 = "assembly_res/{sample}_contigs_1kb.fasta",
-        f3 = "linear_plasmid_genome/{sample}_res"
+        f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
+        f3 = "linear_plasmid_genome/{sample}_predict_plasmid_plasforest.fa"
     output:
-        f = temp("linear_plasmid_genome/{sample}_predict_plasmid_temp.fa")
+        f = temp("linear_plasmid_genome/{sample}_predict_plasmid.fa")
     run:
         lst = []
-
-        f = input.f3+"_plasmids.fasta"
-        with open(f,"r") as infile:
+        with open(input.f3,"r") as infile:
             for line in infile:
                 if line.startswith(">"):
                     lt = line.strip().split()
@@ -210,50 +207,50 @@ rule cut_predict_plasmid:
         SeqIO.write(lsta, output.f, "fasta")
 
 
-rule removevir:
-    input:
-        f = "linear_plasmid_genome/{sample}_predict_plasmid_temp.fa"
-    output:
-        f = directory("linear_plasmid_genome/{sample}_remov_viral_genome")
-    threads: config['threads']
-    conda:
-        "%s/deepvirfinder.yaml" % CONDAENV
-    log:
-        out = "log/linear_non_redundant_contig/{sample}_removing_linear_vir.out",
-        err = "log/linear_non_redundant_contig/{sample}_removing_linear_vir.err"
-    shell:
-        "python {config[deepvirfinder_path]}/dvf.py " \
-                "-i {input.f} " \
-                "-l 1000 " \
-                "-m {config[deepvirfinder_path]}/models " \
-                "-c {threads} " \
-                "-o {output.f}" \
-                " 2>{log.err} >{log.out}"
-
-
-rule clean_removevir:
-    input:
-        f = "linear_plasmid_genome/{sample}_remov_viral_genome",
-        f2 = "linear_plasmid_genome/{sample}_predict_plasmid_temp.fa"
-    output:
-        f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
-    params:
-        s = config["deepvirfinder_score"],
-        p = config['deepvirfinder_pvalue']
-    run:
-        file = glob.glob(input.f+"/*")[0]
-        lt = []
-        with open(file,'r') as infile:
-            infile.readline()
-            for line in infile:
-                lst = line.strip().split()
-                if float(lst[2]) >= float(params.s) and float(lst[3]) <= float(params.p):
-                    lt.append(lst[0])
-
-        handle = open(input.f2, "rt")
-        ff= SeqIO.parse(handle, "fasta")
-        lsta = [i for i in ff if i.id not in lt]
-        SeqIO.write(lsta, output.f, "fasta")
+# rule removevir:
+#     input:
+#         f = "linear_plasmid_genome/{sample}_predict_plasmid_temp.fa"
+#     output:
+#         f = directory("linear_plasmid_genome/{sample}_remov_viral_genome")
+#     threads: config['threads']
+#     conda:
+#         "%s/deepvirfinder.yaml" % CONDAENV
+#     log:
+#         out = "log/linear_non_redundant_contig/{sample}_removing_linear_vir.out",
+#         err = "log/linear_non_redundant_contig/{sample}_removing_linear_vir.err"
+#     shell:
+#         "python {config[deepvirfinder_path]}/dvf.py " \
+#                 "-i {input.f} " \
+#                 "-l 1000 " \
+#                 "-m {config[deepvirfinder_path]}/models " \
+#                 "-c {threads} " \
+#                 "-o {output.f}" \
+#                 " 2>{log.err} >{log.out}"
+#
+#
+# rule clean_removevir:
+#     input:
+#         f = "linear_plasmid_genome/{sample}_remov_viral_genome",
+#         f2 = "linear_plasmid_genome/{sample}_predict_plasmid_temp.fa"
+#     output:
+#         f = "linear_plasmid_genome/{sample}_predict_plasmid.fa"
+#     params:
+#         s = config["deepvirfinder_score"],
+#         p = config['deepvirfinder_pvalue']
+#     run:
+#         file = glob.glob(input.f+"/*")[0]
+#         lt = []
+#         with open(file,'r') as infile:
+#             infile.readline()
+#             for line in infile:
+#                 lst = line.strip().split()
+#                 if float(lst[2]) >= float(params.s) and float(lst[3]) <= float(params.p):
+#                     lt.append(lst[0])
+#
+#         handle = open(input.f2, "rt")
+#         ff= SeqIO.parse(handle, "fasta")
+#         lsta = [i for i in ff if i.id not in lt]
+#         SeqIO.write(lsta, output.f, "fasta")
 
 # rule linear_genecalling_plasmid_gene_distance:
 #     input:

@@ -88,11 +88,11 @@ sys.path.append(BASE_PATH)
     default="https://zenodo.org/record/3924529/files/db.tar.gz"
 )
 
-# @click.option(
-#     "--plasclass",
-#     help="plasclass web address",
-#     default="https://github.com/Shamir-Lab/PlasClass.git"
-# )
+@click.option(
+    "--plasforest",
+    help="plasforest web address",
+    default="https://github.com/leaemiliepradier/PlasForest"
+)
 #
 # @click.option(
 #     "--rfplasmid",
@@ -147,7 +147,7 @@ sys.path.append(BASE_PATH)
 @click.argument("snakemake_args", nargs=-1, type=click.UNPROCESSED)
 
 def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,deepvirfinder,
-                scapp,platondb,checkmdb,plsdb,msamtools,bindash,
+                scapp,platondb,checkmdb,plasforest,plsdb,msamtools,bindash,
                 snakemake_args):
     """
     """
@@ -172,11 +172,12 @@ def downloading(jobs,vfdb,bacmet2,pfam,carddb,plasmidverify,deepvirfinder,
     conf["checkmdb_add"] = checkmdb
     conf['plsdb_add'] = plsdb
     conf['msamtools_add'] = msamtools
-    # conf['plasforest_add'] = plasforest
+    conf['plasforest_add'] = plasforest
     # conf['blast_add'] = blast
     # conf['cdhit_add'] = cdhit
     conf['bindash_add'] = bindash
     conf['DeepVirFinder_add'] = deepvirfinder
+    # conf['plasforest_add'] = plasforest
     with open(conf_file, "w") as f1:
         yaml.dump(conf, f1)
 

@@ -29,9 +29,11 @@ include: "rules/run_linear_non_redundant_gene.py"
 include: "rules/run_circular_non_redundant_gene.py"
 
 
-
 wildcard_constraints:
   sample="[^/]+"
+
+# ruleorder: qc>assembly>isolation>contig_linear
+
 
 rule all:
     input:

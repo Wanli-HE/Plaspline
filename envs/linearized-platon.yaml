@@ -4,4 +4,4 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - platon=1.4.0
+    - platon
