@@ -174,7 +174,7 @@ rule clean_plasforest:
 rule cut_predict_plasmid:
     input:
         f1 = "linear_plasmid_genome/{sample}_probs.out",
-        f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
+        f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta"),
         f3 = "linear_plasmid_genome/{sample}_predict_plasmid_plasforest.fa"
     output:
         f = temp("linear_plasmid_genome/{sample}_predict_plasmid.fa")
