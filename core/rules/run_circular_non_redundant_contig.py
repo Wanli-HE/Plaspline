@@ -6,6 +6,8 @@
 # wanli he
 ###########################################################################################################
 
+ruleorder:
+
 rule cutting_circular_plasmid:
     input:
         f = expand("circular/plasmid/{sample}_verify_plasmid_circular.fasta", sample=config["samples"])

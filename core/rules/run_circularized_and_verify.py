@@ -87,9 +87,21 @@ if config["assembler"] == "megahit":
                     "2>{log.err} > {log.out}"
 
 elif config["assembler"] == "spades":
+    rule filer_fastg:
+        input:
+            f = "assembly_res/{sample}_assembly_res"
+        output:
+            f = temp("assembly_res/{sample}_filter.fastg")
+        run:
+            f = input.f+"/assembly_graph.fastg"
+            handle = open(f, "rt")
+            f = SeqIO.parse(handle, "fasta")
+            lst = [i for i in f if len(i.seq)>1000]
+            SeqIO.write(lst, output.f, "fasta")
+
     rule scapp:
         input:
-            f1 = "assembly_res/{sample}_assembly_res",
+            f1 = "assembly_res/{sample}_filter.fastg",
             f2 = "qc_reads/{sample}_qc_1.fastq.gz",
             f3 = "qc_reads/{sample}_qc_2.fastq.gz"
         output:
@@ -103,7 +115,7 @@ elif config["assembler"] == "spades":
             out=os.path.join("log","scapp","{sample}_scapp.out"),
             err=os.path.join("log","scapp","{sample}_scapp.err")
         shell:
-            "scapp -g {input.f1}/assembly_graph.fastg " \
+            "scapp -g {input.f1} " \
                     "-o {output.f1} " \
                     "-k {params.k} " \
                     "-r1 {input.f2} " \

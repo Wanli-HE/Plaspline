@@ -136,7 +136,7 @@ rule predict_plasforest:
     input:
         f = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
     output:
-        f = temp("linear_plasmid_genome/{sample}_contigs_1kb.csv")
+        f = temp(os.path.join(sys.path[0],"{sample}_contigs_1kb.csv"))
     threads: config["threads"]
     params:
         p = config["plasforest_path"]
@@ -149,10 +149,9 @@ rule predict_plasforest:
         "../scripts/plasforest.py"
 
 
-
 rule clean_plasforest:
     input:
-        f = "linear_plasmid_genome/{sample}_contigs_1kb.csv",
+        f = os.path.join(sys.path[0],"{sample}_contigs_1kb.csv"),
         f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
     output:
         f = "linear_plasmid_genome/{sample}_predict_plasmid_plasforest.fa"
@@ -174,7 +173,7 @@ rule clean_plasforest:
 rule cut_predict_plasmid:
     input:
         f1 = "linear_plasmid_genome/{sample}_probs.out",
-        f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta")
+        f2 = os.path.join(sys.path[0],"{sample}_contigs_1kb.fasta"),
         f3 = "linear_plasmid_genome/{sample}_predict_plasmid_plasforest.fa"
     output:
         f = temp("linear_plasmid_genome/{sample}_predict_plasmid.fa")

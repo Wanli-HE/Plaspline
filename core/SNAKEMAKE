@@ -32,7 +32,7 @@ include: "rules/run_circular_non_redundant_gene.py"
 wildcard_constraints:
   sample="[^/]+"
 
-# ruleorder: qc>assembly>isolation>contig_linear
+ruleorder: qc>assembly>circular>isolation>contig_linear>contig_circular>gene_circular>gene_linear
 
 
 rule all:
