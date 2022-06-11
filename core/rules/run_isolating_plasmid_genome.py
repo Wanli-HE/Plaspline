@@ -161,7 +161,7 @@ rule clean_plasforest:
         with open(input.f,"r") as infile:
             infile.readline()
             for line in infile:
-                lst=line.strip().split()
+                lst=line.strip().split(",")
                 if lst[-1] == "Plasmid":
                     lt.append(lst[0])
 
