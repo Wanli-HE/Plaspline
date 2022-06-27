@@ -98,7 +98,7 @@ Notice:
      
   before running this step, check the max k-mer you are using in assembly step, and modifying scapp_k to "max k-mer (assembly)" in config.yaml file.
   ```
-  > python Plaspline/bin/run_main.py working "circilar"  -j 3
+  > python Plaspline/bin/run_main.py working "circular"  -j 3
   ```
 4. isolation linear plasmid contigs from all assembled contigs
   ```
