@@ -4,5 +4,5 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - mob_suite=3.0.3
+    - mob_suite
 
