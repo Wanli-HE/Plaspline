@@ -4,4 +4,4 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - rgi=5.2.1
+    - rgi
