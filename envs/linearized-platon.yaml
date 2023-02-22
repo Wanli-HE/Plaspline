@@ -1,0 +1,7 @@
+name: isolating plasmidone genome platon
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - platon

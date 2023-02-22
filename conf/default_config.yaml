@@ -1,0 +1,288 @@
+########################################################################################################################
+################################# tools path and params in different module ############################################
+########################################################################################################################
+threads: 8
+#datatype: metagenome #[metagenome,plasmidome]
+#analysis_type: circular #[circular,linear]
+assembler: spades #[spades,megahit]
+#circularized_tool: metaplasmidspades #[metaplasmidspades, recycler, scapp]
+#linearized_tool: plasflow #[plasflow, plasclass, cbar, platon]
+skip_qc: False
+
+genomecoverage: coverage  #[coverage,averagecoverage]
+spilt_genome_for_coverage: 1000
+########################################################################################################################
+
+
+
+
+########################################################################################################################
+#----------------------------------------------  database  --------------------------------------------------------
+########################################################################################################################
+db_dir: none
+########################################################################################################################
+
+
+
+
+
+########################################################################################################################
+#---------------------------------------------- quality_control --------------------------------------------------------
+########################################################################################################################
+
+#------ rule adapter_moving params
+adapter_bbduk_r: r
+adapter_bbduk_k: 23
+adapter_bbduk_mink: 11
+adapter_bbduk_mem: 5g
+adapter_file: ""
+
+
+#------ rule phix_moving params
+phix_k: 31
+phix_hdist: 1
+phix_mem: 5g
+phix_file: ""
+
+
+#------ rule quality_window_trimming params
+filter_outgzip: -g
+filter_t: sanger
+filter_l: 50
+filter_m: pe
+########################################################################################################################
+
+
+
+
+########################################################################################################################
+#---------------------------------------------------- Assembly ---------------------------------------------------------
+########################################################################################################################
+
+# Megahit:
+megahit_m: 0.95
+megahit_min_count: 2
+megahit_k_min: 21
+megahit_k_max: 55
+megahit_k_step: 20
+megahit_merge_level: 20,0.98
+megahit_prune_level: 2
+megahit_low_local_ratio: 0.2
+megahit_preset: default  # ['default','meta-large','meta-sensitive']
+prefilter_minimum_contig_length: 500
+# Spades:
+# spades_skip_BayesHammer: true
+# spades_use_scaffolds: false # use contigs
+spades_m: 5000
+spades_k: auto    #alse can be setted, like "21,25,29..."
+spades_preset: meta    # meta, ,normal, rna  single end libraries doesn't work for metaspades
+spades_filter_contig: 500 #contig which is less than 1kb will be filtered
+# spades_extra: ""
+# longread_type: none # [none,"pacbio", "nanopore", "sanger", "trusted-contigs", "untrusted-contigs"]
+########################################################################################################################
+
+
+
+
+####################################################### filtering abundance ############################################
+contig_detection: 0.55
+gene_detection: 0.8
+
+
+########################################################################################################################
+#------------------------------------------------- circularization -----------------------------------------------------
+########################################################################################################################
+#metaplasmidspades
+c_spades_k: auto
+c_spades_m: 5000
+c_sapdes_preset1: meta
+c_sapdes_preset2: plasmid
+
+
+
+
+#scapp:
+megahit_core_len: 55
+
+#scapp:
+scapp_k: 55
+scapp_gh: False
+
+# viralVerify threshold
+verify_threshold: 7
+deepvirfinder_score: 0.8
+deepvirfinder_pvalue: 0.05
+########################################################################################################################
+
+
+
+
+
+########################################################################################################################
+#------------------------------------------------- linearization -----------------------------------------------------
+########################################################################################################################
+#plasflow
+plasflow_threshold: 0.7
+
+##plasclass
+#plasclass_threshold: 0.7
+
+#plton
+platon_mode: accuracy
+           # sensitivity   RDS>0.95,
+           # accuracy      RDS & characterization heuristics, highest accuracy -----default
+           # specificity   RDS>0.999
+
+#classify_platon_mode: accuracy   #samelike platon_mode
+#classify_platon_threads: 40
+
+##RFPlamsid
+#rfplamsid_species: Bacteria
+#
+##ppr-meta
+#ppr-meta_threshold: 0.7
+########################################################################################################################
+
+
+
+
+
+
+########################################################################################################################
+#-------------------------------------------------  non redundant gene -------------------------------------------------
+########################################################################################################################
+#reads filter
+circular_msamtools_p: 90      #the percent identity of alignment is >=90%
+circular_msamtools_l: 80      #the read is at least 80bp long
+circular_msamtools_z: 80      #at least 80% of the read is aligned
+
+linear_msamtools_p: 90      #the percent identity of alignment is >=90%
+linear_msamtools_l: 80      #the read is at least 80bp long
+linear_msamtools_z: 80      #at least 80% of the read is aligned
+
+#gene abundance
+g_prodigal_p: meta
+
+
+
+#gene abundance or relative abundance
+#  rel is relative abundance;
+#  ab is abundance;
+#  fpkm is fragments per kilobase of sequence per million reads;
+#  tpm is transcripts per million
+circular_msamtools_contig_abundance_unit: 'fpkm'
+linear_msamtools_contig_abundance_unit: 'fpkm'
+
+
+
+#functional_annotation
+g_functional_annotation_m: diamond
+functional_threads: 24
+#ARGs gene annotation
+g_rgi_d: plasmid   #[wgs, plasmid, chromosome, NA]
+g_rgi_input_type: contig   #[contig, protein]
+g_rgi_a: DIAMOND
+g_rgi_mode: "" #[None, --include_loose, --exclude_nudge, --include_loose --exclude_nudge ]
+                #https://github.com/arpcard/rgi   ---- for more details
+
+#c_vfdb_gene_database: #path
+g_diamond_outfmt_vf: 6
+g_diamond_evalue_vf: 1e-5
+g_diamond_id_vf: 70
+g_diamond_cover_vf: 0.7
+g_diamond_blast_module_vf: blastp
+
+
+#BacMet2 gene annotation
+g_diamond_outfmt_BacMet2: 6
+g_diamond_evalue_BacMet2: 1e-5
+g_diamond_id_BacMet2: 70
+g_diamond_cover_BacMet2: 0.7
+g_diamond_blast_module_BacMet2: blastp
+
+##PLSDB annotation
+#g_diamond_outfmt_plsdb: 6
+#g_diamond_evalue_plsdb: 1e-5
+#g_diamond_id_plsdb: 70
+#g_diamond_cover_plsdb: 0.7
+#g_diamond_blast_module_plsdb: blastx
+
+########################################################################################################################
+
+
+
+
+
+
+
+
+########################################################################################################################
+#------------------------------------------------ non redundant contig -------------------------------------------------
+########################################################################################################################
+#gene abundance
+c_prodigal_p: meta
+
+#c_cd-hit_c: 0.95
+#c_cd-hit_aS: 0.9
+#c_cd-hit_M: 20000
+
+circular_contig_mmseqs2_id: 0.9
+circular_contig_mmseqs2_c: 0.95
+circular_contig_mmseqs2_mode: 0
+
+linear_contig_mmseqs2_id: 0.9
+linear_contig_mmseqs2_c: 0.95
+linear_contig_mmseqs2_mode: 2
+
+linear_gene_mmseqs2_id: 0.9
+linear_gene_mmseqs2_c: 0.95
+linear_gene_mmseqs2_mode: 2
+
+circular_gene_mmseqs2_id: 0.9
+circular_gene_mmseqs2_c: 0.95
+circular_gene_mmseqs2_mode: 2
+
+#functional_annotation
+c_functional_annotation_m: diamond
+
+##linear plasmidverify
+#linear_plasmidverify_threads: 40
+
+#classify
+threads_mob-typer: 32
+
+#mges gene annotation
+
+#MGEs_database: Plaspline/db/hgtidb_pfams.hmm
+
+
+#ARGs gene annotation
+c_rgi_d: plasmid   #[wgs, plasmid, chromosome, NA]
+c_rgi_input_type: contig   #[contig, protein]
+c_rgi_a: DIAMOND
+c_rgi_mode:  "" #[None, --include_loose, --exclude_nudge, --include_loose --exclude_nudge ]
+                #https://github.com/arpcard/rgi   ---- for more details
+
+
+#c_vfdb_gene_database: #path
+c_diamond_outfmt_vf: 6
+c_diamond_evalue_vf: 1e-5
+c_diamond_id_vf: 70
+c_diamond_cover_vf: 0.7
+c_diamond_blast_module_vf: blastp
+
+
+#BacMet2 gene annotation
+c_diamond_outfmt_BacMet2: 6
+c_diamond_evalue_BacMet2: 1e-5
+c_diamond_id_BacMet2: 70
+c_diamond_cover_BacMet2: 0.7
+c_diamond_blast_module_BacMet2: blastp
+
+##PLSDB annotation
+#c_diamond_outfmt_plsdb: 6
+#c_diamond_evalue_plsdb: 1e-5
+#c_diamond_id_plsdb: 70
+#c_diamond_cover_plsdb: 0.7
+#c_diamond_blast_module_plsdb: blastx
+########################################################################################################################
