@@ -107,7 +107,7 @@ rule download_rgi_database:
     params:
         d= config["rgi_DB_add"]
     shell:
-        "wget -O {output.f} {params}"
+        "wget -O {output.f} {params} --no-check-certificate"
 
 
 rule tar_rgi_db:
