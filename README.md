@@ -14,7 +14,7 @@ python=3.9
 # Install  
 create a conda environment and insatll dependencies:  
 ```
-> conda create -n plaspline -c conda-forge -c bioconda python=3.9 biopython=1.78 snakemake=5.25.0 click=7.1.2 ruamel.yaml=0.16.12
+> conda create -n plaspline -c conda-forge -c bioconda python=3.9 biopython=1.78 snakemake=7.22.0 click=7.1.2 ruamel.yaml=0.16.12
 ```
 
 Clone package:  
