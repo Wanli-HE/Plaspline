@@ -142,11 +142,13 @@ rule predict_plasforest:
         p = config["plasforest_path"]
     conda:
         "%s/linearized-plasforest.yaml" % CONDAENV
-    # log:
-    #     out = "log/isolating-linear-plasforest/{sample}_linear.out",
-    #     err = "log/isolating-linear-plasforest/{sample}_linear.err"
-    script:
-        "../scripts/plasforest.py"
+    log:
+        out = "log/isolating-linear-plasforest/{sample}_linear.out",
+        err = "log/isolating-linear-plasforest/{sample}_linear.err"
+    #script:
+    #    "../scripts/plasforest.py"
+    shell:
+        "cd {params.p};python3 PlasForest.py -i {input.f} -r -b -f --threads {threads} -o {output.f};cd -"
 
 
 rule clean_plasforest:
