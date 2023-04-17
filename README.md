@@ -32,7 +32,7 @@ downloading the databases and tools
 ```
 > python Plaspline/bin/run_main.py downloading       
 ``` 
-*** Notice: when downloading plasforest database, it requires input an e-mail address in your terminal, to get full database!!!!
+*** Notice: when downloading plasforest database, it requires input an e-mail address in your terminal, to get full database or input "no"!!!
 
 
 # Usage
