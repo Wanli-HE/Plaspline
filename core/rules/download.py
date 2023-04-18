@@ -289,19 +289,19 @@ rule platon_db:
         "mv db {output.f}"
 
 
-rule bindash_db:
-    output:
-        f = directory(os.path.join(DB_PATH,"bindash"))
-    threads: 1
-    params:
-        bin = config["bindash_add"]
-    shell:
-        "git clone {params.bin};" \
-        "cd bindash;" \
-        "cmake -DCMAKE_BUILD_TYPE=./bindash .;" \
-        "make;" \
-        "cd ../;" \
-        "mv bindash {output.f}"
+#rule bindash_db:
+#    output:
+#        f = directory(os.path.join(DB_PATH,"bindash"))
+#    threads: 1
+#    params:
+#        bin = config["bindash_add"]
+#    shell:
+#        "git clone {params.bin};" \
+#        "cd bindash;" \
+#        "cmake -DCMAKE_BUILD_TYPE=./bindash .;" \
+#        "make;" \
+#        "cd ../;" \
+#        "mv bindash {output.f}"
 
 
 rule d_plasforest:
@@ -364,14 +364,14 @@ rule env_assembly:
     shell:
         "echo 'finished_assembly_env'"
 
-rule env_plasflow:
-    output:
-        temp(touch(os.path.join(DB_PATH,"finished_linerized_plasflow_env")))
-    conda:
-        f"{CONDAENV}/linearized-plasflow.yaml"
-    threads: 1
-    shell:
-        "echo 'finished_linerized_plasflow_env'"
+#rule env_plasflow:
+#    output:
+#        temp(touch(os.path.join(DB_PATH,"finished_linerized_plasflow_env")))
+#    conda:
+#        f"{CONDAENV}/linearized-plasflow.yaml"
+#    threads: 1
+#    shell:
+#        "echo 'finished_linerized_plasflow_env'"
 
 rule env_mobtyper:
     output:
