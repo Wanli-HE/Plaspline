@@ -5,11 +5,10 @@ channels:
     - defaults
 dependencies:
     - python=3.6
-    - blast=2.10.1
     #- pip:
     - biopython
     - numpy
     - pandas
     - joblib
     - scikit-learn==0.22.2.post1
-
+    - blast=2.10.1
