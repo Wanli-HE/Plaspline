@@ -33,7 +33,7 @@ rule all:
         f12 = os.path.join(DB_PATH,"db"),
         f13 = os.path.join(DB_PATH,"finished_qc_env"),
         f14 = os.path.join(DB_PATH,"finished_assembly_env"),
-        #f15 = os.path.join(DB_PATH,"finished_linerized_plasflow_env"),
+        f15 = os.path.join(DB_PATH,"finished_plasforest_env"),
         f16 = os.path.join(DB_PATH,"finished_mobtyper_env"),
         # f17 = os.path.join(DB_PATH,"finished_non_redundant_env"),
         # f18 = os.path.join(DB_PATH,"rfplasmid"),
@@ -307,8 +307,8 @@ rule platon_db:
 rule d_plasforest:
     output:
         f = directory(os.path.join(DB_PATH,"plasforest"))
-    conda:
-        f"{CONDAENV}/linearized-plasforest.yaml"
+   # conda:
+   #     f"{CONDAENV}/linearized-plasforest.yaml"
     params:
         pc = config["plasforest_add"]
     shell:
@@ -364,6 +364,15 @@ rule env_assembly:
     shell:
         "echo 'finished_assembly_env'"
 
+rule env_plasforest:
+    output:
+        temp(touch(os.path.join(DB_PATH,"finished_plasforest_env")))
+    conda:
+        f"{CONDAENV}/linearized-plasforest.yaml"
+    threads: 1
+    shell:
+        "echo 'finished_plasforest_env'"
+        
 #rule env_plasflow:
 #    output:
 #        temp(touch(os.path.join(DB_PATH,"finished_linerized_plasflow_env")))
