@@ -33,7 +33,7 @@ rule all:
         f12 = os.path.join(DB_PATH,"db"),
         f13 = os.path.join(DB_PATH,"finished_qc_env"),
         f14 = os.path.join(DB_PATH,"finished_assembly_env"),
-        f15 = os.path.join(DB_PATH,"finished_linerized_plasflow_env"),
+        #f15 = os.path.join(DB_PATH,"finished_linerized_plasflow_env"),
         f16 = os.path.join(DB_PATH,"finished_mobtyper_env"),
         # f17 = os.path.join(DB_PATH,"finished_non_redundant_env"),
         # f18 = os.path.join(DB_PATH,"rfplasmid"),
