@@ -7,7 +7,7 @@
 # Requirements
 ruamel.yaml=0.16.12  
 click=7.1.2  
-snakemake=5.25.0  
+snakemake=7.22.0  
 biopython=1.78  
 python=3.9
 
