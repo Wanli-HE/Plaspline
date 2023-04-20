@@ -177,11 +177,11 @@ Notice:
 ```
 9. remindering_report:
 ```
-    "raw_reads_to_qc_reads.txt"                  ---- reads using rates of each samples in quality control step   
-    "qc_to_assembly.txt"                         ---- reads using rates of each samples in assembly step  
-    "qc_to_circualr_metaplasmidspades.txt"       ---- reads using rates of each samples in assmebly circular plasmid step  
-    "liner_contig_to_plasmid.txt"                ---- reads using rates of each samples in identified linear from assembly contig step
-    "circualr_to_verify.txt"                     ---- reads using rates of each samples in removing non-plasmid circular genome step
+    "raw_reads_to_qc_reads.txt"                  ---- reads using rate of each sample in quality control step   
+    "qc_to_assembly.txt"                         ---- reads using rate of each sample in assembly step  
+    "qc_to_circualr_metaplasmidspades.txt"       ---- reads using rate of each sample in assmebly circular plasmid step  
+    "liner_contig_to_plasmid.txt"                ---- reads using rate of each sample in identified linear from assembly contig step
+    "circualr_to_verify.txt"                     ---- reads using rate of each sample in removing non-plasmid circular genome step
 ```
 10. log:  the logs files of each step in plaspline.
 
