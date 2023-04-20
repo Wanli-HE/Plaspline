@@ -126,13 +126,14 @@ Notice:
   ```
 
 ### output:
-qc_reads:
+1. qc_reads:
 ```
-        "*.fastq.gz"                ----  quality control step results
+    "*.fastq.gz"                ----  quality control step results
 ```
-assembly_res
-        "*_assembly_res"            ----  assembly results 
-        
+2. assembly_res
+```
+    "*_assembly_res"            ----  assembly results 
+```        
 circular:
         "chromosome/*_verify_chromosome_circular.fasta"  ----     chromosome contigs identified by plaspline
         "plasmid/*_verify_plasmid_circular.fasta"        ----     circular plasmid contigs identified by plaspline  
