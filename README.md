@@ -71,15 +71,13 @@ Notice:
 > python Plaspline/bin/run_main.py working  "step" -j 3 
 ```
 
-1. Runing plaspline all:
-
+a.Runing plaspline all:
 *** before running it, you have to make sure that scapp_k == max ker (that you are using in assembly step) in config.yaml file   
 ```
 > python Plaspline/bin/run_main.py working  "all" -j 3
 ```
 
-2. Runing plaspline in each steps: (suggestion!!!)
-
+b.Runing plaspline in each steps: (suggestion!!!)
 1.quality control step
   ```
   > python Plaspline/bin/run_main.py working "qc"  -j 3
