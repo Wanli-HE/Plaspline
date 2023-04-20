@@ -125,7 +125,7 @@ Notice:
   > python Plaspline/bin/run_main.py working "gene_linear"  -j 3
   ```
 
-### output:
+## Output:
 1.qc_reads:
 ```
     "*.fastq.gz"            ----  quality control step results
