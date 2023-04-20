@@ -126,58 +126,65 @@ Notice:
   ```
 
 ### output:
-1. qc_reads:
+1.qc_reads:
 ```
     "*.fastq.gz"                ----  quality control step results
 ```
-2. assembly_res
+2.assembly_res
 ```
     "*_assembly_res"            ----  assembly results 
 ```        
-circular:
-        "chromosome/*_verify_chromosome_circular.fasta"  ----     chromosome contigs identified by plaspline
-        "plasmid/*_verify_plasmid_circular.fasta"        ----     circular plasmid contigs identified by plaspline  
-        "*_scapp_res"                                    ----     circular plasmid Contigs identified by scapp 
-        "*_metaplasmidspades"                            ----     circular plasmid Contigs identified by metaplasmidspades
-        
-circular_non_redundant_contig:
-        "circular_non_redundant_contigs_rep_seq.fasta"             --- circular plasmid catalog, 
-        "contig_abundance/all_samples_contig_abundance.txt"        --- circular plasmid abundance
-        "plasmid_classify/plasmid_classify.txt"                    --- circular plasmid annotation file
-        
-circular_non_redundant_gene:        
-        "circular_non_redundant_gene_rep_seq.fasta"                              --- circular plasmid gene catalog, 
-        "abundance/all_circular_gene_abundance_based_contig_abundance.txt"       --- circular plasmid gene abundannce
-        "functional_annotation/*"                                                --- functional annotation results of circular plasmid gene
-        "annotation_ARGs/*"                                                      --- antibiotic resistance gene annotation result of circular plasmid gene
-        "annotation_BacMet2/*"                                                   --- biocide- and metal-resistance genes annotation result of circular plasmid gene 
-        "annotation_vf/*"                                                        --- Virulence factors genes annotation result of circular plasmid gene 
-
-linear_plasmid_genome:
-        "*_predict_plasmid_plasforest.fa"               ----  plasmid Contigs identified by plasforest
-        "*_probs.out"                                   ----  plasmid Contigs identified by platon   
-
-linear_non_redundant_contig:
-        "linear_non_redundant_contigs_rep_seq.fasta"               --- linear plasmid catalog, 
-        "contig_abundance/all_samples_contig_abundance.txt"        --- linear plasmid abundance
-
-linear_non_redundant_gene:        
-        "linear_non_redundant_gene_rep_seq.fasta"                                --- linear plasmid gene catalog, 
-        "abundance/all_linear_gene_abundance_based_contig_abundance.txt"         --- linear plasmid gene abundannce
-        "functional_annotation/*"                                                --- functional annotation results of linear plasmid gene
-        "annotation_ARGs/*"                                                      --- antibiotic resistance gene annotation result of linear plasmid gene
-        "annotation_BacMet2/*"                                                   --- biocide- and metal-resistance genes annotation result of linear plasmid gene 
-        "annotation_vf/*"                                                        --- Virulence factors genes annotation result of linear plasmid gene 
-
-remindering_report:
-        "raw_reads_to_qc_reads.txt"                  ---- reads using rates of each samples in quality control step   
-        "qc_to_assembly.txt"                         ---- reads using rates of each samples in assembly step  
-        "qc_to_circualr_metaplasmidspades.txt"       ---- reads using rates of each samples in assmebly circular plasmid step  
-        "liner_contig_to_plasmid.txt"                ---- reads using rates of each samples in identified linear from assembly contig step
-        "circualr_to_verify.txt"                     ---- reads using rates of each samples in removing non-plasmid circular genome step
-
-log:  the logs files of each step in plaspline. 
-temp: temp files.
+3.circular:
+```
+    "chromosome/*_verify_chromosome_circular.fasta"  ----     chromosome contigs identified by plaspline
+    "plasmid/*_verify_plasmid_circular.fasta"        ----     circular plasmid contigs identified by plaspline  
+    "*_scapp_res"                                    ----     circular plasmid Contigs identified by scapp 
+    "*_metaplasmidspades"                            ----     circular plasmid Contigs identified by metaplasmidspades
+```       
+4.circular_non_redundant_contig:
+```
+    "circular_non_redundant_contigs_rep_seq.fasta"             --- circular plasmid catalog, 
+    "contig_abundance/all_samples_contig_abundance.txt"        --- circular plasmid abundance
+    plasmid_classify/plasmid_classify.txt"                    --- circular plasmid annotation file
+ ```      
+5.circular_non_redundant_gene:  
+```
+    "circular_non_redundant_gene_rep_seq.fasta"                              --- circular plasmid gene catalog, 
+    "abundance/all_circular_gene_abundance_based_contig_abundance.txt"       --- circular plasmid gene abundannce
+    "functional_annotation/*"                                                --- functional annotation results of circular plasmid gene
+    "annotation_ARGs/*"                                                      --- antibiotic resistance gene annotation result of circular plasmid gene
+    "annotation_BacMet2/*"                                                   --- biocide- and metal-resistance genes annotation result of circular plasmid gene 
+    "annotation_vf/*"                                                        --- Virulence factors genes annotation result of circular plasmid gene 
+```
+6.linear_plasmid_genome:
+```
+    "*_predict_plasmid_plasforest.fa"               ----  plasmid Contigs identified by plasforest
+    "*_probs.out"                                   ----  plasmid Contigs identified by platon   
+```
+7.linear_non_redundant_contig:
+```
+    "linear_non_redundant_contigs_rep_seq.fasta"               --- linear plasmid catalog, 
+    "contig_abundance/all_samples_contig_abundance.txt"        --- linear plasmid abundance
+```
+8.linear_non_redundant_gene: 
+```
+    "linear_non_redundant_gene_rep_seq.fasta"                                --- linear plasmid gene catalog, 
+    "abundance/all_linear_gene_abundance_based_contig_abundance.txt"         --- linear plasmid gene abundannce
+    "functional_annotation/*"                                                --- functional annotation results of linear plasmid gene
+    "annotation_ARGs/*"                                                      --- antibiotic resistance gene annotation result of linear plasmid gene
+    "annotation_BacMet2/*"                                                   --- biocide- and metal-resistance genes annotation result of linear plasmid gene 
+    "annotation_vf/*"                                                        --- Virulence factors genes annotation result of linear plasmid gene 
+```
+9.remindering_report:
+```
+    "raw_reads_to_qc_reads.txt"                  ---- reads using rates of each samples in quality control step   
+    "qc_to_assembly.txt"                         ---- reads using rates of each samples in assembly step  
+    "qc_to_circualr_metaplasmidspades.txt"       ---- reads using rates of each samples in assmebly circular plasmid step  
+    "liner_contig_to_plasmid.txt"                ---- reads using rates of each samples in identified linear from assembly contig step
+    "circualr_to_verify.txt"                     ---- reads using rates of each samples in removing non-plasmid circular genome step
+```
+10.log:  the logs files of each step in plaspline. 
+11.temp: temp files.
 
 
 # Contact
