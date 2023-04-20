@@ -183,8 +183,11 @@ Notice:
     "liner_contig_to_plasmid.txt"                ---- reads using rates of each samples in identified linear from assembly contig step
     "circualr_to_verify.txt"                     ---- reads using rates of each samples in removing non-plasmid circular genome step
 ```
-10.log:  the logs files of each step in plaspline. 
+10.log:  the logs files of each step in plaspline.
+
 11.temp: temp files.
+
+
 
 
 # Contact
