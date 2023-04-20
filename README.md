@@ -80,7 +80,7 @@ a. Runing plaspline all:
 
 b. Runing plaspline in each steps: (suggestion!!!)
 
- 1.quality control step
+1.quality control step
   ```
   > python Plaspline/bin/run_main.py working "qc"  -j 3
   ```
