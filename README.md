@@ -127,8 +127,9 @@ Notice:
 
 ### output:
 qc_reads:
+```
         "*.fastq.gz"                ----  quality control step results
-
+```
 assembly_res
         "*_assembly_res"            ----  assembly results 
         
