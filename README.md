@@ -128,11 +128,11 @@ Notice:
 ### output:
 1.qc_reads:
 ```
-    "*.fastq.gz"                ----  quality control step results
+    "*.fastq.gz"            ----  quality control step results
 ```
 2.assembly_res
 ```
-    "*_assembly_res"            ----  assembly results 
+    "*_assembly_res"        ----  assembly results 
 ```        
 3.circular:
 ```
@@ -145,7 +145,7 @@ Notice:
 ```
     "circular_non_redundant_contigs_rep_seq.fasta"             --- circular plasmid catalog, 
     "contig_abundance/all_samples_contig_abundance.txt"        --- circular plasmid abundance
-    plasmid_classify/plasmid_classify.txt"                    --- circular plasmid annotation file
+    plasmid_classify/plasmid_classify.txt"                     --- circular plasmid annotation file
  ```      
 5.circular_non_redundant_gene:  
 ```
